@@ -1,0 +1,71 @@
+.landing-banner {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #111;
+  background-image: url("../assets/mainBannerLogo.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 100% 100%; /* Đảm bảo đúng tỷ lệ 1920x430 */
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.landing-banner__container {
+  position: relative;
+  z-index: 1;
+}
+
+.landing-banner__title {
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "MyFont", system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: 1px;
+  line-height: 1.1;
+  font-size: 91px;
+  background: radial-gradient(ellipse at center, #ffebc1 0%, #ffb663 50%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.landing-banner__sub {
+  margin-top: clamp(16px, 3vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 24px);
+}
+
+.landing-banner__subtitle {
+  text-transform: uppercase;
+  font-family: "MyFont", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 4vw, 56px);
+  line-height: 1;
+  background: linear-gradient(180deg, #f7d393 0%, #ffb663 35%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.landing-banner__logo {
+  width: auto;
+  height: clamp(28px, 6vw, 88px);
+  object-fit: contain;
+}
+
+@media (max-width: 640px) {
+  .landing-banner__sub {
+    flex-direction: column;
+  }
+}

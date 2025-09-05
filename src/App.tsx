@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+import { Suspense , lazy} from "react";
+import Layout from "./components/Layout";
+import Landing from "./pages/Landing";
 
-function App() {
+const Visa = lazy(() => import("./pages/Visa"));
+const Lottery = lazy(() => import("./pages/Lottery"));
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<Landing />} />
+        <Route
+          path="/visa"
+          element={
+            <Suspense fallback={<div className="skeleton">Đang tải…</div>}>
+              <Visa />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/lottery"
+          element={
+            <Suspense fallback={<div className="skeleton">Đang tải…</div>}>
+              <Lottery />
+            </Suspense>
+          }
+        />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
