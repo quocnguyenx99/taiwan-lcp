@@ -24,7 +24,7 @@
   --design-width: 1920px;
   --design-padding: 128px;
 
-  --container-max: cal(var(--design-width) - 2 * var(--design-padding));
+  --container-max: calc(var(--design-width) - 2 * var(--design-padding));
   --container-padding: clamp(16px, 2.5vw, 24px);
   --section-gap: clamp(32px, 6vw, 72px);
 }
@@ -42,6 +42,10 @@ body {
   color: var(--color-text);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  background-image: url("../assets/background.png");
+  background-size: var(--design-width) auto;
+  background-position: center top;
+  background-repeat: repeat;
 }
 
 img,

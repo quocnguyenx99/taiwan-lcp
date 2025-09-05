@@ -1,15 +1,15 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { Search, Bell, ChevronRight, CircleUser } from 'lucide-react';
-import logo from '../assets/Bản sao của LogoLockup-White.png';
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { Search, Bell, ChevronRight, CircleUser } from "lucide-react";
+import logo from "../assets/taiwanLogo.png";
 
 const Header: React.FC = () => {
   const nav = [
-    { to: '/', label: 'Home', end: true },
-    { to: '/vote', label: 'Vote' },
-    { to: '/form', label: 'Form' },
-    { to: '/video', label: 'Video' },
-    { to: '/visa', label: 'Visa' },
+    { to: "/", label: "Home", end: true },
+    { to: "/vote", label: "Vote" },
+    { to: "/form", label: "Form" },
+    { to: "/video", label: "Video" },
+    { to: "/visa", label: "Visa" },
     // { to: '/lottery', label: 'Lottery' },
   ];
 
@@ -32,14 +32,17 @@ const Header: React.FC = () => {
                   to={item.to}
                   end={item.end}
                   className={({ isActive }) =>
-                    `header__link${isActive ? ' header__link--active' : ''}`
+                    `header__link${isActive ? " header__link--active" : ""}`
                   }
                 >
                   {item.label}
                 </NavLink>
 
                 {idx < nav.length - 1 && (
-                  <ChevronRight className="header__divider" aria-hidden="true" />
+                  <ChevronRight
+                    className="header__divider"
+                    aria-hidden="true"
+                  />
                 )}
               </li>
             ))}
