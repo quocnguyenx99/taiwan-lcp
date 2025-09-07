@@ -22,8 +22,7 @@
   color: var(--on-primary);
 }
 
-.header__nav {
-}
+
 .header__list {
   display: flex;
   align-items: center;
@@ -37,6 +36,7 @@
   align-items: center;
   font-family: "MyHeaderFont", system-ui, sans-serif;
   color: white;
+  cursor: pointer;
 }
 
 .header__link {

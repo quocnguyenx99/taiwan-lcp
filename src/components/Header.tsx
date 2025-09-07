@@ -1,42 +1,61 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { Search, Bell, ChevronRight, CircleUser } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
+import { Link } from "react-scroll";
 import logo from "../assets/taiwanLogo.png";
 
 const Header: React.FC = () => {
-  const nav = [
-    { to: "/", label: "Home", end: true },
-    { to: "/vote", label: "Vote" },
-    { to: "/form", label: "Form" },
-    { to: "/video", label: "Video" },
-    { to: "/visa", label: "Visa" },
-    // { to: '/lottery', label: 'Lottery' },
+  const location = useLocation();
+
+  const navLanding = [
+    { href: "/", label: "Home" },
+    { href: "vote", label: "Vote" },
+    { href: "form", label: "Form" },
+    { href: "video", label: "Video" },
+    { href: "/visa", label: "Visa" },
   ];
+
+  const navVisa = [
+    { href: "/", label: "Home" },
+    { href: "/visa", label: "Visa" },
+  ];
+
+  const nav = location.pathname === "/" ? navLanding : navVisa;
 
   return (
     <header className="header header--primary">
       <div className="header__inner">
-        <img
-          className="header__brand"
-          src={logo}
-          alt="Taiwan Portal"
-          width={223}
-          height={53}
-        />
+        <NavLink to="/" className="header__brand-link">
+          <img
+            className="header__brand"
+            src={logo}
+            alt="Taiwan Portal"
+            width={223}
+            height={53}
+          />
+        </NavLink>
 
         <nav className="header__nav" aria-label="Primary">
           <ul className="header__list">
             {nav.map((item, idx) => (
-              <li key={item.to} className="header__item">
-                <NavLink
-                  to={item.to}
-                  end={item.end}
-                  className={({ isActive }) =>
-                    `header__link${isActive ? " header__link--active" : ""}`
-                  }
-                >
-                  {item.label}
-                </NavLink>
+              <li key={item.href} className="header__item">
+                {item.href.startsWith("/") ? (
+                  <NavLink 
+                    to={item.href} 
+                    className={({ isActive }) => `header__link ${isActive ? 'header__link--active' : ''}`}
+                  >
+                    {item.label}
+                  </NavLink>
+                ) : (
+                  <Link 
+                    to={item.href} 
+                    smooth={true} 
+                    duration={500} 
+                    className="header__link"
+                  >
+                    {item.label}
+                  </Link>
+                )}
 
                 {idx < nav.length - 1 && (
                   <ChevronRight

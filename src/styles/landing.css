@@ -555,6 +555,7 @@
   letter-spacing: 0.5px;
   white-space: nowrap;
   text-transform: uppercase;
+  cursor:   pointer;
 }
 
 /* terms remain below form, with custom scrollbar (existing rules keep) */

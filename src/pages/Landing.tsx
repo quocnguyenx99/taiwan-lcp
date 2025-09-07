@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom"; // thêm import Link
 import "../styles/landing.css";
 import lcpIcon from "../assets/lcpIcon.png";
 import giaiNhat from "../assets/giaiNhat.png";
@@ -46,114 +47,141 @@ const Landing: React.FC = () => {
 
   return (
     <main>
-      <section className="landing-banner">
-        <div className="landing-banner__container">
-          <h1 className="landing-banner__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</h1>
-          <div className="landing-banner__sub">
-            <div className="landing-banner__subtitle">CHUNG KẾT</div>
-            <img
-              className="landing-banner__logo"
-              src={lcpIcon}
-              alt="League of Legends Championship Pacific"
-              width={499}
-              height={196}
-            />
-          </div>
-        </div>
-        <div className="landing-banner__marquee">
-          <div className="landing-banner__marquee-content">
-            LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯỜNG ĐẦU
-            &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生 &nbsp;
-            LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯỜNG ĐẦU
-            &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生 &nbsp;
-          </div>
-        </div>
-      </section>
-
-      <section className="landing-prizes">
-        <div className="landing-prizes__container container">
-          <div className="landing-prizes__top-row">
-            <img
-              src={giaiNhat}
-              alt="Giải nhất"
-              className="prize-image prize-image--nhat"
-            />
-            <img
-              src={giaiNhi}
-              alt="Giải nhì"
-              className="prize-image prize-image--nhi"
-            />
-          </div>
-          <img
-            src={giaiBa}
-            alt="Giải ba"
-            className="prize-image prize-image--ba"
-          />
-        </div>
-      </section>
-
-      <section className="landing-vote">
-        <div className="container landing-vote__container">
-          <button className="vote-cta">VOTE NGAY!</button>
-
-          <div className="sponsors" aria-label="Nhà tài trợ">
-            <div className="sponsor__title">NHÀ TÀI TRỢ</div>
-            <div className="sponsor__logo">
-              <img src={viettravel} alt="Vietravel" className="sponsor" />
-              <img src={evaAir} alt="EVA Air" className="sponsor" />
-              <img src={chinaAir} alt="China Airlines" className="sponsor" />
-              <img src={starlux} alt="Starlux" className="sponsor" />
+      <div id="home">
+        <section className="landing-banner">
+          <div className="landing-banner__container">
+            <h1 className="landing-banner__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</h1>
+            <div className="landing-banner__sub">
+              <div className="landing-banner__subtitle">CHUNG KẾT</div>
+              <img
+                className="landing-banner__logo"
+                src={lcpIcon}
+                alt="League of Legends Championship Pacific"
+                width={499}
+                height={196}
+              />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* slider section (images) */}
-      <section className="landing-swiper">
-        <div className="container landing-swiper__container">
-          <div className="landing-swiper__stage">
-            <Swiper
-              modules={[Navigation, Autoplay]}
-              loop={true}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
-              }}
-              slidesPerView={1}
-              navigation={{
-                nextEl: ".custom-swiper-next",
-                prevEl: ".custom-swiper-prev",
-              }}
-              onBeforeInit={(swiper: any) => {
-                swiper.params.navigation.prevEl = ".custom-swiper-prev";
-                swiper.params.navigation.nextEl = ".custom-swiper-next";
-              }}
-            >
-              <SwiperSlide>
-                <img src={slide1} alt="slide1" className="landing-slide-img" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={slide2} alt="slide2" className="landing-slide-img" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={slide3} alt="slide3" className="landing-slide-img" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={slide4} alt="slide4" className="landing-slide-img" />
-              </SwiperSlide>
-            </Swiper>
-            <button
-              className="custom-swiper-prev"
-              aria-label="Previous"
-            ></button>
-            <button className="custom-swiper-next" aria-label="Next"></button>
+          <div className="landing-banner__marquee">
+            <div className="landing-banner__marquee-content">
+              LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯỜNG ĐẦU
+              &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生
+              &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG
+              ĐƯỜNG ĐẦU &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp;
+              為此而生 &nbsp;
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="landing-prizes">
+          <div className="landing-prizes__container container">
+            <div className="landing-prizes__top-row">
+              <img
+                src={giaiNhat}
+                alt="Giải nhất"
+                className="prize-image prize-image--nhat"
+              />
+              <img
+                src={giaiNhi}
+                alt="Giải nhì"
+                className="prize-image prize-image--nhi"
+              />
+            </div>
+            <img
+              src={giaiBa}
+              alt="Giải ba"
+              className="prize-image prize-image--ba"
+            />
+          </div>
+        </section>
+      </div>
+
+      <div id="vote">
+        <section className="landing-vote">
+          <div className="container landing-vote__container">
+            <button className="vote-cta">VOTE NGAY!</button>
+
+            <div className="sponsors" aria-label="Nhà tài trợ">
+              <div className="sponsor__title">NHÀ TÀI TRỢ</div>
+              <div className="sponsor__logo">
+                <a
+                  href="https://travel.com.vn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={viettravel} alt="Vietravel" className="sponsor" />
+                </a>
+                <img src={evaAir} alt="EVA Air" className="sponsor" />
+                <img src={chinaAir} alt="China Airlines" className="sponsor" />
+                <img src={starlux} alt="Starlux" className="sponsor" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* slider section (images) */}
+        <section className="landing-swiper">
+          <div className="container landing-swiper__container">
+            <div className="landing-swiper__stage">
+              <Swiper
+                modules={[Navigation, Autoplay]}
+                loop={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+                slidesPerView={1}
+                navigation={{
+                  nextEl: ".custom-swiper-next",
+                  prevEl: ".custom-swiper-prev",
+                }}
+                onBeforeInit={(swiper: any) => {
+                  swiper.params.navigation.prevEl = ".custom-swiper-prev";
+                  swiper.params.navigation.nextEl = ".custom-swiper-next";
+                }}
+              >
+                <SwiperSlide>
+                  <img
+                    src={slide1}
+                    alt="slide1"
+                    className="landing-slide-img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src={slide2}
+                    alt="slide2"
+                    className="landing-slide-img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src={slide3}
+                    alt="slide3"
+                    className="landing-slide-img"
+                  />
+                </SwiperSlide>
+                <SwiperSlide>
+                  <img
+                    src={slide4}
+                    alt="slide4"
+                    className="landing-slide-img"
+                  />
+                </SwiperSlide>
+              </Swiper>
+              <button
+                className="custom-swiper-prev"
+                aria-label="Previous"
+              ></button>
+              <button className="custom-swiper-next" aria-label="Next"></button>
+            </div>
+          </div>
+        </section>
+      </div>
 
       {/* predict form section */}
-      <section className="landing-form">
+      <section className="landing-form" id="form">
         <div className="landing-form__container">
           <div className="predict-cta">
             <div className="predict-cta__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</div>
@@ -275,12 +303,74 @@ const Landing: React.FC = () => {
                   {/* Nội dung dài sẽ nằm bên trong khung scroll 200px */}
                   <p>
                     Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Doloremque tempora aspernatur iure aut explicabo, quod
-                    adipisci illo assumenda fugiat aliquid optio provident
-                    voluptate? Fugit, suscipit, magni iste itaque eaque et
-                    commodi eligendi inventore veniam sequi excepturi nihil
-                    molestias quas beatae maxime aperiam? Ea quia neque illo
-                    voluptatibus incidunt doloremque sapiente.
+                    Iusto possimus, nesciunt quas deserunt et, voluptas eius
+                    necessitatibus consequatur magni nam optio, ad natus quis
+                    ipsa mollitia sed inventore dolore commodi. Dicta beatae
+                    molestiae quis assumenda iste in porro, veniam totam
+                    eligendi quaerat soluta aliquam delectus voluptatem
+                    sapiente, illum ratione tenetur dolorum. Eaque amet impedit
+                    aut nesciunt alias dolore voluptatibus aliquid, culpa quos
+                    quod assumenda exercitationem, illo quaerat architecto!
+                    Debitis nemo, magni eligendi dolorem earum reprehenderit
+                    molestias sapiente ipsum voluptates culpa est eveniet
+                    voluptatem nam corporis, nihil voluptate distinctio quo
+                    porro? Necessitatibus eveniet beatae dolor fugit laboriosam
+                    at rerum harum, repellendus dolores dolore repellat
+                    similique doloribus explicabo aliquid possimus eaque iste
+                    unde? Enim harum incidunt cupiditate excepturi asperiores
+                    debitis tempora velit obcaecati nihil, mollitia similique
+                    totam? Sit, iure quisquam. Deleniti facilis repellat nihil
+                    quis quasi voluptas, distinctio ipsa. Sed eos dicta deleniti
+                    laborum tempora iste voluptas amet repellendus veritatis at.
+                    Perspiciatis quidem beatae impedit porro quas, excepturi,
+                    debitis voluptatem cum repudiandae deserunt veritatis omnis
+                    facilis laudantium quos fugit voluptatibus nostrum
+                    necessitatibus vero provident iusto atque quibusdam!
+                    Corrupti quos veritatis debitis mollitia nam sapiente
+                    incidunt corporis quasi magnam temporibus voluptates ratione
+                    neque sit tempora nemo laudantium labore, ducimus facilis,
+                    quia maiores! Ex nulla nihil voluptas iure suscipit cumque
+                    dolore alias libero, quod voluptatem? Ipsam expedita fuga
+                    veniam reiciendis quidem dolorem cumque eligendi provident
+                    distinctio, quaerat vero, omnis quos rerum ipsa dicta autem
+                    architecto iure, excepturi nostrum sed deleniti alias?
+                    Facere nulla incidunt ipsum nobis, provident laudantium
+                    itaque aperiam doloremque, exercitationem praesentium, amet
+                    a quia reiciendis ea alias? Tempora quo inventore placeat
+                    dolore recusandae ea fugit voluptates necessitatibus, quod
+                    mollitia corporis voluptate dolorem deserunt. Commodi modi
+                    adipisci sapiente aperiam, libero harum aspernatur.
+                    Voluptatum, odit. Dolores obcaecati facere nesciunt,
+                    pariatur incidunt ipsa voluptas omnis aliquid placeat! Nisi
+                    illo rem amet eveniet unde exercitationem distinctio optio
+                    vel modi neque asperiores qui voluptatibus expedita dolorum
+                    impedit enim voluptatum corporis dolores reiciendis, eius
+                    molestiae vero culpa officia! Libero alias architecto,
+                    dignissimos at, assumenda consequatur repellendus eligendi
+                    ut, possimus accusantium dolore commodi aperiam excepturi
+                    reprehenderit illo fugit dolorum? Voluptas, amet quis
+                    ratione excepturi, in dolorum, placeat illo accusamus modi
+                    numquam cupiditate quisquam esse? Ut libero officiis
+                    distinctio, maiores consequatur minus excepturi impedit
+                    nostrum itaque placeat, nam magni quisquam vitae quaerat
+                    maxime obcaecati a nihil? Illo, reprehenderit at. Officiis
+                    numquam nisi fugiat, a vero labore laudantium culpa est,
+                    praesentium quo aliquid asperiores? Aperiam odio vero eum
+                    sint libero, ad eaque nemo saepe, fuga modi officia?
+                    Voluptatem itaque architecto tempora pariatur quis
+                    consectetur? Ut, repudiandae voluptas porro sequi, modi
+                    exercitationem dolor hic cum officia tenetur amet nulla
+                    veritatis fugiat possimus animi blanditiis consequuntur
+                    officiis. Temporibus, cupiditate? Asperiores corporis
+                    explicabo similique et maxime nihil doloremque cumque quam
+                    ullam consectetur, quas veniam dolorum placeat optio
+                    deleniti ad fugit. Suscipit deserunt voluptate magni sunt
+                    hic voluptas, non minus. Rem voluptate optio quaerat minima
+                    voluptas necessitatibus voluptatum. Aspernatur ullam,
+                    dolorem ab quibusdam expedita ducimus numquam dolores
+                    inventore, doloremque amet error eligendi harum debitis
+                    similique omnis sunt ipsum neque nihil molestiae laudantium
+                    non nulla corrupti?
                   </p>
                   <p>...</p>
                 </div>
@@ -290,7 +380,7 @@ const Landing: React.FC = () => {
         </div>
       </section>
 
-      <section className="landing-video">
+      <section className="landing-video" id="video">
         <div className="landing-video__container container">
           <img
             src={promoBg}

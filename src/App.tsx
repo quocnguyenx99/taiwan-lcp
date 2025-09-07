@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Suspense , lazy} from "react";
+import { Suspense, lazy } from "react";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing";
 
@@ -11,23 +11,23 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
-        <Route
-          path="/visa"
-          element={
-            <Suspense fallback={<div className="skeleton">Đang tải…</div>}>
-              <Visa />
-            </Suspense>
-          }
-        />
-        <Route
-          path="/lottery"
-          element={
-            <Suspense fallback={<div className="skeleton">Đang tải…</div>}>
-              <Lottery />
-            </Suspense>
-          }
-        />
       </Route>
+      <Route
+        path="/visa"
+        element={
+          <Suspense fallback={<div className="skeleton">Đang tải…</div>}>
+            <Visa />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/lottery"
+        element={
+          <Suspense fallback={<div className="skeleton">Đang tải…</div>}>
+            <Lottery />
+          </Suspense>
+        }
+      />
     </Routes>
   );
 }
