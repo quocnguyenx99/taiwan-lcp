@@ -327,7 +327,7 @@ const Landing: React.FC = () => {
               <div className="predict-cta__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</div>
 
               {/* FORM + TERMS */}
-              <div className="predict-form" id="form">
+              <div className="predict-form">
                 <form
                   className="predict-form__form"
                   onSubmit={handleSubmit}
@@ -351,7 +351,7 @@ const Landing: React.FC = () => {
                   </div>
 
                   {/* Form fields */}
-                  <div className={`form-row ${errors.name ? "has-error" : ""}`}>
+                  <div id="form" className={`form-row ${errors.name ? "has-error" : ""}`}>
                     <div className="field-label">
                       <div className="field-label__title">HỌ VÀ TÊN</div>
                       <div className="field-label__subtitle">
