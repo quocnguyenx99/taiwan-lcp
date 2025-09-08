@@ -1,11 +1,117 @@
 .visa {
   position: relative;
-  overflow: hidden;
-  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: visible !important; /* allow bg images to show outside if needed */
+  /* reserve space for top/bottom decorative images via CSS vars (tweak values per design) */
+  --visa-top-pad: 220px;   /* adjust for desktop */
+  --visa-bottom-pad: 120px;
+  padding-top: var(--visa-top-pad);
+  padding-bottom: var(--visa-bottom-pad);
+  box-sizing: border-box;
 }
+
+/* Top background image anchored to top of section */
+.visa__bg--top {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* Bottom background image anchored to bottom of section (follows table height) */
+.visa__bg--bottom {
+  position: absolute !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  z-index: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+/* Fade layer between images */
+.visa__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* keep existing top/height rules via breakpoints if set elsewhere */
+}
+
+/* Put table into normal flow (not absolutely positioned) so its height expands the section */
+.visa__table {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 auto;
+  z-index: 2;
+  /* keep desktop width/appearance but remove negative top offsets */
+  width: min(1739px, 90%);
+  max-width: 100%;
+  box-sizing: border-box;
+  /* If you want the table visually overlapping the top image slightly, use a small negative margin-top */
+  /* margin-top: -48px; */
+}
+
+/* Adjust reserved padding per breakpoint so top/bottom images line up with visual design */
+
+/* mobile: smaller paddings */
+@media (max-width: 767px) {
+  .visa {
+    --visa-top-pad: 96px;
+    --visa-bottom-pad: 80px;
+    padding-top: var(--visa-top-pad);
+    padding-bottom: var(--visa-bottom-pad);
+  }
+
+  .visa__table {
+    width: calc(100% - 32px);
+    margin-top: 0;
+    padding: 12px;
+  }
+}
+
+/* tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .visa {
+    --visa-top-pad: 160px;
+    --visa-bottom-pad: 120px;
+  }
+
+  .visa__table {
+    width: 90%;
+    max-width: 1100px;
+  }
+}
+
+/* desktop and up */
+@media (min-width: 1024px) {
+  .visa {
+    --visa-top-pad: 220px;
+    --visa-bottom-pad: 140px;
+  }
+
+  .visa__table {
+    width: min(1739px, 90%);
+  }
+}
+
+/* ensure title sits above everything */
+.visa__bg-title { z-index: 3 !important; pointer-events: none; }
+.visa__fade    { z-index: 1 !important; }
+.visa__content { z-index: 2 !important; }
+.visa__table   { z-index: 4 !important; }
 
 /* ảnh nền */
 .visa__bg {
@@ -83,24 +189,18 @@
 
 .visa__table {
   --pad: 0px;
-  position: absolute;
-  top: -427px;
-  left: 50%;
-  transform: translate(-50%);
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 auto;
   z-index: 2;
-  background: #fff;
-  border-radius: 28px;
+  /* keep desktop width/appearance but remove negative top offsets */
   width: min(1739px, 90%);
-  height: 980px;
-  padding: var(--pad);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* dàn trải nội dung từ top đến bottom */
+  max-width: 100%;
   box-sizing: border-box;
-  font-family: "MyVisaBookFont", sans-serif;
-  /* font-weight: 600; */
-  font-size: 20px;
+  /* If you want the table visually overlapping the top image slightly, use a small negative margin-top */
+  /* margin-top: -48px; */
 }
 
 /* hàng = 4 cột: nhãn | 3 cột */
@@ -344,4 +444,283 @@
   .vt__qr {
     width: 112px;
   }
+}
+
+/* ===== Responsive breakpoints requested ===== */
+
+/* Extra Small - Mobile: <360px */
+@media (max-width: 359px) {
+  .visa {
+    --visa-top-pad: 60px;
+    --visa-bottom-pad: 60px;
+    padding-top: var(--visa-top-pad);
+    padding-bottom: var(--visa-bottom-pad);
+  }
+
+  .visa__bg-title { display: block; top: 8px; left: 50%; transform: translateX(-50%); z-index: 10; }
+  .visa__title { font-size: 20px; }
+  .visa__subtitle { font-size: 28px; }
+
+  .visa__table {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 12px auto 0 !important;
+    width: calc(100% - 32px);
+    max-width: 100%;
+    padding: 10px !important;
+    border-radius: 12px;
+    min-height: auto;
+    height: auto;
+    font-size: 13px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .vt__row {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    padding: 6px 0;
+  }
+
+  .vt__label {
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-right: none;
+    font-size: 14px;
+  }
+  .vt__label img { width: 36px; }
+
+  .vt__cell {
+    padding: 8px 8px;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .vt__list {
+    display: inline-block;
+    text-align: left;
+    padding-left: 18px;
+    margin: 0;
+    max-width: calc(100% - 32px);
+  }
+
+  .vt__chip { font-size: 12px; padding: 6px 10px; margin-bottom: 8px; }
+
+  .vt__qr { width: 72px; }
+
+  /* remove dashed borders on mobile */
+  .vt__row + .vt__row::after { display: none !important; }
+  .vt__label, .vt__cell:not(:last-child) { border-right: none !important; }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) and (max-width: 479px) {
+  .visa { --visa-top-pad: 80px; --visa-bottom-pad: 80px; padding-top: var(--visa-top-pad); padding-bottom: var(--visa-bottom-pad); }
+  .visa__title { font-size: 24px; }
+  .visa__subtitle { font-size: 32px; }
+
+  .visa__table {
+    position: relative !important;
+    width: calc(100% - 36px);
+    margin: 14px auto 0 !important;
+    padding: 12px !important;
+    border-radius: 14px;
+    font-size: 14px;
+    overflow-x: auto;
+  }
+
+  .vt__row { grid-template-columns: 1fr; row-gap: 10px; padding: 8px 0; }
+  .vt__label { flex-direction: row; gap: 10px; font-size: 15px; }
+  .vt__label img { width: 40px; }
+  .vt__chip { font-size: 13px; padding: 7px 12px; }
+  .vt__qr { width: 80px; }
+
+  .vt__row + .vt__row::after { display: none !important; }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) and (max-width: 639px) {
+  .visa { --visa-top-pad: 100px; --visa-bottom-pad: 100px; padding-top: var(--visa-top-pad); padding-bottom: var(--visa-bottom-pad); }
+  .visa__title { font-size: 28px; }
+  .visa__subtitle { font-size: 40px; }
+
+  .visa__table {
+    position: relative !important;
+    width: 94%;
+    margin: 16px auto 0 !important;
+    padding: 14px !important;
+    border-radius: 16px;
+    font-size: 15px;
+    overflow-x: auto;
+    min-height: 520px;
+  }
+
+  .vt__row { grid-template-columns: 1fr; row-gap: 12px; padding: 10px 0; }
+  .vt__label { gap: 12px; font-size: 16px; }
+  .vt__label img { width: 48px; }
+  .vt__chip { font-size: 14px; padding: 8px 14px; }
+  .vt__qr { width: 96px; }
+
+  .vt__row + .vt__row::after { display: none !important; }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) and (max-width: 767px) {
+  .visa { --visa-top-pad: 140px; --visa-bottom-pad: 140px; padding-top: var(--visa-top-pad); padding-bottom: var(--visa-bottom-pad); }
+  .visa__title { font-size: 34px; }
+  .visa__subtitle { font-size: 52px; }
+
+  .visa__table {
+    position: relative !important;
+    width: 92%;
+    margin: 18px auto 0 !important;
+    padding: 16px !important;
+    border-radius: 18px;
+    font-size: 16px;
+    min-height: 640px;
+    overflow-x: auto;
+  }
+
+  .vt__row { grid-template-columns: 1fr; row-gap: 14px; padding: 12px 0; }
+  .vt__label { gap: 14px; font-size: 18px; }
+  .vt__label img { width: 55px; }
+  .vt__chip { font-size: 15px; padding: 9px 16px; }
+  .vt__qr { width: 110px; }
+
+  .vt__row + .vt__row::after { display: none !important; }
+}
+
+/* lg: ≥768px (tablet & desktop) - restore desktop absolute layout */
+@media (min-width: 768px) {
+  .visa { padding-top: 0; padding-bottom: 0; }
+  .visa__title { font-size: 44px; }
+  .visa__subtitle { font-size: 68px; }
+
+  .visa__table {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    top: -300px !important;
+    width: 90%;
+    max-width: min(1739px, 90%);
+    height: 850px;
+    padding: var(--pad, 20px);
+    border-radius: 24px;
+    margin: 0 !important;
+    font-size: 17px;
+    overflow: visible;
+  }
+
+  .vt__row {
+    grid-template-columns: 180px repeat(3, 1fr);
+    row-gap: 0;
+  }
+
+  .vt__label {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border-right: 2px dashed var(--visa-accent);
+    padding: 6px 16px 6px 0;
+    gap: 8px;
+    font-size: 20px;
+  }
+
+  .vt__label img { width: 50px; }
+  .vt__chip { font-size: 15px; padding: 8px 18px; }
+  .vt__cell { padding: 20px 12px; justify-items: start; text-align: left; }
+  .vt__qr { width: 130px; }
+
+  /* restore dashed separators */
+  .vt__row + .vt__row::after {
+    display: block !important;
+    content: "";
+    position: absolute;
+    left: var(--pad, 12px);
+    right: var(--pad, 12px);
+    top: 0;
+    border-top: 2px dashed var(--visa-accent);
+    z-index: 1;
+    pointer-events: none;
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) {
+  .visa__title { font-size: 52px; }
+  .visa__subtitle { font-size: 88px; }
+
+  .visa__table {
+    top: -350px !important;
+    height: 900px;
+    font-size: 18px;
+    border-radius: 26px;
+  }
+
+  .vt__row { grid-template-columns: 200px repeat(3, 1fr); }
+  .vt__label { font-size: 22px; padding: 6px 18px 6px 0; }
+  .vt__label img { width: 55px; }
+  .vt__chip { font-size: 16px; padding: 9px 20px; }
+  .vt__qr { width: 145px; }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) {
+  .visa__title { font-size: 58px; }
+  .visa__subtitle { font-size: 98px; }
+
+  .visa__table {
+    top: -380px !important;
+    height: 940px;
+    font-size: 19px;
+    width: min(1739px, 90%);
+  }
+
+  .vt__row { grid-template-columns: 215px repeat(3, 1fr); }
+  .vt__label { font-size: 23px; padding: 6px 20px 6px 0; }
+  .vt__label img { width: 58px; }
+  .vt__chip { font-size: 17px; padding: 9px 21px; }
+  .vt__qr { width: 152px; }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) {
+  .visa__title { font-size: 62px; }
+  .visa__subtitle { font-size: 106px; }
+
+  .visa__table {
+    top: -410px !important;
+    height: 960px;
+    font-size: 19.5px;
+  }
+
+  .vt__row { grid-template-columns: 225px repeat(3, 1fr); }
+  .vt__label { font-size: 23.5px; padding: 6px 21px 6px 0; }
+  .vt__label img { width: 59px; }
+  .vt__chip { font-size: 17.5px; }
+  .vt__qr { width: 156px; }
+}
+
+/* 4xl: ≥1920px */
+@media (min-width: 1920px) {
+  .visa__title { font-size: 66px; }
+  .visa__subtitle { font-size: 116px; }
+
+  .visa__table {
+    top: -427px !important;
+    height: 980px;
+    font-size: 20px;
+    width: min(1739px, 90%);
+  }
+
+  .vt__row { grid-template-columns: 230px repeat(3, 1fr); }
+  .vt__label { font-size: 24px; padding: 6px 22px 6px 0; }
+  .vt__label img { width: 60px; }
+  .vt__chip { font-size: 18px; padding: 10px 22px; }
+  .vt__qr { width: 160px; }
 }

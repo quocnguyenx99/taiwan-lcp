@@ -321,7 +321,7 @@ const Landing: React.FC = () => {
         </section>
 
         {/* predict form section */}
-        <section className="landing-form" id="vote">
+        <section className="landing-form" id="form">
           <div className="landing-form__container">
             <div className="predict-cta">
               <div className="predict-cta__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</div>
