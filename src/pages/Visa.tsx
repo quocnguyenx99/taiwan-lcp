@@ -9,7 +9,6 @@ import costIcon from "../assets/visa/costIcon.png";
 import submitIcon from "../assets/visa/submitIcon.png";
 import qr1 from "../assets/visa/qr1.png";
 import qr2 from "../assets/visa/qr2.png";
-import qr3 from "../assets/visa/qr2.png";
 
 // background
 import bgTop from "../assets/visa/bgTop.png";
@@ -125,6 +124,8 @@ const Visa: React.FC = () => {
                   <li className="vt__qr-li">
                     <img className="vt__qr" src={qr1} alt="QR Visa Du Lịch" />
                   </li>
+
+                  
                 </ul>
               </div>
 
@@ -140,7 +141,12 @@ const Visa: React.FC = () => {
                   Hành khách thông qua các công ty du lịch được chỉ định để nộp
                   hồ sơ.
                 </p>
-                {/* <img className="vt__qr" src={qr3} alt="QR Visa Quan Hồng" /> */}
+                <p className="vt__ref">
+                  Tham khảo thêm tại trang web:{" "}
+                  <a href="https://taiwan.net.vn/" target="_blank" rel="noopener noreferrer">
+                    https://taiwan.net.vn/
+                  </a>
+                </p>
               </div>
             </div>
           </div>
