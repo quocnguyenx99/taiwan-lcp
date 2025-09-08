@@ -9,6 +9,7 @@ import costIcon from "../assets/visa/costIcon.png";
 import submitIcon from "../assets/visa/submitIcon.png";
 import qr1 from "../assets/visa/qr1.png";
 import qr2 from "../assets/visa/qr2.png";
+import bearIcon from "../assets/visa/bearIcon.png"; // thêm import bearIcon
 
 // background
 import bgTop from "../assets/visa/bgTop.png";
@@ -34,8 +35,10 @@ const Visa: React.FC = () => {
 
         {/* nội dung */}
         <div className="visa__content container">
-          {/* bỏ title và subtitle ở đây */}
           <div className="visa__table">
+            {/* Macot con gấu ở góc trên bên phải */}
+            <img src={bearIcon} alt="Macot con gấu" className="visa__bear" />
+
             {/* HÀNG 1 — CÁC HỒ SƠ YÊU CẦU */}
             <div className="vt__row">
               <div className="vt__label">
@@ -101,12 +104,12 @@ const Visa: React.FC = () => {
                 </ul>
               </div>
 
-              <div className="vt__cell">
+              <div className="vt__cell vt__cell--center">
                 <div className="vt__chip vt__chip--mobile">E-VISA</div>
                 <p className="vt__line">Miễn phí</p>
               </div>
 
-              <div className="vt__cell">
+              <div className="vt__cell vt__cell--center">
                 <div className="vt__chip vt__chip--mobile">VISA QUAN HỒNG</div>
                 <p className="vt__line">Miễn phí</p>
               </div>

@@ -128,6 +128,7 @@
 
 /* MOBILE: table trong document flow */
 @media (max-width: 767px) {
+
   .visa__table {
     position: relative !important;
     top: auto !important;
@@ -867,5 +868,41 @@
   }
   .vt__qr {
     width: 160px;
+  }
+}
+
+/* Căn giữa nội dung trong cell có class vt__cell--center trên mobile */
+@media (max-width: 767px) {
+  .vt__cell--center {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Desktop giữ nguyên justify-items: start */
+@media (min-width: 768px) {
+  .vt__cell--center {
+    justify-items: start;
+    align-items: start;
+    text-align: left;
+  }
+}
+
+/* Macot con gấu ở góc trên bên phải của table */
+.visa__bear {
+  position: absolute;
+  top: -333px;
+  right: -33px;
+  width: 350px;
+  height: 350px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Responsive cho mobile: ẩn con gấu */
+@media (max-width: 767px) {
+  .visa__bear {
+    display: none;
   }
 }

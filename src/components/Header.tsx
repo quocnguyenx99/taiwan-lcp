@@ -11,7 +11,7 @@ const Header: React.FC = () => {
   const navLanding = [
     { href: "/", label: "Home" },
     { href: "vote", label: "Vote" },
-    { href: "form", label: "Form" },
+    { href: "t&c", label: "T&C" },
     { href: "video", label: "Video" },
     { href: "/visa", label: "Visa" },
   ];

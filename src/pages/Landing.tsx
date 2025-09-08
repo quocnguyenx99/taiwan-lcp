@@ -325,6 +325,12 @@ const Landing: React.FC = () => {
             <div className="predict-cta">
               <div className="predict-cta__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</div>
 
+              <div className="predict-cta__subtitle">
+                CLICK vào đội bạn dự đoán sẽ là quán quân, điền form và chọn SUBMIT
+              </div>
+
+              <div></div>
+
               {/* FORM + TERMS */}
               <div className="predict-form">
                 <form
@@ -351,13 +357,12 @@ const Landing: React.FC = () => {
 
                   {/* Form fields */}
                   <div
-                    id="form"
                     className={`form-row ${errors.name ? "has-error" : ""}`}
                   >
                     <div className="field-label">
-                      <div className="field-label__title">HỌ VÀ TÊN</div>
+                      <div className="field-label__title">HỌ VÀ TÊN *</div>
                       <div className="field-label__subtitle">
-                        *Viết đầy đủ theo giấy tờ để đối chiếu trao giải
+                        Viết đầy đủ theo giấy tờ để đối chiếu trao giải
                       </div>
                     </div>
                     <div className="field-input">
@@ -376,8 +381,8 @@ const Landing: React.FC = () => {
                     className={`form-row ${errors.phone ? "has-error" : ""}`}
                   >
                     <div className="field-label">
-                      <div className="field-label__title">SỐ ĐIỆN THOẠI</div>
-                      <div className="field-label__subtitle">&nbsp;</div>
+                      <div className="field-label__title">SỐ ĐIỆN THOẠI *</div>
+                      <div className="field-label__subtitle">Mỗi cá nhân chỉ sử dụng 1 số điện thoại</div>
                     </div>
                     <div className="field-input">
                       <input
@@ -395,9 +400,9 @@ const Landing: React.FC = () => {
                     className={`form-row ${errors.email ? "has-error" : ""}`}
                   >
                     <div className="field-label">
-                      <div className="field-label__title">EMAIL CÁ NHÂN</div>
+                      <div className="field-label__title">EMAIL CÁ NHÂN  *</div>
                       <div className="field-label__subtitle">
-                        *Không bắt buộc
+                        Không bắt buộc
                       </div>
                     </div>
                     <div className="field-input">
@@ -416,9 +421,9 @@ const Landing: React.FC = () => {
                     className={`form-row ${errors.address ? "has-error" : ""}`}
                   >
                     <div className="field-label">
-                      <div className="field-label__title">ĐỊA CHỈ NHẬN QUÀ</div>
+                      <div className="field-label__title">ĐỊA CHỈ NHẬN QUÀ  *</div>
                       <div className="field-label__subtitle">
-                        *Vui lòng cung cấp địa chỉ trước sắp nhập
+                        Vui lòng cung cấp địa chỉ trước khi sáp nhập
                       </div>
                     </div>
                     <div className="field-input">
@@ -452,6 +457,7 @@ const Landing: React.FC = () => {
                   className="predict-terms"
                   role="region"
                   aria-label="Điều kiện và điều khoản"
+                  id="t&c"
                 >
                   <h3 className="predict-terms__title">
                     ĐIỀU KIỆN &amp; ĐIỀU KHOẢN
