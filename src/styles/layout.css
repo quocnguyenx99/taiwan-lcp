@@ -134,11 +134,11 @@
   position: fixed;
   top: 0;
   right: -100%;
-  width: 250px;
+  width: 300px;
   height: 100vh;
   background: rgba(0, 0, 0, 0.9);
   transition: right 0.3s ease;
-  z-index: 1000; /* higher than overlay */
+  z-index: 1000;
   padding: 70px 20px 20px;
 }
 
@@ -182,7 +182,7 @@
 .footer {
   margin-top: 96px;
   background-color: #f3edea;
-  padding: 64px 388px;
+  padding: 64px 206px; /* Giá trị gốc cho desktop lớn */
 }
 
 .footer__container {
@@ -327,7 +327,7 @@
   }
 
   .header__menu-overlay {
-    width: 240px;
+    width: 300px;
     padding: 60px 20px 20px;
   }
 }
@@ -357,7 +357,7 @@
   }
 
   .header__menu-overlay {
-    width: 250px;
+    width: 300px;
     padding: 60px 24px 24px;
   }
 }
@@ -379,11 +379,11 @@
   }
 
   .header__nav {
-    display: block; /* Hiển thị lại navigation */
+    display: block; 
   }
 
   .header__hamburger {
-    display: none; /* Ẩn hamburger */
+    display: none; 
   }
 }
 
@@ -438,3 +438,195 @@
     font-size: 24px;
   }
 }
+
+/* Footer */
+.footer {
+  margin-top: 96px;
+  background-color: #f3edea;
+  padding: 64px 206px; /* Giá trị gốc cho desktop lớn */
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+  padding-block: clamp(24px, 4vw, 36px);
+}
+
+.footer__brand img {
+  display: block;
+  margin-left: -16px;
+}
+
+.footer__content {
+  line-height: 1.6;
+  font-family: "MyHeaderFont", system-ui, sans-serif;
+}
+
+.footer__title {
+  margin: 0 0 8px;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 700;
+}
+
+.footer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(13px, 1.6vw, 15px);
+}
+
+.footer__row {
+  margin: 6px 0;
+}
+
+.footer__label {
+  display: inline-block;
+  min-width: 90px; /* căn cột nhãn */
+  font-weight: 700;
+}
+
+.footer__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  padding: 10px 0 14px;
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+
+/* Mobile First - Extra Small: <360px */
+@media (max-width: 359px) {
+  .footer {
+    margin-top: 48px;
+    padding: 32px 16px;
+  }
+
+  .footer__container {
+    gap: 16px;
+    padding-block: 16px;
+  }
+
+  .footer__label {
+    min-width: 70px;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) {
+  .footer {
+    margin-top: 56px;
+    padding: 40px 20px;
+  }
+
+  .footer__container {
+    gap: 18px;
+    padding-block: 20px;
+  }
+
+  .footer__label {
+    min-width: 75px;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) {
+  .footer {
+    margin-top: 64px;
+    padding: 48px 24px;
+  }
+
+  .footer__container {
+    gap: 20px;
+    padding-block: 24px;
+  }
+
+  .footer__label {
+    min-width: 80px;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) {
+  .footer {
+    margin-top: 72px;
+    padding: 56px 32px;
+  }
+
+  .footer__container {
+    gap: 24px;
+    padding-block: 28px;
+  }
+
+  .footer__label {
+    min-width: 85px;
+  }
+}
+
+/* lg: ≥768px - Desktop mode starts here */
+@media (min-width: 768px) {
+  .footer {
+    margin-top: 80px;
+    padding: 60px 40px;
+  }
+
+  .footer__container {
+    gap: 28px;
+    padding-block: 32px;
+  }
+
+  .footer__label {
+    min-width: 90px;
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) {
+  .footer {
+    margin-top: 88px;
+    padding: 64px 80px;
+  }
+
+  .footer__container {
+    gap: 30px;
+    padding-block: 34px;
+  }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) {
+  .footer {
+    margin-top: 92px;
+    padding: 64px 120px;
+  }
+
+  .footer__container {
+    gap: 32px;
+    padding-block: 36px;
+  }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) {
+  .footer {
+    margin-top: 94px;
+    padding: 64px 180px;
+  }
+}
+
+/* 4xl: ≥1920px */
+@media (min-width: 1920px) {
+  .footer {
+    margin-top: 96px;
+    padding: 64px 206px; /* Giá trị gốc */
+  }
+}
+

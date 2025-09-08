@@ -18,7 +18,6 @@ import teamPSG from "../assets/PSG.png";
 import teamDFM from "../assets/DFM.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
 import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -32,7 +31,6 @@ import vid1 from "../assets/videos/1023_Engage_60_B.mp4";
 import promoBg from "../assets/PROMO VDO.png";
 import playBtn from "../assets/Layer 5.png";
 import { Toaster, toast } from "sonner";
-
 
 const Landing: React.FC = () => {
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
@@ -208,11 +206,11 @@ const Landing: React.FC = () => {
             </div>
             <div className="landing-banner__marquee">
               <div className="landing-banner__marquee-content">
-                LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯƠNGG
-                ĐẦU &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp;
-                為此而生 &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp;
-                SẴN SÀNG ĐƯƠNG ĐẦU &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC
-                &nbsp; 為此而生 &nbsp;
+                LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯƠNG ĐẦU
+                &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生
+                &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG
+                ĐƯƠNG ĐẦU &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp;
+                為此而生 &nbsp;
               </div>
             </div>
           </section>
@@ -992,11 +990,6 @@ const Landing: React.FC = () => {
 
         <section className="landing-video" id="video">
           <div className="landing-video__container container">
-            <img
-              src={promoBg}
-              alt="Promo Background"
-              className="landing-video__bg"
-            />
             {/* Remove play button if autoplay */}
             <video
               ref={videoRef}

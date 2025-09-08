@@ -71,6 +71,8 @@ body {
   background-size: var(--design-width) auto;
   background-position: center top;
   background-repeat: repeat;
+  overflow-x: hidden; /* Ẩn scroll ngang */
+  max-width: 100vw;
 }
 
 img,
