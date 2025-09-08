@@ -28,8 +28,7 @@ import slide3 from "../assets/TTA_PIC_DISCOVER.jpg";
 import slide4 from "../assets/TTA_PIC_ENJOY.jpg";
 
 import vid1 from "../assets/videos/1023_Engage_60_B.mp4";
-import promoBg from "../assets/PROMO VDO.png";
-import playBtn from "../assets/Layer 5.png";
+
 import { Toaster, toast } from "sonner";
 
 const Landing: React.FC = () => {
@@ -351,7 +350,10 @@ const Landing: React.FC = () => {
                   </div>
 
                   {/* Form fields */}
-                  <div id="form" className={`form-row ${errors.name ? "has-error" : ""}`}>
+                  <div
+                    id="form"
+                    className={`form-row ${errors.name ? "has-error" : ""}`}
+                  >
                     <div className="field-label">
                       <div className="field-label__title">HỌ VÀ TÊN</div>
                       <div className="field-label__subtitle">

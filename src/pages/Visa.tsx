@@ -90,6 +90,7 @@ const Visa: React.FC = () => {
               </div>
 
               <div className="vt__cell">
+                <div className="vt__chip vt__chip--mobile">VISA DU LỊCH</div>
                 <ul className="vt__list">
                   <li>
                     <span className="vt__label-text">Phổ thông:</span> <div>5 ngày làm việc / 50 USD</div>
@@ -101,9 +102,12 @@ const Visa: React.FC = () => {
               </div>
 
               <div className="vt__cell">
+                <div className="vt__chip vt__chip--mobile">E-VISA</div>
                 <p className="vt__line">Miễn phí</p>
               </div>
+
               <div className="vt__cell">
+                <div className="vt__chip vt__chip--mobile">VISA QUAN HỒNG</div>
                 <p className="vt__line">Miễn phí</p>
               </div>
             </div>
@@ -116,6 +120,7 @@ const Visa: React.FC = () => {
               </div>
 
               <div className="vt__cell">
+                <div className="vt__chip vt__chip--mobile">VISA DU LỊCH</div>
                 <ul className="vt__list">
                   <li>Điền đơn thông tin trên web.</li>
                   <li>
@@ -124,12 +129,11 @@ const Visa: React.FC = () => {
                   <li className="vt__qr-li">
                     <img className="vt__qr" src={qr1} alt="QR Visa Du Lịch" />
                   </li>
-
-                  
                 </ul>
               </div>
 
               <div className="vt__cell vt__cell--withqr">
+                <div className="vt__chip vt__chip--mobile">E-VISA</div>
                 <p className="vt__desc">
                   Điền thông tin và visa sẽ cấp trực tiếp trên web.
                 </p>
@@ -137,6 +141,7 @@ const Visa: React.FC = () => {
               </div>
 
               <div className="vt__cell vt__cell--withqr">
+                <div className="vt__chip vt__chip--mobile">VISA QUAN HỒNG</div>
                 <p className="vt__desc">
                   Hành khách thông qua các công ty du lịch được chỉ định để nộp
                   hồ sơ.
