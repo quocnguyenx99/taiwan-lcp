@@ -34,11 +34,40 @@
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0) 0%,
-    #fff 25%, /* giảm từ 25% xuống 20% để mở rộng phần trắng */
-    #fff 75%, /* tăng từ 75% lên 80% để mở rộng phần trắng */
-    rgba(255, 255, 255, 0) 100%
+    #fff 25%,
+    /* giảm từ 25% xuống 20% để mở rộng phần trắng */ #fff 75%,
+    /* tăng từ 75% lên 80% để mở rộng phần trắng */ rgba(255, 255, 255, 0) 100%
   );
   z-index: 0;
+}
+
+/* Tiêu đề trên nền */
+.visa__bg-title {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 1;
+}
+
+.visa__title {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 66px;
+  margin: 0;
+  font-family: "MyVisaBlackFont", sans-serif;
+}
+
+.visa__subtitle {
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "MyVisaBlackFont", sans-serif;
+  font-weight: 900;
+  font-size: 116px;
+  margin: 6px 0 0;
+  text-wrap: nowrap;
 }
 
 .visa__content {
@@ -64,13 +93,13 @@
   width: min(1739px, 90%);
   height: 980px;
   padding: var(--pad);
-  box-shadow: 0 10px 28px rgba(0,0,0,.15);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   justify-content: space-between; /* dàn trải nội dung từ top đến bottom */
   box-sizing: border-box;
-  font-family: "MyHeaderFont", sans-serif;
-  font-weight: 600;
+  font-family: "MyVisaBookFont", sans-serif;
+  /* font-weight: 600; */
   font-size: 20px;
 }
 
@@ -120,6 +149,7 @@
   display: inline-block;
   background: var(--visa-chip);
   color: #fff;
+  font-family: "MyVisaBoldFont", sans-serif;
   font-weight: 800;
   font-size: 18px;
   letter-spacing: 0.3px;
@@ -171,6 +201,10 @@
   list-style-type: none;
 }
 
+.vt__label-text {
+  font-weight: bold;
+}
+
 .vt__line {
   margin: 6px 0;
   font-weight: 700;
@@ -182,33 +216,32 @@
 }
 
 /* Chi phí: hiển thị như mock */
-.vt__costlist{
+.vt__costlist {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.vt__costitem{
+.vt__costitem {
   position: relative;
-  padding-left: 16px;         /* chừa chỗ cho dấu gạch */
+  padding-left: 16px; /* chừa chỗ cho dấu gạch */
   margin: 4px 0 10px;
   line-height: 1.5;
 }
-.vt__costitem::before{
+.vt__costitem::before {
   content: "–";
   position: absolute;
   left: 0;
   top: 0;
   font-weight: 700;
 }
-.vt__costlabel{
-  font-weight: 800;           /* “Phổ thông/Khanh” đậm */
+.vt__costlabel {
+  font-weight: 800; /* “Phổ thông/Khanh” đậm */
   display: inline-block;
 }
-.vt__costdesc{
-  display: block;             /* xuống dòng như hình */
+.vt__costdesc {
+  display: block; /* xuống dòng như hình */
   margin-top: 2px;
 }
-
 
 .vt__cell--withqr {
   display: grid;
@@ -222,7 +255,6 @@
   margin-top: 10px;
   justify-self: center; /* center QR trong cell */
 }
-
 
 .visa__table::before {
   content: "";
@@ -268,31 +300,4 @@
   .vt__qr {
     width: 112px;
   }
-}
-
-/* Tiêu đề trên nền */
-.visa__bg-title {
-  position: absolute;
-  top: 3%; /* điều chỉnh vị trí trên bg Top */
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 1;
-}
-
-.visa__title {
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 800;
-  font-size: 66px;
-  margin: 0;
-}
-
-.visa__subtitle {
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: 116px;
-  margin: 6px 0 0;
-  text-wrap: nowrap;
 }

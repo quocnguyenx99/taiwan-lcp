@@ -93,10 +93,10 @@ const Visa: React.FC = () => {
               <div className="vt__cell">
                 <ul className="vt__list">
                   <li>
-                    Phổ thông: <div>5 ngày làm việc / 50 USD</div>
+                    <span className="vt__label-text">Phổ thông:</span> <div>5 ngày làm việc / 50 USD</div>
                   </li>
                   <li>
-                    Khẩn: <div>3 ngày làm việc / 75 USD</div>
+                    <span className="vt__label-text">Khẩn:</span> <div>3 ngày làm việc / 75 USD</div>
                   </li>
                 </ul>
               </div>

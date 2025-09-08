@@ -6,8 +6,8 @@
 }
 
 .header__inner {
-  max-width: 1280px;
-  margin: 0 auto;
+  /* max-width: 1280px; */
+  margin: 0 206px;
   padding: 0 24px;
   height: 100%;
   display: flex;
@@ -20,8 +20,9 @@
   font-weight: 800;
   letter-spacing: 1px;
   color: var(--on-primary);
+  width: 223px; /* kích thước ban đầu */
+  height: 53px; /* kích thước ban đầu */
 }
-
 
 .header__list {
   display: flex;
@@ -79,6 +80,98 @@
 .header__icon-btn:hover,
 .header__icon-btn:focus-visible {
   color: #fff;
+}
+
+.header__hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.header__menu-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.header__menu-close:hover {
+  color: #ff7854;
+  transform: scale(1.1);
+}
+
+.header__menu-close:active {
+  transform: scale(0.95);
+}
+
+.header__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* lower than menu overlay */
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.header__menu-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  transition: right 0.3s ease;
+  z-index: 1000; /* higher than overlay */
+  padding: 70px 20px 20px;
+}
+
+.header__menu-overlay.open {
+  right: 0;
+}
+
+.header__menu-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header__menu-item {
+  margin-bottom: 20px;
+}
+
+.header__menu-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.header__menu-link:hover,
+.header__menu-link--active {
+  color: #ff7854;
 }
 
 .site-main {
@@ -147,16 +240,201 @@
   padding: 10px 0 14px;
 }
 
-/* Responsive */
-@media (max-width: 720px) {
-  .footer__container {
-    grid-template-columns: 1fr; /* logo trên, nội dung dưới */
-    text-align: left;
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+
+/* Mobile First - Extra Small: <360px */
+@media (max-width: 359px) {
+  .header {
+    height: 76px;
   }
-  .footer__brand {
-    margin-bottom: 8px;
+
+  .header__inner {
+    margin: 0 16px;
+    padding: 0 12px;
   }
-  .footer__label {
-    min-width: 84px;
+
+  .header__brand {
+    width: 120px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 200px;
+    padding: 50px 16px 16px;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) {
+  .header {
+    height: 76px;
+  }
+
+  .header__inner {
+    margin: 0 20px;
+    padding: 0 16px;
+  }
+
+  .header__brand {
+    width: 130px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 220px;
+    padding: 50px 20px 20px;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) {
+  .header {
+    height: 76px;
+  }
+
+  .header__inner {
+    margin: 0 24px;
+    padding: 0 20px;
+  }
+
+  .header__brand {
+    width: 140px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 240px;
+    padding: 60px 20px 20px;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) {
+  .header {
+    height: 76px;
+  }
+
+  .header__inner {
+    margin: 0 32px;
+    padding: 0 24px;
+  }
+
+  .header__brand {
+    width: 150px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 250px;
+    padding: 60px 24px 24px;
+  }
+}
+
+/* lg: ≥768px - Desktop mode starts here */
+@media (min-width: 768px) {
+  .header {
+    height: 110px; /* Trở lại chiều cao desktop */
+  }
+
+  .header__inner {
+    margin: 0 40px;
+    padding: 0 24px;
+  }
+
+  .header__brand {
+    width: 223px; 
+    height: 100%;
+  }
+
+  .header__nav {
+    display: block; /* Hiển thị lại navigation */
+  }
+
+  .header__hamburger {
+    display: none; /* Ẩn hamburger */
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) {
+  .header__inner {
+    margin: 0 80px;
+  }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) {
+  .header__inner {
+    margin: 0 120px;
+  }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) {
+  .header__inner {
+    margin: 0 180px;
+  }
+}
+
+/* 4xl: ≥1920px */
+@media (min-width: 1920px) {
+  .header__inner {
+    margin: 0 206px; /* Giá trị gốc của bạn */
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .header {
+    height: 76px;
+  }
+
+  .header__inner {
+    height: 76px;
+    padding: 10px 20px;
+    align-items: center;
+  }
+
+  .header__brand {
+    width: 120px; /* chỉ nhỏ lại trên mobile */
+    height: auto;
+  }
+
+  .header__hamburger {
+    padding: 10px;
+    color: #fff;
+    font-size: 24px;
   }
 }
