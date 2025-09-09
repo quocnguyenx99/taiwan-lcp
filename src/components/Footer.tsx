@@ -28,8 +28,7 @@ const Footer: React.FC = () => {
           <ul className="footer__list">
             <li className="footer__row">
               <strong>
-                Phòng Du Lịch – Văn Phòng Kinh Tế và Văn Hoá Đài Bắc tại Thành
-                Phố Hồ Chí Minh
+                Cục Du lịch Đài Loan tại Thành phố Hồ Chí Minh
               </strong>
             </li>
             <li className="footer__row">

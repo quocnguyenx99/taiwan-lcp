@@ -28,7 +28,7 @@ import slide2 from "../assets/TTA_PIC_SHARE.jpg";
 import slide3 from "../assets/TTA_PIC_DISCOVER.jpg";
 import slide4 from "../assets/TTA_PIC_ENJOY.jpg";
 
-import vid1 from "../assets/videos/1023_Engage_60_B.mp4";
+import vid1 from "../assets/videos/videos_full.mp4";
 
 import { Toaster, toast } from "sonner";
 
@@ -273,7 +273,7 @@ const Landing: React.FC = () => {
 
         <section className="landing-vote">
           <div className="container landing-vote__container">
-            <button className="vote-cta">VOTE NGAY!</button>
+            {/* <button className="vote-cta">VOTE NGAY!</button> */}
 
             <div className="sponsors" aria-label="Nhà tài trợ">
               <div className="sponsor__title">NHÀ TÀI TRỢ</div>
@@ -556,7 +556,6 @@ const Landing: React.FC = () => {
                       <br />
                       Cách thức bình chọn: Ấn chọn vào 1 trong 6 đội hiển thị
                       trên màn hình website
-                      <br />
                       <br />
                       👌Bước 3: Cung cấp thông tin để quay số trúng giải và liên
                       hệ khi trao giải:
