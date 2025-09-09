@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/landing.css";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+
 import lcpIcon from "../assets/lcpIcon.png";
 import giaiNhat from "../assets/giaiNhat.png";
 import giaiNhi from "../assets/giaiNhi.png";
@@ -15,12 +20,7 @@ import teamGAM from "../assets/GAM.png";
 import teamTSW from "../assets/TSW.png";
 import teamMVKE from "../assets/MVKE.png";
 import teamPSG from "../assets/PSG.png";
-import teamDFM from "../assets/DFM.png";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
+// import teamDFM from "../assets/DFM.png";
 
 import slide1 from "../assets/TTA_PIC_ENGAGE.jpg";
 import slide2 from "../assets/TTA_PIC_SHARE.jpg";
@@ -34,7 +34,6 @@ import { Toaster, toast } from "sonner";
 const Landing: React.FC = () => {
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string>("");
   const [errors, setErrors] = useState({
     name: "",
     phone: "",
@@ -51,35 +50,36 @@ const Landing: React.FC = () => {
     { id: 3, name: "TSW", img: teamTSW },
     { id: 4, name: "MVKE", img: teamMVKE },
     { id: 5, name: "PSG", img: teamPSG },
-    { id: 6, name: "DFM", img: teamDFM },
+    // { id: 6, name: "DFM", img: teamDFM },
   ];
 
   useEffect(() => {
+    const videoElement = videoRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsInView(true);
-          if (videoRef.current) {
-            videoRef.current.muted = true;
-            videoRef.current.play();
+          if (videoElement) {
+            videoElement.muted = true;
+            videoElement.play();
           }
         } else {
           setIsInView(false);
-          if (videoRef.current) {
-            videoRef.current.pause();
+          if (videoElement) {
+            videoElement.pause();
           }
         }
       },
       { threshold: 0.5 }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (videoElement) {
+      observer.observe(videoElement);
     }
 
     return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
+      if (videoElement) {
+        observer.unobserve(videoElement);
       }
     };
   }, []);
@@ -91,7 +91,8 @@ const Landing: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const fd = new FormData(e.currentTarget);
+    const formElement = e.currentTarget; // Lưu reference trước khi async
+    const fd = new FormData(formElement);
     const data = {
       full_name: fd.get("name") as string,
       number_phone: fd.get("phone") as string,
@@ -162,23 +163,44 @@ const Landing: React.FC = () => {
       );
 
       const result = await response.json();
+      
+      // Debug: log response để kiểm tra
+      console.log("API Response:", result);
 
-      if (!result.status) {
+      // Kiểm tra trường hợp số điện thoại đã được đăng ký
+      if (!result.status && result.message === "Số điện thoại này đã được đăng ký") {
         toast.error("Số điện thoại đã được sử dụng. Vui lòng sử dụng số khác", {
           position: "top-right",
         });
         return;
       }
 
-      if (result.status) {
+      // Kiểm tra success
+      if (result.status === true) {
         toast.success("Gửi dự đoán thành công! Chúc bạn may mắn!", {
           position: "top-right",
         });
+        
+        // Reset form và đội được chọn khi submit thành công
+        setSelectedTeamId(null);
+        setErrors({ name: "", phone: "", email: "", address: "" });
+        
+        // Reset form fields - sử dụng formElement đã lưu
+        if (formElement) {
+          formElement.reset();
+        }
+      } else {
+        // Trường hợp khác (không phải success hoặc duplicate phone)
+        toast.error(result.message || "Có lỗi xảy ra. Vui lòng thử lại!", {
+          position: "top-right",
+        });
       }
-      setSelectedTeamId(null);
-      setErrors({ name: "", phone: "", email: "", address: "" });
+
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Có lỗi kết nối. Vui lòng thử lại!", {
+        position: "top-right",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -191,7 +213,10 @@ const Landing: React.FC = () => {
         <div id="home">
           <section className="landing-banner">
             <div className="landing-banner__container">
-              <h1 className="landing-banner__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</h1>
+              <h1 className="landing-banner__title">
+                <span className="landing-banner__title-line">DỰ ĐOÁN ĐỘI</span>
+                <span className="landing-banner__title-line">CHIẾN THẮNG</span>
+              </h1>
               <div className="landing-banner__sub">
                 <div className="landing-banner__subtitle">CHUNG KẾT</div>
                 <img
@@ -326,7 +351,15 @@ const Landing: React.FC = () => {
               <div className="predict-cta__title">DỰ ĐOÁN ĐỘI CHIẾN THẮNG</div>
 
               <div className="predict-cta__subtitle">
-                CLICK vào đội bạn dự đoán sẽ là quán quân, điền form và chọn SUBMIT
+                <span className="predict-cta__subtitle-line">
+                  CLICK vào đội bạn dự đoán
+                </span>
+                <span className="predict-cta__subtitle-line">
+                  sẽ là quán quân
+                </span>
+                <span className="predict-cta__subtitle-line">
+                  điền form và chọn SUBMIT
+                </span>
               </div>
 
               <div></div>
@@ -356,9 +389,7 @@ const Landing: React.FC = () => {
                   </div>
 
                   {/* Form fields */}
-                  <div
-                    className={`form-row ${errors.name ? "has-error" : ""}`}
-                  >
+                  <div className={`form-row ${errors.name ? "has-error" : ""}`}>
                     <div className="field-label">
                       <div className="field-label__title">HỌ VÀ TÊN *</div>
                       <div className="field-label__subtitle">
@@ -382,7 +413,9 @@ const Landing: React.FC = () => {
                   >
                     <div className="field-label">
                       <div className="field-label__title">SỐ ĐIỆN THOẠI *</div>
-                      <div className="field-label__subtitle">Mỗi cá nhân chỉ sử dụng 1 số điện thoại</div>
+                      <div className="field-label__subtitle">
+                        Mỗi cá nhân chỉ sử dụng 1 số điện thoại
+                      </div>
                     </div>
                     <div className="field-input">
                       <input
@@ -400,7 +433,7 @@ const Landing: React.FC = () => {
                     className={`form-row ${errors.email ? "has-error" : ""}`}
                   >
                     <div className="field-label">
-                      <div className="field-label__title">EMAIL CÁ NHÂN  *</div>
+                      <div className="field-label__title">EMAIL CÁ NHÂN</div>
                       <div className="field-label__subtitle">
                         Không bắt buộc
                       </div>
@@ -421,7 +454,9 @@ const Landing: React.FC = () => {
                     className={`form-row ${errors.address ? "has-error" : ""}`}
                   >
                     <div className="field-label">
-                      <div className="field-label__title">ĐỊA CHỈ NHẬN QUÀ  *</div>
+                      <div className="field-label__title">
+                        ĐỊA CHỈ NHẬN QUÀ *
+                      </div>
                       <div className="field-label__subtitle">
                         Vui lòng cung cấp địa chỉ trước khi sáp nhập
                       </div>
@@ -436,10 +471,6 @@ const Landing: React.FC = () => {
                   </div>
                   {errors.address && (
                     <div className="error-message">{errors.address}</div>
-                  )}
-
-                  {submitError && (
-                    <div className="error-message">{submitError}</div>
                   )}
 
                   <div className="form-actions">
@@ -467,13 +498,13 @@ const Landing: React.FC = () => {
                     {/* Nội dung dài sẽ nằm bên trong khung scroll 200px */}
                     <p>
                       <strong>
-                        THỂ LỆ TRÒ CHƠI “BÌNH CHỌN ĐỘI CHIẾN THẮNG CHUNG KẾT LCP
-                        2025”
+                        THỂ LỆ TRÒ CHƠI "BÌNH CHỌN ĐỘI CHIẾN THẮNG CHUNG KẾT LCP
+                        2025"
                       </strong>
                       <br />
                       <br />
-                      <strong>Tên trò chơi:</strong> “BÌNH CHỌN ĐỘI CHIẾN THẮNG
-                      CHUNG KẾT LCP 2025”
+                      <strong>Tên trò chơi:</strong> "BÌNH CHỌN ĐỘI CHIẾN THẮNG
+                      CHUNG KẾT LCP 2025"
                       <br />
                       <br />
                       <strong>Phạm vi và thời gian tổ chức:</strong>
@@ -481,12 +512,12 @@ const Landing: React.FC = () => {
                       Chương trình diễn ra trên toàn lãnh thổ Việt Nam.
                       <br />
                       Diễn ra trên website chính thức của Cục Du lịch Đài Loan
-                      văn phòng tại Thành phố Hồ Chí Minh về Chung Kết Giải đấu
-                      thể thao điện tử Liên Minh Huyền Thoại Chuyên nghiệp tại
-                      Châu Á Thái Bình Dương [Link Landing Page]
+                      văn phòng tại Thành phố Hồ Chí Minh về <strong style={{color:'red'}}>LCP 2025 - Giải đấu
+                      vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC)
+                      https://dudoanchungketlcp-tta.vn</strong>
                       <br />
-                      Thời gian thực hiện: Từ 20h00 ngày 09/09/2025 đến 16:30
-                      ngày 21/09/2025
+                      Thời gian thực hiện: <strong style={{color:'red'}}>Từ 20h00 ngày 09/09/2025 đến 16:30
+                      ngày 21/09/2025</strong>
                       <br />
                       <br />
                       <strong>Đối tượng và điều kiện tham gia:</strong>
@@ -499,18 +530,10 @@ const Landing: React.FC = () => {
                       thân trong gia đình từ 18 trở lên) và giấy tờ tùy thân
                       (CMND/CCCD/hộ chiếu) trong trường hợp nhận thưởng.
                       <br />
-                      Sau đây được gọi là “Người tham gia”.
+                      Sau đây được gọi là "Người tham gia".
                       <br />
                       <br />
                       <strong>Nội dung chương trình:</strong>
-                      <br />
-                      <strong>Mục đích cuộc thi:</strong>
-                      <br />
-                      Cuộc thi này được tổ chức bởi Cục Du lịch Đài Loan văn
-                      phòng tại Thành phố Hồ Chí Minh (TTA) với mục đích tạo sự
-                      tương tác với người tiêu dùng, từ đó truyền cảm hứng và
-                      mang lại giá trị ý nghĩa, tích cực cho xã hội.
-                      <br />
                       <br />
                       <strong>Cách thức tham gia:</strong>
                       <br />
@@ -518,17 +541,16 @@ const Landing: React.FC = () => {
                       https://dudoanchungketlcp-tta.vn
                       <br />
                       👌 Bước 2: Bình chọn cho đội bạn dự đoán giành chiến thắng
-                      chung kết Giải đấu thể thao điện tử Liên Minh Huyền Thoại
-                      Chuyên nghiệp tại Châu Á Thái Bình Dương được tổ chức tại
-                      Cung Văn hoá Tiên Sơn - Đà Nẵng vào chiều tối ngày
-                      21/9/2025
+                      LCP 2025 - Giải đấu vô địch <strong style={{color:'red'}}>LMHT khu vực Châu Á - Thái
+                      Bình Dương (APAC)</strong> được tổ chức tại Cung Thể thao Tiên Sơn
+                      - Đà Nẵng vào chiều tối ngày 21/9/2025
                       <br />
                       Cách thức bình chọn: Ấn chọn vào 1 trong 6 đội hiển thị
                       trên màn hình website
                       <br />
                       <br />
-                      👌 Bước 3: Cung cấp thông tin để quay số trúng giải và
-                      liên hệ khi trao giải:
+                      👌Bước 3: Cung cấp thông tin để quay số trúng giải và liên
+                      hệ khi trao giải:
                       <br />
                       Họ và tên: vui lòng cung cấp họ tên đầy đủ theo CCCD để
                       đối chiếu trao giải
@@ -547,11 +569,11 @@ const Landing: React.FC = () => {
                       <br />
                       Lượt tham gia hợp lệ là lượt tham gia mà người chơi thực
                       hiện đủ 3 bước đã nêu trên theo thể lệ của Ban Tổ Chức
-                      (“BTC”). Nếu thiếu 1 trong 3 bước trên, coi như lượt chơi
+                      ("BTC"). Nếu thiếu 1 trong 3 bước trên, coi như lượt chơi
                       sẽ bị loại.
                       <br />
                       Lượt tham gia được thực hiện trong khung thời gian quy
-                      định (từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025)
+                      định <strong style={{color:'red'}}>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025)</strong>
                       sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
                       gian này sẽ không được tính.
                       <br />
@@ -567,10 +589,10 @@ const Landing: React.FC = () => {
                       <br />
                       <br />
                       <strong>
-                        4. Cơ cấu giải thưởng và tiêu chí chấm giải:
+                        3. Cơ cấu giải thưởng và tiêu chí chấm giải:
                       </strong>
                       <br />
-                      <strong>4.1 Cơ cấu giải thưởng:</strong>
+                      <strong>3.1 Cơ cấu giải thưởng:</strong>
                       <br />
                       01 giải Nhất: 01 Chuyến đi Đài Loan trị giá 13 triệu đồng
                       + 01 Vé vào cổng LCP cho mùa giải 2026 được tổ chức tại
@@ -583,21 +605,19 @@ const Landing: React.FC = () => {
                       300 giải Ba: Mỗi giải được nhận ngẫu nhiên 01 trong 03 món
                       quà sau:
                       <br />
-                      100 Balo du lịch từ Cục Du lịch Đài Loan văn phòng tại
-                      Thành phố Hồ Chí Minh
+                      100 Balo du lịch
                       <br />
                       100 Bình nước Gấu Oh-bear tinh nghịch
                       <br />
-                      100 Túi xếp tiện lợi từ Cục Du lịch Đài Loan văn phòng tại
-                      Thành phố Hồ Chí Minh
+                      100 Túi xếp tiện lợi
                       <br />
                       <br />
-                      <strong>4.2 Tiêu chí chấm giải:</strong>
+                      <strong>3.2 Tiêu chí chấm giải:</strong>
                       <br />
-                      Người chơi có dự đoán đúng đội chiến thắng Chung Kết Giải
-                      đấu thể thao điện tử Liên Minh Huyền Thoại Chuyên nghiệp
-                      tại Châu Á Thái Bình Dương được tổ chức tại Cung Văn hoá
-                      Tiên Sơn - Đà Nẵng vào chiều tối ngày 21/9/2025
+                      Người chơi có dự đoán đúng đội chiến thắng <strong style={{color:"red"}}>LCP 2025 - Giải
+                      đấu vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC)</strong>
+                      được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
+                      chiều tối ngày 21/9/2025
                       <br />
                       Các giải được quay số may mắn trực tiếp vào 9h sáng ngày
                       22/09/2025 tại website
@@ -615,17 +635,22 @@ const Landing: React.FC = () => {
                       <br />
                       <strong>5. Cách thức công bố và trao thưởng:</strong>
                       <br />
-                      Kết quả người thắng giải được thực hiện và công bố dự kiến
+                      Kết quả người thắng giải được <strong style={{color:"red"}}>thực hiện và công bố dự kiến
                       vào 9 giờ sáng ngày 22/09/2025 tại website
-                      https://dudoanchungketlcp-tta.vn. Sau đó, cũng sẽ được
+                      https://dudoanchungketlcp-tta.vn</strong>. Sau đó, cũng sẽ được
                       công bố bên dưới phần bình luận của bài đăng thông báo
                       cuộc thi trên fanpage của Cục Du lịch Đài Loan văn phòng
                       tại Thành phố Hồ Chí Minh
                       <br />
-                      Người Tham Gia trúng giải: Trong vòng 10 ngày kể từ ngày
-                      công bố kết quả, người thắng giải cung cấp thông tin cho
-                      BTC qua cổng thông tin mà BTC sẽ thông báo kèm với tin
-                      công bố danh sách. Các thông tin bao gồm:
+                      <strong>Người Tham Gia trúng giải:</strong>
+                      <br />
+                      <strong style={{color:"red"}}>
+                        Đối với người tham gia trúng Giải 1 và Giải 2:
+                      </strong>{" "}
+                      Trong vòng 14 ngày kể từ ngày công bố kết quả, người thắng
+                      giải cung cấp thông tin cho BTC qua cổng thông tin mà BTC
+                      sẽ thông báo kèm với tin công bố danh sách. Các thông tin
+                      bao gồm:
                       <br />
                       Họ và tên
                       <br />
@@ -636,15 +661,23 @@ const Landing: React.FC = () => {
                       Ảnh chụp 2 mặt chứng minh nhân dân / căn cước công dân /
                       hộ chiếu để định danh.
                       <br />
-                      Giải thưởng sẽ được BTC liên hệ trực tiếp người thắng giải
-                      để thông báo hình thức trao giải phù hợp trong vòng 14
-                      ngày kể từ ngày kết thúc thông tin nhận giải. Mọi vấn đề
-                      thất lạc do người thắng giải cung cấp sai thông tin, BTC
-                      sẽ không chịu trách nhiệm hoàn trả.
+                      <strong style={{color:"red"}}>Đối với người tham gia trúng Giải 3:</strong>{" "}
+                      <strong style={{color:"red"}}>Trong vòng 20 ngày kể từ ngày công bố kết quả, BTC sẽ liên
+                      hệ qua số điện thoại cung cấp trước đó để xác nhận địa chỉ
+                      nhận quà theo thứ tự danh sách trúng thưởng. Vui lòng lưu
+                      ý nhận điện thoại từ số hotline của BTC sẽ được thông báo
+                      kèm với tin công bố danh sách.</strong>
+                      <br />
+                      <strong style={{color:"red"}}>Giải thưởng sau khi được BTC liên hệ trực tiếp người thắng
+                      giải để thông báo hình thức trao giải, sẽ được tiến hành
+                      chuyển phát trao giải trong vòng 20 ngày kể từ ngày xác
+                      nhận thông tin nhận giải.</strong> Mọi vấn đề thất lạc do người
+                      thắng giải cung cấp sai thông tin, BTC sẽ không chịu trách
+                      nhiệm hoàn trả.
                       <br />
                       Trong trường hợp đã quá thời gian nêu trên, nếu BTC vẫn
-                      chưa nhận được thông tin từ người trúng giải thì giải
-                      thưởng sẽ bị hủy bỏ.
+                      chưa nhận được thông tin người trúng giải thì giải thưởng
+                      sẽ bị hủy bỏ.
                       <br />
                       Trong trường hợp người thắng giải không nhận điện thoại và
                       các hình thức liên lạc khác từ đơn vị vận chuyển của Ban
@@ -753,7 +786,8 @@ const Landing: React.FC = () => {
                       về các ý kiến bình luận phê bình khác do các bên thứ ba
                       đưa ra đối với lượt tham gia của mình trên bất kỳ phương
                       tiện thông tin truyền thông nào mà có khả năng sẽ gây ra
-                      thiệt hại đến tài sản và uy tín của BTC cũng như TTA hoặc
+                      thiệt hại đến tài sản và uy tín của BTC cũng như Cục Du
+                      lịch Đài Loan văn phòng tại Thành phố Hồ Chí Minh hoặc
                       Người tham gia khác.
                       <br />
                       Các bình luận tại bài đăng công bố trò chơi trên fanpage
@@ -770,8 +804,8 @@ const Landing: React.FC = () => {
                       sử dụng hình ảnh, bài viết, tên tuổi hay là bất kỳ thông
                       tin cá nhân nào khác mà người tham gia Chương trình đã
                       cung cấp cho BTC cho các mục đích nằm trong khuôn khổ
-                      Chương trình này, bao gồm nhưng không giới hạn quảng cáo,
-                      truyền thông, giới thiệu cho Chương Trình, mà không phải
+                      Chương Trình này, bao gồm nhưng không giới hạn quảng cáo,
+                      truyền thông, giới thiệu cho Chương trình, mà không phải
                       có thêm bất kỳ sự chấp thuận nào khác cũng như thanh toán
                       bất kỳ khoản chi phí nào liên quan cho Người tham gia.
                       <br />
@@ -825,7 +859,7 @@ const Landing: React.FC = () => {
                       việc giao nhận Phiếu mua hàng/quà tặng cho người thắng
                       giải.
                       <br />
-                      Nếu có bất kỳ thay đổi nào về thể lệ của Chương Trình, BTC
+                      Nếu có bất kỳ thay đổi nào về thể lệ của Chương trình, BTC
                       sẽ cập nhật và thông báo trên trang fanpage Cục Du lịch
                       Đài Loan văn phòng tại Thành phố Hồ Chí Minh và website
                       [link website].
@@ -846,8 +880,8 @@ const Landing: React.FC = () => {
                       Bằng việc tham gia Chương Trình và cung cấp các dữ liệu cá
                       nhân của mình, Người tham gia đồng ý với các Điều Kiện và
                       Điều Khoản của chương trình và cho phép BTC thu thập và xử
-                      lý dữ liệu thông tin cá nhân của người tham gia (“Chủ Thể
-                      Dữ Liệu”), cũng như việc chia sẻ thông tin dựa trên theo
+                      lý dữ liệu thông tin cá nhân của người tham gia ("Chủ Thể
+                      Dữ Liệu"), cũng như việc chia sẻ thông tin dựa trên theo
                       chính sách dưới đây:
                       <br />
                       <br />
@@ -917,7 +951,7 @@ const Landing: React.FC = () => {
                       điểm BTC nhận được yêu cầu hủy bỏ từ Chủ Thể Dữ Liệu.
                       <br />
                       <br />
-                      <strong>5. Quyền và nghĩa vụ của Chủ Thẻ Dữ Liệu</strong>
+                      <strong>5. Quyền và nghĩa vụ của Chủ Thể Dữ Liệu</strong>
                       <br />
                       <strong>a. Quyền của Chủ Thể Dữ Liệu</strong>
                       <br />
@@ -998,7 +1032,6 @@ const Landing: React.FC = () => {
 
         <section className="landing-video" id="video">
           <div className="landing-video__container container">
-            {/* Remove play button if autoplay */}
             <video
               ref={videoRef}
               className="landing-video__element"
@@ -1006,7 +1039,7 @@ const Landing: React.FC = () => {
               controls={isInView} // show controls when in view
               muted // always muted for autoplay
               autoPlay={isInView} // autoplay when in view
-              loop // optional, loop video
+              loop
             />
           </div>
         </section>

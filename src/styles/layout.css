@@ -1,8 +1,20 @@
 /* ============ Header ============ */
 .header {
+  position: fixed; /* Thêm fixed positioning */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   height: 110px;
   background: var(--color-primary);
   color: var(--color-on-primary);
+  z-index: 100; /* Đảm bảo header luôn ở trên các element khác */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Thêm shadow để tạo độ sâu */
+}
+
+/* Thêm padding-top cho body để tránh content bị che bởi fixed header */
+body {
+  padding-top: 110px; /* Bằng với chiều cao header desktop */
 }
 
 .header__inner {
@@ -248,6 +260,10 @@
     height: 76px;
   }
 
+  body {
+    padding-top: 76px; /* Điều chỉnh padding cho mobile */
+  }
+
   .header__inner {
     margin: 0 16px;
     padding: 0 12px;
@@ -276,6 +292,10 @@
 @media (min-width: 360px) {
   .header {
     height: 76px;
+  }
+
+  body {
+    padding-top: 76px;
   }
 
   .header__inner {
@@ -308,6 +328,10 @@
     height: 76px;
   }
 
+  body {
+    padding-top: 76px;
+  }
+
   .header__inner {
     margin: 0 24px;
     padding: 0 20px;
@@ -338,6 +362,10 @@
     height: 76px;
   }
 
+  body {
+    padding-top: 76px;
+  }
+
   .header__inner {
     margin: 0 32px;
     padding: 0 24px;
@@ -366,6 +394,10 @@
 @media (min-width: 768px) {
   .header {
     height: 110px; /* Trở lại chiều cao desktop */
+  }
+
+  body {
+    padding-top: 110px; /* Trở lại padding desktop */
   }
 
   .header__inner {
@@ -415,10 +447,14 @@
   }
 }
 
-/* Mobile styles */
+/* Mobile styles - override if needed */
 @media (max-width: 768px) {
   .header {
     height: 76px;
+  }
+
+  body {
+    padding-top: 76px;
   }
 
   .header__inner {

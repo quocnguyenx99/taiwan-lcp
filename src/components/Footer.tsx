@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
               </strong>
             </li>
             <li className="footer__row">
-              <span className="footer__label">Add:</span>
+              <span className="footer__label">Địa chỉ:</span>
               <span>
                 336 Nguyễn Trị Phương, Phường Vườn Lài, TP. Hồ Chí Minh, Việt
                 Nam.
@@ -46,11 +46,11 @@ const Footer: React.FC = () => {
               </a>
             </li>
             <li className="footer__row">
-              <span className="footer__label">Tel:</span>
+              <span className="footer__label">Số điện thoại:</span>
               <span>+84-28-3834-9160 #3106 / #3107 / #3108</span>
             </li>
             <li className="footer__row">
-              <span className="footer__label">Office Hours:</span>
+              <span className="footer__label">Giờ làm việc:</span>
               <span> Thứ Hai ~ Thứ Sáu — 09:00~18:00 (Trừ các ngày lễ)</span>
             </li>
           </ul>

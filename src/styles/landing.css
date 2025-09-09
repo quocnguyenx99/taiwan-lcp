@@ -41,6 +41,45 @@
   color: transparent;
 }
 
+/* Style cho title lines trên mobile */
+@media (max-width: 767px) {
+  .landing-banner__title-line {
+    display: block;
+    text-align: center;
+  }
+
+  .landing-banner__title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .landing-banner__sub {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .landing-banner__logo {
+    max-width: 85%;
+    height: auto;
+  }
+}
+
+/* Desktop - hiển thị inline như cũ */
+@media (min-width: 768px) {
+  .landing-banner__title-line {
+    display: inline;
+  }
+
+  .landing-banner__title-line:first-child::after {
+    content: " ";
+  }
+}
+
 .landing-banner__sub {
   margin-top: clamp(16px, 3vw, 32px);
   display: flex;
@@ -166,8 +205,23 @@
   font-size: 70px;
   letter-spacing: 0.5px;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
+
+  /* Fix riêng cho iPhone */
+  color: var(--color-text) !important;
+  -webkit-text-fill-color: var(--color-text) !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
 }
 
+/* Media query riêng cho iPhone */
+@supports (-webkit-touch-callout: none) {
+  .vote-cta {
+    color: var(--color-text) !important;
+    -webkit-text-fill-color: var(--color-text) !important;
+  }
+}
+
+/* Hover states */
 .vote-cta:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
@@ -349,7 +403,7 @@
 /* Style cho subtitle hướng dẫn */
 .predict-cta__subtitle {
   position: absolute;
-  top: 100px; /* Nằm ngay dưới title */
+  top: 100px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 32px;
@@ -362,21 +416,42 @@
   white-space: nowrap;
 }
 
-/* Responsive */
+.predict-cta__subtitle-line {
+  display: inline;
+}
+
+/* Responsive - làm rớt chữ trên mobile */
 @media (max-width: 767px) {
   .predict-cta__subtitle {
     font-size: 14px;
-    top: 20px; 
-    white-space: normal; 
+    top: 20px;
+    white-space: normal;
     max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.3;
+  }
+  
+  .predict-cta__subtitle-line {
     display: block;
+    margin-bottom: 2px;
+  }
+  
+  .predict-cta__subtitle-line:last-child {
+    margin-bottom: 0;
   }
 }
 
-/* Các breakpoint khác giữ nguyên, nhưng thêm display: block nếu cần */
+/* Desktop giữ nguyên */
 @media (min-width: 768px) {
   .predict-cta__subtitle {
     display: block;
+    white-space: nowrap;
+  }
+  
+  .predict-cta__subtitle-line {
+    display: inline;
   }
 }
 
@@ -734,6 +809,12 @@
   .predict-terms h3 {
     font-size: 24px;
   }
+
+  .sponsor {
+    transition: transform 0.3s ease;
+    max-width: 162px; /* 90% của 180px */
+    height: auto;
+  }
 }
 
 /* sm: ≥360px */
@@ -865,6 +946,12 @@
 
   .sponsor__logo {
     gap: 12px
+  }
+
+  .sponsor {
+    transition: transform 0.3s ease;
+    max-width: 162px; /* 90% của 180px */
+    height: auto;
   }
 }
 
@@ -1156,74 +1243,39 @@
 
   .teams-grid {
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     gap: 60px 18px;
     margin-top: 100px;
-  }
-
-  .predict-cta__title {
-    top: -50px;
-    font-size: 36px;
-    padding: 11px 26px;
-  }
-
-  .form-row {
-    flex-direction: row;
+    justify-items: center;
     align-items: center;
-    margin-bottom: 22px;
-    background: transparent; /* Reset background */
-    border-radius: 0;
-    padding: 0;
   }
 
-  .field-label {
-    flex: 0 0 35%;
-    background: var(--color-secondary); /* Back to original */
-    padding: 8px 28px;
-    margin-bottom: 0;
+  /* Layout 5 teams: 3 đội trên, 2 đội dưới giữa */
+  .team-card:nth-child(1),
+  .team-card:nth-child(2),
+  .team-card:nth-child(3) {
+    /* 3 đội đầu nằm trên hàng 1 */
+    grid-row: 1;
   }
 
-  .field-label__title {
-    font-size: 26px;
-    color: var(--color-text); /* Back to original */
-    font-weight: normal;
-    font-style: normal;
+  .team-card:nth-child(4) {
+    /* Đội thứ 4 nằm hàng 2, dịch sang phải từ cột 1 */
+    grid-row: 2;
+    grid-column: 1 / 2;
+    margin-left: 25%;
   }
 
-  .field-label__subtitle {
-    font-size: 15px;
-    margin-top: 6px;
-    color: var(--color-text); /* Back to original */
-    font-style: normal;
+  .team-card:nth-child(5) {
+    /* Đội thứ 5 nằm hàng 2, dịch sang trái từ cột 3 */
+    grid-row: 2;
+    grid-column: 3 / 4;
+    margin-right: 25%;
   }
 
-  .field-input {
-    flex: 1 1 70%;
-  }
-
-  .input--ghost {
-    font-size: 20px;
-    padding: 20px 24px;
-    background: rgba(0, 0, 0, 0.3); /* Back to original */
-    border: none;
-    border-radius: 2px;
-  }
-
-  .input--ghost:focus {
-    border: none;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.2);
-  }
-
-  .predict-form__submit {
-    font-size: 32px;
-    padding: 12px 32px;
-    bottom: -55px; /* Back to original */
-  }
-
-  .predict-terms__inner {
-    font-size: 15px;
-    line-height: 1.5;
-    max-height: 180px;
-    padding: 10px;
+  .sponsor {
+    transition: transform 0.3s ease;
+    max-width: 180px; /* Size gốc cho desktop */
+    height: auto;
   }
 }
 
@@ -1264,10 +1316,14 @@
     margin-top: 110px;
   }
 
-  .predict-cta__title {
-    top: -55px;
-    font-size: 42px;
-    padding: 11px 28px;
+  .team-card:nth-child(4) {
+    grid-column: 1 / 2;
+    margin-left: 25%;
+  }
+
+  .team-card:nth-child(5) {
+    grid-column: 3 / 4;
+    margin-right: 25%;
   }
 }
 
@@ -1308,10 +1364,14 @@
     margin-top: 130px;
   }
 
-  .predict-cta__title {
-    top: -60px;
-    font-size: 50px;
-    padding: 12px 30px;
+  .team-card:nth-child(4) {
+    grid-column: 1 / 2;
+    margin-left: 25%;
+  }
+
+  .team-card:nth-child(5) {
+    grid-column: 3 / 4;
+    margin-right: 25%;
   }
 }
 
@@ -1352,10 +1412,14 @@
     margin-top: 140px;
   }
 
-  .predict-cta__title {
-    top: -64px;
-    font-size: 60px;
-    padding: 12px 31px;
+  .team-card:nth-child(4) {
+    grid-column: 1 / 2;
+    margin-left: 70%;
+  }
+
+  .team-card:nth-child(5) {
+    grid-column: 3 / 4;
+    margin-right: 70%;
   }
 }
 
