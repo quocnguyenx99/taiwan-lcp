@@ -362,7 +362,6 @@ const Landing: React.FC = () => {
                 </span>
               </div>
 
-              <div></div>
 
               {/* FORM + TERMS */}
               <div className="predict-form">
@@ -389,7 +388,7 @@ const Landing: React.FC = () => {
                   </div>
 
                   {/* Form fields */}
-                  <div className={`form-row ${errors.name ? "has-error" : ""}`}>
+                  <div id="t&c" className={`form-row ${errors.name ? "has-error" : ""}`}>
                     <div className="field-label">
                       <div className="field-label__title">HỌ VÀ TÊN *</div>
                       <div className="field-label__subtitle">
@@ -473,7 +472,7 @@ const Landing: React.FC = () => {
                     <div className="error-message">{errors.address}</div>
                   )}
 
-                  <div className="form-actions">
+                  <div className="form-actions"  >
                     <button
                       type="submit"
                       className="predict-form__submit"
@@ -488,7 +487,7 @@ const Landing: React.FC = () => {
                   className="predict-terms"
                   role="region"
                   aria-label="Điều kiện và điều khoản"
-                  id="t&c"
+                 
                 >
                   <h3 className="predict-terms__title">
                     ĐIỀU KIỆN &amp; ĐIỀU KHOẢN
@@ -569,12 +568,12 @@ const Landing: React.FC = () => {
                       <br />
                       Lượt tham gia hợp lệ là lượt tham gia mà người chơi thực
                       hiện đủ 3 bước đã nêu trên theo thể lệ của Ban Tổ Chức
-                      ("BTC"). Nếu thiếu 1 trong 3 bước trên, coi như lượt chơi
+                      (BTC). Nếu thiếu 1 trong 3 bước trên, coi như lượt chơi
                       sẽ bị loại.
                       <br />
                       Lượt tham gia được thực hiện trong khung thời gian quy
                       định <strong style={{color:'red'}}>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025)</strong>
-                      sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
+                       sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
                       gian này sẽ không được tính.
                       <br />
                       Số điện thoại tham gia phải là số điện thoại chính chủ và
@@ -616,7 +615,7 @@ const Landing: React.FC = () => {
                       <br />
                       Người chơi có dự đoán đúng đội chiến thắng <strong style={{color:"red"}}>LCP 2025 - Giải
                       đấu vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC)</strong>
-                      được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
+                       được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
                       chiều tối ngày 21/9/2025
                       <br />
                       Các giải được quay số may mắn trực tiếp vào 9h sáng ngày
@@ -764,7 +763,7 @@ const Landing: React.FC = () => {
                       tuân theo quy định của bản thể lệ này. Bất kỳ Người tham
                       gia nào vi phạm những quy định và thể lệ của chương trình
                       đều sẽ bị loại và sẽ bị xem xét không được quyền tham gia
-                      các chương trình khác do fanpage TTA tổ chức. Nếu được
+                      các chương trình khác do fanpage Cục du lịch Đài Loan tổ chức. Nếu được
                       trúng giải cũng sẽ bị tước giải thưởng theo quyết định của
                       BTC.
                       <br />

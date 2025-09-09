@@ -272,6 +272,18 @@
 /* li chứa QR không có - */
 .vt__qr-li {
   list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.vt__qr {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
 }
 
 .vt__label-text {
@@ -321,6 +333,7 @@
   grid-template-rows: auto auto;
   align-items: start;
   justify-items: center;
+  text-align: center;
 }
 .vt__qr {
   width: 160px;
@@ -904,5 +917,99 @@
 @media (max-width: 767px) {
   .visa__bear {
     display: none;
+  }
+}
+
+/* QR Code centering - đảm bảo luôn nằm giữa trên mobile */
+.vt__qr-li {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.vt__qr {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile responsive - đảm bảo QR luôn center */
+@media (max-width: 359px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 100px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 479px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 110px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 639px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 120px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 130px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+/* Cell chứa QR cũng cần center */
+.vt__cell--withqr {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-items: start;
+  justify-items: center;
+  text-align: center;
+}
+
+/* Mobile: đảm bảo QR content được center */
+@media (max-width: 767px) {
+  .vt__cell--withqr {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .vt__cell--withqr .vt__content {
+    align-items: center;
+    text-align: center;
+    width: 100%;
   }
 }
