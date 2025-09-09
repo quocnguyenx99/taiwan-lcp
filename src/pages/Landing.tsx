@@ -521,11 +521,11 @@ const Landing: React.FC = () => {
                       Chương trình diễn ra trên toàn lãnh thổ Việt Nam.
                       <br />
                       Diễn ra trên website chính thức của Cục Du lịch Đài Loan
-                      văn phòng tại Thành phố Hồ Chí Minh về <strong style={{color:'red'}}>LCP 2025 - Giải đấu
+                      văn phòng tại Thành phố Hồ Chí Minh về <strong>LCP 2025 - Giải đấu
                       vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC)
                       https://dudoanchungketlcp-tta.vn</strong>
                       <br />
-                      Thời gian thực hiện: <strong style={{color:'red'}}>Từ 20h00 ngày 09/09/2025 đến 16:30
+                      Thời gian thực hiện: <strong>Từ 20h00 ngày 09/09/2025 đến 16:30
                       ngày 21/09/2025</strong>
                       <br />
                       <br />
@@ -550,7 +550,7 @@ const Landing: React.FC = () => {
                       https://dudoanchungketlcp-tta.vn
                       <br />
                       👌 Bước 2: Bình chọn cho đội bạn dự đoán giành chiến thắng
-                      LCP 2025 - Giải đấu vô địch <strong style={{color:'red'}}>LMHT khu vực Châu Á - Thái
+                      LCP 2025 - Giải đấu vô địch <strong>LMHT khu vực Châu Á - Thái
                       Bình Dương (APAC) </strong> được tổ chức tại Cung Thể thao Tiên Sơn
                       - Đà Nẵng vào chiều tối ngày 21/9/2025
                       <br />
@@ -581,7 +581,7 @@ const Landing: React.FC = () => {
                       sẽ bị loại.
                       <br />
                       Lượt tham gia được thực hiện trong khung thời gian quy
-                      định <strong style={{color:'red'}}>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025) </strong>
+                      định <strong>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025) </strong>
                        sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
                       gian này sẽ không được tính.
                       <br />
@@ -622,7 +622,7 @@ const Landing: React.FC = () => {
                       <br />
                       <strong>3.2 Tiêu chí chấm giải:</strong>
                       <br />
-                      Người chơi có dự đoán đúng đội chiến thắng <strong style={{color:"red"}}>LCP 2025 - Giải
+                      Người chơi có dự đoán đúng đội chiến thắng <strong>LCP 2025 - Giải
                       đấu vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC) </strong>
                        được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
                       chiều tối ngày 21/9/2025
@@ -643,7 +643,7 @@ const Landing: React.FC = () => {
                       <br />
                       <strong>5. Cách thức công bố và trao thưởng:</strong>
                       <br />
-                      Kết quả người thắng giải được <strong style={{color:"red"}}>thực hiện và công bố dự kiến
+                      Kết quả người thắng giải được <strong>thực hiện và công bố dự kiến
                       vào 9 giờ sáng ngày 22/09/2025 tại website
                       https://dudoanchungketlcp-tta.vn</strong>. Sau đó, cũng sẽ được
                       công bố bên dưới phần bình luận của bài đăng thông báo
@@ -652,7 +652,7 @@ const Landing: React.FC = () => {
                       <br />
                       <strong>Người Tham Gia trúng giải:</strong>
                       <br />
-                      <strong style={{color:"red"}}>
+                      <strong>
                         Đối với người tham gia trúng Giải 1 và Giải 2:
                       </strong>{" "}
                       Trong vòng 14 ngày kể từ ngày công bố kết quả, người thắng
@@ -669,14 +669,14 @@ const Landing: React.FC = () => {
                       Ảnh chụp 2 mặt chứng minh nhân dân / căn cước công dân /
                       hộ chiếu để định danh.
                       <br />
-                      <strong style={{color:"red"}}>Đối với người tham gia trúng Giải 3:</strong>{" "}
-                      <strong style={{color:"red"}}>Trong vòng 20 ngày kể từ ngày công bố kết quả, BTC sẽ liên
+                      <strong>Đối với người tham gia trúng Giải 3:</strong>{" "}
+                      <strong>Trong vòng 20 ngày kể từ ngày công bố kết quả, BTC sẽ liên
                       hệ qua số điện thoại cung cấp trước đó để xác nhận địa chỉ
                       nhận quà theo thứ tự danh sách trúng thưởng. Vui lòng lưu
                       ý nhận điện thoại từ số hotline của BTC sẽ được thông báo
                       kèm với tin công bố danh sách.</strong>
                       <br />
-                      <strong style={{color:"red"}}>Giải thưởng sau khi được BTC liên hệ trực tiếp người thắng
+                      <strong>Giải thưởng sau khi được BTC liên hệ trực tiếp người thắng
                       giải để thông báo hình thức trao giải, sẽ được tiến hành
                       chuyển phát trao giải trong vòng 20 ngày kể từ ngày xác
                       nhận thông tin nhận giải.</strong> Mọi vấn đề thất lạc do người
