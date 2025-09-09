@@ -10,6 +10,7 @@ import lcpIcon from "../assets/lcpIcon.png";
 import giaiNhat from "../assets/giaiNhat.png";
 import giaiNhi from "../assets/giaiNhi.png";
 import giaiBa from "../assets/giaiBa.png";
+import giaiBaMobile from "../assets/giaiBaMobile.png";
 import viettravel from "../assets/VIETRAVEL.png";
 import starlux from "../assets/STARLUX.png";
 import chinaAir from "../assets/CHINA.png";
@@ -253,10 +254,18 @@ const Landing: React.FC = () => {
                   className="prize-image prize-image--nhi"
                 />
               </div>
+              {/* Desktop: Giải Ba gốc */}
               <img
                 src={giaiBa}
                 alt="Giải ba"
-                className="prize-image prize-image--ba"
+                className="prize-image prize-image--ba prize-image--desktop"
+              />
+              
+              {/* Mobile: Giải Ba phiên bản mobile */}
+              <img
+                src={giaiBaMobile}
+                alt="Giải ba"
+                className="prize-image prize-image--ba prize-image--mobile"
               />
             </div>
           </section>
@@ -388,7 +397,7 @@ const Landing: React.FC = () => {
                   </div>
 
                   {/* Form fields */}
-                  <div id="t&c" className={`form-row ${errors.name ? "has-error" : ""}`}>
+                  <div className={`form-row ${errors.name ? "has-error" : ""}`}>
                     <div className="field-label">
                       <div className="field-label__title">HỌ VÀ TÊN *</div>
                       <div className="field-label__subtitle">
@@ -484,12 +493,13 @@ const Landing: React.FC = () => {
                 </form>
 
                 <div
+                
                   className="predict-terms"
                   role="region"
                   aria-label="Điều kiện và điều khoản"
                  
                 >
-                  <h3 className="predict-terms__title">
+                  <h3 id="terms" className="predict-terms__title">
                     ĐIỀU KIỆN &amp; ĐIỀU KHOẢN
                   </h3>
 
@@ -541,7 +551,7 @@ const Landing: React.FC = () => {
                       <br />
                       👌 Bước 2: Bình chọn cho đội bạn dự đoán giành chiến thắng
                       LCP 2025 - Giải đấu vô địch <strong style={{color:'red'}}>LMHT khu vực Châu Á - Thái
-                      Bình Dương (APAC)</strong> được tổ chức tại Cung Thể thao Tiên Sơn
+                      Bình Dương (APAC) </strong> được tổ chức tại Cung Thể thao Tiên Sơn
                       - Đà Nẵng vào chiều tối ngày 21/9/2025
                       <br />
                       Cách thức bình chọn: Ấn chọn vào 1 trong 6 đội hiển thị
@@ -572,7 +582,7 @@ const Landing: React.FC = () => {
                       sẽ bị loại.
                       <br />
                       Lượt tham gia được thực hiện trong khung thời gian quy
-                      định <strong style={{color:'red'}}>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025)</strong>
+                      định <strong style={{color:'red'}}>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025) </strong>
                        sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
                       gian này sẽ không được tính.
                       <br />
@@ -614,7 +624,7 @@ const Landing: React.FC = () => {
                       <strong>3.2 Tiêu chí chấm giải:</strong>
                       <br />
                       Người chơi có dự đoán đúng đội chiến thắng <strong style={{color:"red"}}>LCP 2025 - Giải
-                      đấu vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC)</strong>
+                      đấu vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC) </strong>
                        được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
                       chiều tối ngày 21/9/2025
                       <br />
