@@ -14,10 +14,24 @@ import bearIcon from "../assets/visa/bearIcon.png"; // thêm import bearIcon
 // background
 import bgTop from "../assets/visa/bgTop.png";
 import bgBottom from "../assets/visa/bgBottom.png";
+import SEO from "../components/SEO";
 
 const Visa: React.FC = () => {
   return (
     <>
+      <SEO
+        title="Các Chính Sách Thị Thực Đài Loan"
+        description="Tìm hiểu các chính sách thị thực Đài Loan: Visa du lịch, E-Visa, Visa quan hồng. Hướng dẫn chi tiết hồ sơ, chi phí và thủ tục xin visa Đài Loan."
+        keywords="visa Đài Loan, thị thực Đài Loan, E-visa, visa du lịch, visa quan hồng, thủ tục visa"
+        ogTitle="Hướng Dẫn Các Chính Sách Thị Thực Đài Loan"
+        ogDescription="Hướng dẫn chi tiết các loại visa Đài Loan: Visa du lịch, E-Visa, Visa quan hồng với thủ tục, chi phí và hồ sơ cần thiết."
+        ogImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+        ogUrl="https://dudoanchungketlcp-tta.vn/visa"
+        twitterTitle="Hướng Dẫn Các Chính Sách Thị Thực Đài Loan"
+        twitterDescription="Hướng dẫn chi tiết các loại visa Đài Loan với thủ tục, chi phí và hồ sơ cần thiết."
+        twitterImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+      />
+
       <Header />
 
       <section className="visa">
@@ -96,10 +110,12 @@ const Visa: React.FC = () => {
                 <div className="vt__chip vt__chip--mobile">VISA DU LỊCH</div>
                 <ul className="vt__list">
                   <li>
-                    <span className="vt__label-text">Phổ thông:</span> <div>5 ngày làm việc / 50 USD</div>
+                    <span className="vt__label-text">Phổ thông:</span>{" "}
+                    <div>5 ngày làm việc / 50 USD</div>
                   </li>
                   <li>
-                    <span className="vt__label-text">Khẩn:</span> <div>3 ngày làm việc / 75 USD</div>
+                    <span className="vt__label-text">Khẩn:</span>{" "}
+                    <div>3 ngày làm việc / 75 USD</div>
                   </li>
                 </ul>
               </div>
@@ -151,7 +167,11 @@ const Visa: React.FC = () => {
                 </p>
                 <p className="vt__ref">
                   Tham khảo thêm tại trang web:{" "}
-                  <a href="https://taiwan.net.vn/" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://taiwan.net.vn/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     https://taiwan.net.vn/
                   </a>
                 </p>

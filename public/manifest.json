@@ -1,25 +1,26 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "LCP 2025",
+  "name": "Dự Đoán Chung Kết LCP 2025",
+  "description": "Dự đoán đội chiến thắng Chung Kết LCP 2025",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon_io/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "favicon_io/android-chrome-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "favicon_io/android-chrome-512x512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#ff5629",
+  "background_color": "#111111"
 }

@@ -1523,6 +1523,77 @@
   }
 }
 
+/* Video section styling */
+.landing-video {
+  width: 100%;
+  padding: 40px 0;
+}
+
+.landing-video__container {
+  width: 100%;
+  max-width: 100%; /* Full width thay vì container giới hạn */
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-video__element {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 0; /* Bỏ border-radius nếu có */
+}
+
+/* Mobile responsive */
+@media (max-width: 767px) {
+  .landing-video {
+    padding: 20px 0;
+  }
+  
+  .landing-video__container {
+    padding: 0; /* Bỏ padding container trên mobile */
+  }
+  
+  .landing-video__element {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+/* Desktop - giữ aspect ratio đẹp */
+@media (min-width: 768px) {
+  .landing-video {
+    padding: 60px 0;
+  }
+  
+  .landing-video__element {
+    width: 100%;
+    max-width: 1400px; /* Giới hạn max-width cho desktop lớn */
+    margin: 0 auto;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1200px) {
+  .landing-video {
+    padding: 80px 0;
+  }
+  
+  .landing-video__element {
+    max-width: 1600px; /* Tăng thêm cho màn hình lớn */
+  }
+}
+
+/* Extra large desktop */
+@media (min-width: 1440px) {
+  .landing-video__element {
+    max-width: 1800px; /* Max cho màn hình rất lớn */
+  }
+}
+
 #terms {
   scroll-margin-top: 50px;
   padding-top: 120px;

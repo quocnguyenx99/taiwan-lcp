@@ -31,6 +31,7 @@ import slide4 from "../assets/TTA_PIC_ENJOY.jpg";
 import vid1 from "../assets/videos/videos_full.mp4";
 
 import { Toaster, toast } from "sonner";
+import SEO from "../components/SEO";
 
 const Landing: React.FC = () => {
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
@@ -164,12 +165,15 @@ const Landing: React.FC = () => {
       );
 
       const result = await response.json();
-      
+
       // Debug: log response để kiểm tra
       console.log("API Response:", result);
 
       // Kiểm tra trường hợp số điện thoại đã được đăng ký
-      if (!result.status && result.message === "Số điện thoại này đã được đăng ký") {
+      if (
+        !result.status &&
+        result.message === "Số điện thoại này đã được đăng ký"
+      ) {
         toast.error("Số điện thoại đã được sử dụng. Vui lòng sử dụng số khác", {
           position: "top-right",
         });
@@ -181,11 +185,11 @@ const Landing: React.FC = () => {
         toast.success("Gửi dự đoán thành công! Chúc bạn may mắn!", {
           position: "top-right",
         });
-        
+
         // Reset form và đội được chọn khi submit thành công
         setSelectedTeamId(null);
         setErrors({ name: "", phone: "", email: "", address: "" });
-        
+
         // Reset form fields - sử dụng formElement đã lưu
         if (formElement) {
           formElement.reset();
@@ -196,7 +200,6 @@ const Landing: React.FC = () => {
           position: "top-right",
         });
       }
-
     } catch (error) {
       console.error("Error:", error);
       toast.error("Có lỗi kết nối. Vui lòng thử lại!", {
@@ -209,6 +212,19 @@ const Landing: React.FC = () => {
 
   return (
     <>
+      <SEO
+        title="Dự Đoán Chung Kết LCP 2025"
+        description="Dự đoán đội chiến thắng Chung Kết LCP 2025. Tham gia ngay để có cơ hội nhận giải thưởng chuyến đi Đài Loan và vé xem LCP 2026 tại Đài Loan."
+        keywords="LCP 2025, League of Legends, chung kết, dự đoán, Đài Loan, esports, giải đấu"
+        ogTitle="Dự Đoán Chung Kết LCP 2025 - Cơ hội nhận chuyến đi Đài Loan"
+        ogDescription="Tham gia dự đoán đội chiến thắng LCP 2025 để có cơ hội nhận giải thưởng chuyến đi Đài Loan trị giá 13 triệu đồng và vé xem LCP 2026."
+        ogImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+        ogUrl="https://dudoanchungketlcp-tta.vn"
+        twitterTitle="Dự Đoán Chung Kết LCP 2025 - Cơ hội nhận chuyến đi Đài Loan"
+        twitterDescription="Tham gia dự đoán đội chiến thắng LCP 2025 để có cơ hội nhận giải thưởng chuyến đi Đài Loan trị giá 13 triệu đồng."
+        twitterImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+      />
+
       <Toaster richColors />
       <main>
         <div id="home">
@@ -260,7 +276,7 @@ const Landing: React.FC = () => {
                 alt="Giải ba"
                 className="prize-image prize-image--ba prize-image--desktop"
               />
-              
+
               {/* Mobile: Giải Ba phiên bản mobile */}
               <img
                 src={giaiBaMobile}
@@ -371,7 +387,6 @@ const Landing: React.FC = () => {
                 </span>
               </div>
 
-
               {/* FORM + TERMS */}
               <div className="predict-form">
                 <form
@@ -481,7 +496,7 @@ const Landing: React.FC = () => {
                     <div className="error-message">{errors.address}</div>
                   )}
 
-                  <div className="form-actions"  >
+                  <div className="form-actions">
                     <button
                       type="submit"
                       className="predict-form__submit"
@@ -493,11 +508,9 @@ const Landing: React.FC = () => {
                 </form>
 
                 <div
-                
                   className="predict-terms"
                   role="region"
                   aria-label="Điều kiện và điều khoản"
-                 
                 >
                   <h3 id="terms" className="predict-terms__title">
                     ĐIỀU KIỆN &amp; ĐIỀU KHOẢN
@@ -521,12 +534,16 @@ const Landing: React.FC = () => {
                       Chương trình diễn ra trên toàn lãnh thổ Việt Nam.
                       <br />
                       Diễn ra trên website chính thức của Cục Du lịch Đài Loan
-                      văn phòng tại Thành phố Hồ Chí Minh về <strong>LCP 2025 - Giải đấu
-                      vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC)
-                      https://dudoanchungketlcp-tta.vn</strong>
+                      văn phòng tại Thành phố Hồ Chí Minh về{" "}
+                      <strong>
+                        LCP 2025 - Giải đấu vô địch LMHT khu vực Châu Á - Thái
+                        Bình Dương (APAC) https://dudoanchungketlcp-tta.vn
+                      </strong>
                       <br />
-                      Thời gian thực hiện: <strong>Từ 20h00 ngày 09/09/2025 đến 16:30
-                      ngày 21/09/2025</strong>
+                      Thời gian thực hiện:{" "}
+                      <strong>
+                        Từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025
+                      </strong>
                       <br />
                       <br />
                       <strong>Đối tượng và điều kiện tham gia:</strong>
@@ -550,9 +567,12 @@ const Landing: React.FC = () => {
                       https://dudoanchungketlcp-tta.vn
                       <br />
                       👌 Bước 2: Bình chọn cho đội bạn dự đoán giành chiến thắng
-                      LCP 2025 - Giải đấu vô địch <strong>LMHT khu vực Châu Á - Thái
-                      Bình Dương (APAC) </strong> được tổ chức tại Cung Thể thao Tiên Sơn
-                      - Đà Nẵng vào chiều tối ngày 21/9/2025
+                      LCP 2025 - Giải đấu vô địch{" "}
+                      <strong>
+                        LMHT khu vực Châu Á - Thái Bình Dương (APAC){" "}
+                      </strong>{" "}
+                      được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
+                      chiều tối ngày 21/9/2025
                       <br />
                       Cách thức bình chọn: Ấn chọn vào 1 trong 6 đội hiển thị
                       trên màn hình website
@@ -577,12 +597,15 @@ const Landing: React.FC = () => {
                       <br />
                       Lượt tham gia hợp lệ là lượt tham gia mà người chơi thực
                       hiện đủ 3 bước đã nêu trên theo thể lệ của Ban Tổ Chức
-                      (BTC). Nếu thiếu 1 trong 3 bước trên, coi như lượt chơi
-                      sẽ bị loại.
+                      (BTC). Nếu thiếu 1 trong 3 bước trên, coi như lượt chơi sẽ
+                      bị loại.
                       <br />
                       Lượt tham gia được thực hiện trong khung thời gian quy
-                      định <strong>(từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025) </strong>
-                       sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
+                      định{" "}
+                      <strong>
+                        (từ 20h00 ngày 09/09/2025 đến 16:30 ngày 21/09/2025){" "}
+                      </strong>
+                      sẽ được xem là hợp lệ. Các lượt tham gia ngoài khoảng thời
                       gian này sẽ không được tính.
                       <br />
                       Số điện thoại tham gia phải là số điện thoại chính chủ và
@@ -617,14 +640,17 @@ const Landing: React.FC = () => {
                       <br />
                       100 Bình nước Gấu Oh-bear tinh nghịch
                       <br />
-                      100 Túi xếp tiện lợi
+                      100 Túi xếp tiện lợi\
                       <br />
                       <br />
                       <strong>3.2 Tiêu chí chấm giải:</strong>
                       <br />
-                      Người chơi có dự đoán đúng đội chiến thắng <strong>LCP 2025 - Giải
-                      đấu vô địch LMHT khu vực Châu Á - Thái Bình Dương (APAC) </strong>
-                       được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
+                      Người chơi có dự đoán đúng đội chiến thắng{" "}
+                      <strong>
+                        LCP 2025 - Giải đấu vô địch LMHT khu vực Châu Á - Thái
+                        Bình Dương (APAC){" "}
+                      </strong>
+                      được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
                       chiều tối ngày 21/9/2025
                       <br />
                       Các giải được quay số may mắn trực tiếp vào 9h sáng ngày
@@ -643,12 +669,14 @@ const Landing: React.FC = () => {
                       <br />
                       <strong>5. Cách thức công bố và trao thưởng:</strong>
                       <br />
-                      Kết quả người thắng giải được <strong>thực hiện và công bố dự kiến
-                      vào 9 giờ sáng ngày 22/09/2025 tại website
-                      https://dudoanchungketlcp-tta.vn</strong>. Sau đó, cũng sẽ được
-                      công bố bên dưới phần bình luận của bài đăng thông báo
-                      cuộc thi trên fanpage của Cục Du lịch Đài Loan văn phòng
-                      tại Thành phố Hồ Chí Minh
+                      Kết quả người thắng giải được{" "}
+                      <strong>
+                        thực hiện và công bố dự kiến vào 9 giờ sáng ngày
+                        22/09/2025 tại website https://dudoanchungketlcp-tta.vn
+                      </strong>
+                      . Sau đó, cũng sẽ được công bố bên dưới phần bình luận của
+                      bài đăng thông báo cuộc thi trên fanpage của Cục Du lịch
+                      Đài Loan văn phòng tại Thành phố Hồ Chí Minh
                       <br />
                       <strong>Người Tham Gia trúng giải:</strong>
                       <br />
@@ -670,18 +698,22 @@ const Landing: React.FC = () => {
                       hộ chiếu để định danh.
                       <br />
                       <strong>Đối với người tham gia trúng Giải 3:</strong>{" "}
-                      <strong>Trong vòng 20 ngày kể từ ngày công bố kết quả, BTC sẽ liên
-                      hệ qua số điện thoại cung cấp trước đó để xác nhận địa chỉ
-                      nhận quà theo thứ tự danh sách trúng thưởng. Vui lòng lưu
-                      ý nhận điện thoại từ số hotline của BTC sẽ được thông báo
-                      kèm với tin công bố danh sách.</strong>
+                      <strong>
+                        Trong vòng 20 ngày kể từ ngày công bố kết quả, BTC sẽ
+                        liên hệ qua số điện thoại cung cấp trước đó để xác nhận
+                        địa chỉ nhận quà theo thứ tự danh sách trúng thưởng. Vui
+                        lòng lưu ý nhận điện thoại từ số hotline của BTC sẽ được
+                        thông báo kèm với tin công bố danh sách.
+                      </strong>
                       <br />
-                      <strong>Giải thưởng sau khi được BTC liên hệ trực tiếp người thắng
-                      giải để thông báo hình thức trao giải, sẽ được tiến hành
-                      chuyển phát trao giải trong vòng 20 ngày kể từ ngày xác
-                      nhận thông tin nhận giải.</strong> Mọi vấn đề thất lạc do người
-                      thắng giải cung cấp sai thông tin, BTC sẽ không chịu trách
-                      nhiệm hoàn trả.
+                      <strong>
+                        Giải thưởng sau khi được BTC liên hệ trực tiếp người
+                        thắng giải để thông báo hình thức trao giải, sẽ được
+                        tiến hành chuyển phát trao giải trong vòng 20 ngày kể từ
+                        ngày xác nhận thông tin nhận giải.
+                      </strong>{" "}
+                      Mọi vấn đề thất lạc do người thắng giải cung cấp sai thông
+                      tin, BTC sẽ không chịu trách nhiệm hoàn trả.
                       <br />
                       Trong trường hợp đã quá thời gian nêu trên, nếu BTC vẫn
                       chưa nhận được thông tin người trúng giải thì giải thưởng
@@ -772,9 +804,9 @@ const Landing: React.FC = () => {
                       tuân theo quy định của bản thể lệ này. Bất kỳ Người tham
                       gia nào vi phạm những quy định và thể lệ của chương trình
                       đều sẽ bị loại và sẽ bị xem xét không được quyền tham gia
-                      các chương trình khác do fanpage Cục du lịch Đài Loan tổ chức. Nếu được
-                      trúng giải cũng sẽ bị tước giải thưởng theo quyết định của
-                      BTC.
+                      các chương trình khác do fanpage Cục du lịch Đài Loan tổ
+                      chức. Nếu được trúng giải cũng sẽ bị tước giải thưởng theo
+                      quyết định của BTC.
                       <br />
                       Người tham gia phải đảm bảo tính xác thực thông tin, nếu
                       cung cấp thông tin không đúng sự thật cho BTC, người tham
