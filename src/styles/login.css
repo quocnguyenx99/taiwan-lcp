@@ -37,6 +37,11 @@
   box-sizing: border-box;
 }
 
+.login-input__username,
+.login-input__password {
+  font-family: "MyAdminFont", sans-serif;
+}
+
 .login-actions {
   margin-top: 18px;
   text-align: right;

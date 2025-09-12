@@ -625,27 +625,38 @@ const Landing: React.FC = () => {
                       <br />
                       <strong>3.1 Cơ cấu giải thưởng:</strong>
                       <br />
-                      01 giải Nhất: 01 Chuyến đi Đài Loan trị giá 13 triệu đồng
+                      <strong>
+                        - 01 giải Nhất (áp dụng cho người dự đoán đúng đội chiến
+                        thắng)
+                      </strong>{" "}
+                      : 01 Chuyến đi Đài Loan trị giá 13 triệu đồng từ Vietravel
                       + 01 Vé vào cổng LCP cho mùa giải 2026 được tổ chức tại
                       Đài Loan
                       <br />
-                      03 giải Nhì: mỗi giải 01 Vé máy bay khứ hồi đến Đài Loan +
-                      01 Vé vào cổng LCP cho mùa giải 2026 được tổ chức tại Đài
-                      Loan
+                      <strong>
+                        - 03 giải Nhì (áp dụng cho người dự đoán đúng đội chiến
+                        thắng)
+                      </strong>
+                      : mỗi giải 01 Vé máy bay khứ hồi đến Đài Loan từ hãng hàng
+                      không EVA Air / China Airlines / STARLUX + 01 Vé vào cổng
+                      LCP cho mùa giải 2026 được tổ chức tại Đài Loan
                       <br />
-                      300 giải Ba: Mỗi giải được nhận ngẫu nhiên 01 trong 03 món
-                      quà sau:
+                      <strong>
+                        - 300 giải Ba (áp dụng cho tất cả người tham gia dự
+                        đoán)
+                      </strong>
+                      : Mỗi giải được nhận ngẫu nhiên 01 trong 03 món quà sau:
                       <br />
-                      100 Balo du lịch
+                      + 100 Balo du lịch
                       <br />
-                      100 Bình nước Gấu Oh-bear tinh nghịch
+                      + 100 Bình nước Gấu Oh-bear tinh nghịch
                       <br />
-                      100 Túi xếp tiện lợi\
+                      + 100 Túi xếp tiện lợi
                       <br />
                       <br />
                       <strong>3.2 Tiêu chí chấm giải:</strong>
-                      <br />
-                      Người chơi có dự đoán đúng đội chiến thắng{" "}
+                      <br />- Đối với giải 1 & giải 2 : Người chơi có dự đoán
+                      đúng đội chiến thắng{" "}
                       <strong>
                         LCP 2025 - Giải đấu vô địch LMHT khu vực Châu Á - Thái
                         Bình Dương (APAC){" "}
@@ -653,7 +664,13 @@ const Landing: React.FC = () => {
                       được tổ chức tại Cung Thể thao Tiên Sơn - Đà Nẵng vào
                       chiều tối ngày 21/9/2025
                       <br />
-                      Các giải được quay số may mắn trực tiếp vào 9h sáng ngày
+                      - Đối với giải 3: Tất cả người tham gia dự đoán kết quả
+                      (không cần là người dự đoán đúng).
+                      <br />
+                      - Mỗi người tham gia (tương ứng với 1 số điện thoại) chỉ
+                      được trúng 1 giải duy nhất
+                      <br />
+                      - Các giải được quay số may mắn trực tiếp vào 9h sáng ngày
                       22/09/2025 tại website
                       <br />
                       *Lưu ý:

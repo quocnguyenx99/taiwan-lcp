@@ -1,0 +1,130 @@
+.pagination-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 12px 0;
+}
+
+.pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid #ddd;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(.disabled):not(.active) {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.pagination-btn:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.pagination-btn.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+  background: #f9f9f9;
+}
+
+.pagination-btn.active {
+  background: #ff5629;
+  color: white;
+  border-color: #ff5629;
+  font-weight: 600;
+}
+
+.pagination-number {
+  min-width: 40px;
+  font-feature-settings: 'tnum';
+}
+
+.pagination-nav {
+  min-width: 40px;
+}
+
+.pagination-nav svg {
+  transition: transform 0.15s ease;
+}
+
+.pagination-nav:hover:not(.disabled) svg {
+  transform: scale(1.1);
+}
+
+.pagination-dots {
+  padding: 0 4px;
+  color: #999;
+  font-weight: 600;
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
+}
+
+.pagination-info strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Loading state */
+.pagination-wrapper.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .pagination-container {
+    gap: 12px;
+    margin-top: 16px;
+  }
+  
+  .pagination-wrapper {
+    gap: 2px;
+    padding: 6px;
+  }
+  
+  .pagination-btn {
+    min-width: 36px;
+    height: 36px;
+    font-size: 13px;
+  }
+  
+  .pagination-info {
+    font-size: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-wrapper {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .pagination-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -59,9 +59,17 @@ const Login: React.FC = () => {
       <section className="login-card container">
         <h1>Đăng nhập</h1>
 
-        {error && <div className="login-error" role="alert">{error}</div>}
+        {error && (
+          <div className="login-error" role="alert">
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={handleSubmit} className="login-form" aria-label="Login form">
+        <form
+          onSubmit={handleSubmit}
+          className="login-form"
+          aria-label="Login form"
+        >
           <label>
             Username
             <input
@@ -72,6 +80,7 @@ const Login: React.FC = () => {
               autoComplete="username"
               required
               disabled={loading}
+              className="login-input__username"
             />
           </label>
 
@@ -85,6 +94,7 @@ const Login: React.FC = () => {
               autoComplete="current-password"
               required
               disabled={loading}
+              className="login-input__password"
             />
           </label>
 
