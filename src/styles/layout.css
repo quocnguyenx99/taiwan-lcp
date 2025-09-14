@@ -1,0 +1,668 @@
+/* ============ Header ============ */
+.header {
+  position: fixed; /* Thêm fixed positioning */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 110px;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  z-index: 100; /* Đảm bảo header luôn ở trên các element khác */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Thêm shadow để tạo độ sâu */
+}
+
+/* Thêm padding-top cho body để tránh content bị che bởi fixed header */
+body {
+  padding-top: 110px; /* Bằng với chiều cao header desktop */
+}
+
+.header__inner {
+  /* max-width: 1280px; */
+  margin: 0 206px;
+  padding: 0 24px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header__brand {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--on-primary);
+  width: 223px; /* kích thước ban đầu */
+  height: 53px; /* kích thước ban đầu */
+}
+
+.header__list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header__item {
+  display: flex;
+  align-items: center;
+  font-family: "MyHeaderFont", system-ui, sans-serif;
+  color: white;
+  cursor: pointer;
+}
+
+.header__link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  opacity: 0.95;
+  cursor: pointer;
+}
+
+.header__link--active {
+  font-weight: 700;
+  opacity: 1;
+}
+
+.header__divider {
+  margin-left: 43px;
+  margin-right: 43px;
+  width: 20px;
+  height: 20px;
+  stroke: white;
+  opacity: 0.7;
+}
+
+.header__actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.header__icon-btn {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px;
+  cursor: pointer;
+}
+
+.header__icon-btn:hover,
+.header__icon-btn:focus-visible {
+  color: #fff;
+}
+
+.header__hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+}
+
+.header__menu-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 8px;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.header__menu-close:hover {
+  color: #ff7854;
+  transform: scale(1.1);
+}
+
+.header__menu-close:active {
+  transform: scale(0.95);
+}
+
+.header__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* lower than menu overlay */
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.header__menu-overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 300px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  transition: right 0.3s ease;
+  z-index: 1000;
+  padding: 70px 20px 20px;
+}
+
+.header__menu-overlay.open {
+  right: 0;
+}
+
+.header__menu-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.header__menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.header__menu-item {
+  margin-bottom: 20px;
+}
+
+.header__menu-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.header__menu-link:hover,
+.header__menu-link--active {
+  color: #ff7854;
+}
+
+.site-main {
+  padding: 24px 0 48px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 96px;
+  background-color: #f3edea;
+  padding: 64px 206px; /* Giá trị gốc cho desktop lớn */
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+  padding-block: clamp(24px, 4vw, 36px);
+}
+
+.footer__brand img {
+  display: block;
+  margin-left: -16px;
+}
+
+.footer__content {
+  line-height: 1.6;
+  font-family: "MyHeaderFont", system-ui, sans-serif;
+}
+
+.footer__title {
+  margin: 0 0 8px;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 700;
+}
+
+.footer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(13px, 1.6vw, 15px);
+}
+
+.footer__row {
+  margin: 6px 0;
+}
+
+.footer__label {
+  display: inline-block;
+  min-width: 90px; /* căn cột nhãn */
+  font-weight: 700;
+}
+
+.footer__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  padding: 10px 0 14px;
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+
+/* Mobile First - Extra Small: <360px */
+@media (max-width: 359px) {
+  .header {
+    height: 76px;
+  }
+
+  body {
+    padding-top: 76px; /* Điều chỉnh padding cho mobile */
+  }
+
+  .header__inner {
+    margin: 0 16px;
+    padding: 0 12px;
+  }
+
+  .header__brand {
+    width: 120px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 200px;
+    padding: 50px 16px 16px;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) {
+  .header {
+    height: 76px;
+  }
+
+  body {
+    padding-top: 76px;
+  }
+
+  .header__inner {
+    margin: 0 20px;
+    padding: 0 16px;
+  }
+
+  .header__brand {
+    width: 130px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 220px;
+    padding: 50px 20px 20px;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) {
+  .header {
+    height: 76px;
+  }
+
+  body {
+    padding-top: 76px;
+  }
+
+  .header__inner {
+    margin: 0 24px;
+    padding: 0 20px;
+  }
+
+  .header__brand {
+    width: 140px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 300px;
+    padding: 60px 20px 20px;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) {
+  .header {
+    height: 76px;
+  }
+
+  body {
+    padding-top: 76px;
+  }
+
+  .header__inner {
+    margin: 0 32px;
+    padding: 0 24px;
+  }
+
+  .header__brand {
+    width: 150px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: none;
+  }
+
+  .header__hamburger {
+    display: block;
+  }
+
+  .header__menu-overlay {
+    width: 300px;
+    padding: 60px 24px 24px;
+  }
+}
+
+/* lg: ≥768px - Desktop mode starts here */
+@media (min-width: 768px) {
+  .header {
+    height: 110px; /* Trở lại chiều cao desktop */
+  }
+
+  body {
+    padding-top: 110px; /* Trở lại padding desktop */
+  }
+
+  .header__inner {
+    margin: 0 40px;
+    padding: 0 24px;
+  }
+
+  .header__brand {
+    width: 223px; 
+    height: 100%;
+  }
+
+  .header__nav {
+    display: block; 
+  }
+
+  .header__hamburger {
+    display: none; 
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) {
+  .header__inner {
+    margin: 0 80px;
+  }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) {
+  .header__inner {
+    margin: 0 120px;
+  }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) {
+  .header__inner {
+    margin: 0 180px;
+  }
+}
+
+/* 4xl: ≥1920px */
+@media (min-width: 1920px) {
+  .header__inner {
+    margin: 0 206px; /* Giá trị gốc của bạn */
+  }
+}
+
+/* Mobile styles - override if needed */
+@media (max-width: 768px) {
+  .header {
+    height: 76px;
+  }
+
+  body {
+    padding-top: 76px;
+  }
+
+  .header__inner {
+    height: 76px;
+    padding: 10px 20px;
+    align-items: center;
+  }
+
+  .header__brand {
+    width: 120px; /* chỉ nhỏ lại trên mobile */
+    height: auto;
+  }
+
+  .header__hamburger {
+    padding: 10px;
+    color: #fff;
+    font-size: 24px;
+  }
+}
+
+/* Footer */
+.footer {
+  margin-top: 96px;
+  background-color: #f3edea;
+  padding: 64px 206px; /* Giá trị gốc cho desktop lớn */
+}
+
+.footer__container {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+  padding-block: clamp(24px, 4vw, 36px);
+}
+
+.footer__brand img {
+  display: block;
+  margin-left: -16px;
+}
+
+.footer__content {
+  line-height: 1.6;
+  font-family: "MyHeaderFont", system-ui, sans-serif;
+}
+
+.footer__title {
+  margin: 0 0 8px;
+  font-size: clamp(16px, 2vw, 18px);
+  font-weight: 700;
+}
+
+.footer__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(13px, 1.6vw, 15px);
+}
+
+.footer__row {
+  margin: 6px 0;
+}
+
+.footer__label {
+  display: inline-block;
+  min-width: 90px; /* căn cột nhãn */
+  font-weight: 700;
+}
+
+.footer__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer__bottom {
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+  padding: 10px 0 14px;
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+
+/* Mobile First - Extra Small: <360px */
+@media (max-width: 359px) {
+  .footer {
+    margin-top: 48px;
+    padding: 32px 16px;
+  }
+
+  .footer__container {
+    gap: 16px;
+    padding-block: 16px;
+  }
+
+  .footer__label {
+    min-width: 70px;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) {
+  .footer {
+    margin-top: 56px;
+    padding: 40px 20px;
+  }
+
+  .footer__container {
+    gap: 18px;
+    padding-block: 20px;
+  }
+
+  .footer__label {
+    min-width: 75px;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) {
+  .footer {
+    margin-top: 64px;
+    padding: 48px 24px;
+  }
+
+  .footer__container {
+    gap: 20px;
+    padding-block: 24px;
+  }
+
+  .footer__label {
+    min-width: 80px;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) {
+  .footer {
+    margin-top: 72px;
+    padding: 56px 32px;
+  }
+
+  .footer__container {
+    gap: 24px;
+    padding-block: 28px;
+  }
+
+  .footer__label {
+    min-width: 85px;
+  }
+}
+
+/* lg: ≥768px - Desktop mode starts here */
+@media (min-width: 768px) {
+  .footer {
+    margin-top: 80px;
+    padding: 60px 40px;
+  }
+
+  .footer__container {
+    gap: 28px;
+    padding-block: 32px;
+  }
+
+  .footer__label {
+    min-width: 90px;
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) {
+  .footer {
+    margin-top: 88px;
+    padding: 64px 80px;
+  }
+
+  .footer__container {
+    gap: 30px;
+    padding-block: 34px;
+  }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) {
+  .footer {
+    margin-top: 92px;
+    padding: 64px 120px;
+  }
+
+  .footer__container {
+    gap: 32px;
+    padding-block: 36px;
+  }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) {
+  .footer {
+    margin-top: 94px;
+    padding: 64px 180px;
+  }
+}
+
+/* 4xl: ≥1920px */
+@media (min-width: 1920px) {
+  .footer {
+    margin-top: 96px;
+    padding: 64px 206px; /* Giá trị gốc */
+  }
+}
+

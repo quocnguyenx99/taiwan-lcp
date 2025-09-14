@@ -1,0 +1,58 @@
+/* ...existing code... */
+.login-page {
+  padding: 48px 16px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.login-card h1 {
+  margin: 0 0 18px;
+  font-size: 22px;
+  color: var(--color-text, #151515);
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.login-input__username,
+.login-input__password {
+  font-family: "MyAdminFont", sans-serif;
+}
+
+.login-actions {
+  margin-top: 18px;
+  text-align: right;
+}
+
+.login-actions .btn {
+  padding: 10px 16px;
+  background: var(--color-primary, #ff5629);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+/* ...existing code... */

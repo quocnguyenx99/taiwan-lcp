@@ -1,0 +1,1593 @@
+.lottery-banner {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #111;
+  background-image: url("../assets/mainBanner.png");
+  background-size: var(--design-width) auto;
+  background-position: center top;
+  background-repeat: no-repeat;
+  min-height: 430px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.lottery-banner__container {
+  position: relative;
+  z-index: 1;
+}
+
+.lottery-banner__title {
+  margin: 0;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "MyFont", system-ui, sans-serif;
+  letter-spacing: 1px;
+  font-size: 91px;
+  background: radial-gradient(
+    ellipse at center,
+    #ffebc1 0%,
+    #ffb663 50%,
+    var(--color-primary) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lottery-banner__title-line {
+  display: inline;
+}
+
+.lottery-banner__title-line:first-child::after {
+  content: " ";
+}
+
+.lottery-banner__sub {
+  margin-top: clamp(16px, 3vw, 32px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 24px);
+}
+
+.lottery-banner__subtitle {
+  text-transform: uppercase;
+  font-family: "MyFont", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 55.67px;
+  background: linear-gradient(
+    180deg,
+    #f7d393 0%,
+    #ffb663 35%,
+    var(--color-primary) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lottery-banner__logo {
+  width: auto;
+  height: 196px;
+  object-fit: contain;
+}
+
+.lottery-banner__marquee {
+  width: 100vw;
+  overflow: hidden;
+  background: transparent;
+  border-top: 1px solid var(--color-secondary);
+  border-bottom: 1px solid var(--color-secondary);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.lottery-banner__marquee-content {
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--color-secondary);
+  font-family: "MyHeaderFont", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  animation: marquee 18s linear infinite;
+  will-change: transform;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* First Prize Section */
+.first-prize {
+  position: relative;
+  padding: 70px 0 120px; /* chừa khoảng trống phía trên cho header-image nổi */
+}
+
+.first-prize__container {
+  position: relative;
+  margin: 0 auto;
+  padding: 266px 32px 56px;
+  border: 2px solid var(--color-secondary);
+}
+
+/* Header image (tấm biển 1 GIẢI NHẤT) */
+.first-prize__header-image {
+  position: absolute;
+  top: -64px; /* nổi lên trên khung */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 900px; /* chỉnh theo kích thước thật của ảnh */
+  pointer-events: none;
+}
+
+.first-prize__header-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Board (ảnh nền chứa số + tên) */
+.first-prize__board {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.first-prize__board-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Phone digits overlay */
+.first-prize__phone-overlay {
+  position: absolute;
+  top: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+.first-prize__digit {
+  flex: 1;
+
+  text-align: center;
+  font-family: "MyFont", sans-serif;
+  font-weight: 700;
+  font-size: 105px;
+  line-height: 1;
+  color: #ffffff;
+  position: relative;
+  padding: 0 8px;
+}
+
+/* Vạch phân cách giữa các số (giống |) */
+.first-prize__digit:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: 8%;
+  width: 5px;
+  height: 97%;
+  background: linear-gradient(180deg, #ff8a2b 0%, #ff5a00 100%);
+  opacity: 0.3;
+  border-radius: 8px;
+}
+
+/* Winner name overlay (bảng tên phía dưới) */
+.first-prize__name-overlay {
+  position: absolute;
+  /* Điều chỉnh để trùng vị trí bảng tên trong ảnh board */
+  bottom: 9%; /* chỉnh theo ảnh thật */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 58%;
+  text-align: center;
+  font-size: 64px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  font-family: "MyFont", sans-serif;
+  color: #ff5a00;
+  text-transform: uppercase;
+  z-index: 11;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 102, 0, 0.3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+/* Nút QUAY SỐ dưới khung */
+.first-prize__action {
+  position: absolute;
+  left: 50%;
+  bottom: -42px; /* hạ xuống chút vì nút cao hơn */
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.first-prize__spin-btn {
+  background: radial-gradient(
+    ellipse at center,
+    #ffebc1 0%,
+    #ffb663 50%,
+    var(--color-primary) 100%
+  );
+  padding: 12px 48px;
+  border: none;
+  font-size: 54px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: "MyFont", system-ui, sans-serif;
+  color: #1a1a1a;
+  line-height: 1;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s;
+}
+
+.first-prize__spin-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.55);
+  filter: brightness(1.05);
+}
+
+.first-prize__spin-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  filter: brightness(0.96);
+}
+
+/* --- SECOND PRIZE SECTION --- */
+.second-prize {
+  position: relative;
+  padding: 70px 0 120px;
+}
+
+.second-prize__container {
+  position: relative;
+  margin: 0 auto;
+  padding: 254px 32px 56px;
+  border: 2px solid var(--color-secondary);
+  box-sizing: border-box;
+}
+
+.second-prize__header-image {
+  position: absolute;
+  top: -64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 1000px;
+  pointer-events: none;
+}
+
+.second-prize__header-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.second-prize__boards {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 32px;
+}
+
+.second-prize__board {
+  position: relative;
+  width: 500px;
+  min-width: 0;
+  flex-shrink: 0;
+}
+
+.second-prize__board-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Phone digits overlay nhỏ hơn */
+.second-prize__phone-overlay {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  padding: 0 6px;
+  box-sizing: border-box;
+}
+
+.second-prize__digit {
+  flex: 1;
+  text-align: center;
+  font-family: "MyFont", sans-serif;
+  font-weight: 700;
+  font-size: 42px;
+  line-height: 1;
+  color: #ffffff;
+  position: relative;
+  padding: 0 8px;
+}
+
+.second-prize__digit:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -2px;
+  top: 8%;
+  width: 3px;
+  height: 97%;
+  background: linear-gradient(180deg, #ff8a2b 0%, #ff5a00 100%);
+  opacity: 0.3;
+  border-radius: 8px;
+}
+
+/* Winner name overlay nhỏ hơn */
+.second-prize__name-overlay {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65%;
+  text-align: center;
+  font-size: clamp(16px, 2vw, 28px);
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-family: "MyFont", "Segoe UI", Arial, sans-serif;
+  color: #ff5a00;
+  text-transform: uppercase;
+  z-index: 11;
+  text-shadow: 0 0 6px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 102, 0, 0.3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+/* Nút QUAY SỐ */
+.second-prize__action {
+  position: absolute;
+  left: 50%;
+  bottom: -40px;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.second-prize__spin-btn {
+  background: radial-gradient(
+    ellipse at center,
+    #ffebc1 0%,
+    #ffb663 50%,
+    var(--color-primary) 100%
+  );
+  padding: 12px 48px;
+  border: none;
+  font-size: 54px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: "MyFont", system-ui, sans-serif;
+  color: #1a1a1a;
+  line-height: 1;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s;
+}
+
+.second-prize__spin-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.55);
+  filter: brightness(1.05);
+}
+
+.second-prize__spin-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  filter: brightness(0.96);
+}
+
+/* --- SECOND PRIZE SECTION --- */
+.third-prize {
+  position: relative;
+  padding: 70px 0 0px;
+  font-family: "MyFont", sans-serif;
+}
+
+.third-prize__container {
+  position: relative;
+  margin: 0 auto;
+  padding: 254px 165px 56px;
+  border: 2px solid var(--color-secondary);
+  box-sizing: border-box;
+}
+
+.third-prize__header-image {
+  position: absolute;
+  top: -64px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  width: 1000px;
+  pointer-events: none;
+}
+
+.third-prize__header-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Lookup row for third prize */
+.third-prize__lookup-row {
+  display: flex;
+  align-items: stretch;
+  margin: 40px 0 0 0;
+  background: #181818;
+  padding: 8px;
+}
+
+.third-prize__lookup-search {
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  min-width: 420px;
+  flex: 1 1 420px;
+  max-width: 520px;
+}
+
+.third-prize__lookup-icon {
+  width: 80px;
+  height: 80px;
+  margin-right: 18px;
+  flex-shrink: 0;
+  filter: brightness(1.2) saturate(1.2);
+}
+
+.third-prize__lookup-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.third-prize__lookup-label {
+  font-family: "MyFont", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.third-prize__lookup-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.third-prize__lookup-input {
+  font-family: "MyFont", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  background: #111;
+  color: #fff;
+  border: 1px solid var(--color-secondary);
+  border-right: none;
+  padding: 8px 16px;
+  outline: none;
+  width: 220px;
+  height: 44px;
+}
+
+.third-prize__lookup-btn {
+  background: var(--color-secondary);
+  color: #fff;
+  font-family: "MyFont", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  border: none;
+  padding: 8px 28px;
+  height: 44px;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.third-prize__lookup-btn:hover {
+  background: var(--color-primary);
+  color: #222;
+}
+
+.third-prize__lookup-result {
+  flex: 1 1 0;
+  background: #181818;
+  border: 1px solid #fff;
+  color: #fff;
+  font-family: "MyFont", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  min-width: 340px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Backpack Prize Section */
+.backpack-prize {
+  margin-top: 20px;
+  margin-bottom: 44px;
+}
+
+.backpack-prize__container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.backpack-prize__title {
+  background: var(--color-secondary, #ff914d);
+  color: #fff;
+  font-size: 38px;
+  font-weight: 700;
+  text-align: center;
+  padding: 18px 0 10px 0;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  text-transform: uppercase;
+}
+
+.backpack-prize__action {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.backpack-prize__spin-btn {
+  background: radial-gradient(
+    ellipse at center,
+    #ffebc1 0%,
+    #ffb663 50%,
+    var(--color-primary) 100%
+  );
+  padding: 12px 48px;
+  border: none;
+  font-size: 54px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 700;
+  font-family: "MyFont", system-ui, sans-serif;
+  color: #1a1a1a;
+  line-height: 1;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.15s;
+}
+
+.backpack-prize__spin-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 38px rgba(0, 0, 0, 0.55);
+  filter: brightness(1.05);
+}
+
+.backpack-prize__spin-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  filter: brightness(0.96);
+}
+
+.backpack-prize__table-wrap {
+  margin: 0 auto 18px auto;
+  overflow-x: auto;
+}
+
+.backpack-prize__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  min-width: 700px;
+}
+
+.backpack-prize__table th,
+.backpack-prize__table td {
+  border: 1px solid #fff;
+  padding: 18px 18px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.backpack-prize__table th {
+  background: transparent;
+  color: #fff;
+  font-size: 28px;
+  text-transform: uppercase;
+}
+
+.backpack-prize__table td {
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+}
+
+.backpack-prize__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.backpack-prize__more-btn {
+  background: #111;
+  color: #ff6b35;
+  font-size: 28px;
+  font-weight: 700;
+  border: none;
+  border-radius: 2px;
+  padding: 8px 32px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+}
+
+.backpack-prize__more-btn:hover {
+  background: #ff6b35;
+  color: #fff;
+}
+
+/* Mobile điều chỉnh nhỏ lại */
+@media (max-width: 767px) {
+  .first-prize__action {
+    bottom: -24px;
+  }
+  .first-prize__spin-btn {
+    font-size: 32px;
+    padding: 10px 32px;
+  }
+}
+
+/* ===== RESPONSIVE BREAKPOINTS ===== */
+
+/* xs: ≤359px -> mobile siêu nhỏ */
+@media (max-width: 359px) {
+  .lottery-banner {
+    min-height: 280px;
+  }
+
+  .lottery-banner__title {
+    font-size: 28px;
+  }
+  .lottery-banner__sub {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lottery-banner__logo {
+    height: 80px;
+  }
+
+  .lottery-banner__marquee-content {
+    font-size: 14px;
+  }
+
+  /* First Prize */
+  .first-prize__container {
+    padding: 86px 8px 40px;
+  }
+
+  .first-prize__header-image {
+    width: 330px;
+    top: -40px;
+  }
+
+  .first-prize__digit {
+    font-size: 32px;
+    padding: 0 2px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 18px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 24px;
+    padding: 8px 20px;
+  }
+
+  /* Second Prize */
+  .second-prize__container {
+    padding: 180px 8px 40px;
+  }
+  .second-prize__header-image {
+    width: 300px;
+  }
+
+  .second-prize__boards {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .second-prize__board {
+    width: 240px;
+    margin: 0 auto;
+  }
+
+  .second-prize__digit {
+    font-size: 20px;
+    padding: 0;
+  }
+
+  .second-prize__spin-btn {
+    font-size: 28px;
+  }
+
+  .second-prize__action {
+    bottom: -26px;
+  }
+
+  /* Third Prize */
+  .third-prize__container {
+    padding: 55px 8px 40px;
+  }
+
+  .third-prize__header-image {
+    width: 358px;
+    top: -32px;
+  }
+
+  .third-prize__lookup-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .third-prize__lookup-search {
+    min-width: auto;
+    max-width: none;
+  }
+
+  .third-prize__lookup-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .third-prize__lookup-label {
+    font-size: 16px;
+  }
+
+  .third-prize__lookup-input {
+    width: 120px;
+    font-size: 14px;
+  }
+
+  .third-prize__lookup-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .third-prize__lookup-result {
+    font-size: 16px;
+    min-width: auto;
+  }
+
+  /* Backpack Prize */
+  .backpack-prize__title {
+    font-size: 20px;
+    padding: 12px 0 8px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 24px;
+    padding: 8px 20px;
+  }
+
+  .backpack-prize__table {
+    font-size: 12px;
+    min-width: 300px;
+  }
+
+  .backpack-prize__table th {
+    font-size: 14px;
+    padding: 8px 4px;
+  }
+
+  .backpack-prize__table td {
+    font-size: 11px;
+    padding: 8px 4px;
+  }
+
+  .backpack-prize__more-btn {
+    font-size: 16px;
+    padding: 6px 16px;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) {
+  .lottery-banner {
+    min-height: 320px;
+  }
+
+  .lottery-banner__title {
+    font-size: 26px;
+  }
+
+  .lottery-banner__sub {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 26px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lottery-banner__logo {
+    height: 100px;
+  }
+
+  .first-prize__container {
+    padding: 90px 12px 40px;
+  }
+
+  .first-prize__header-image {
+    width: 350px;
+    top: -45px;
+  }
+
+  .first-prize__digit {
+    font-size: 36px;
+    padding: 0 3px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 20px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 28px;
+    padding: 10px 24px;
+  }
+
+  .second-prize {
+    padding: 52px 0 60px;
+  }
+
+  /* Second Prize */
+  .second-prize__container {
+    padding: 80px 32px 56px;
+  }
+
+  .second-prize__header-image {
+    width: 358px;
+    top: -40px;
+  }
+
+  .second-prize__boards {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .second-prize__board {
+    width: 280px;
+  }
+
+  .second-prize__digit {
+    font-size: 20px;
+    padding: 0;
+  }
+
+  .second-prize__spin-btn {
+    font-size: 28px;
+    padding: 10px 24px;
+  }
+
+  .second-prize__action {
+    bottom: -26px;
+  }
+
+  .third-prize {
+    padding: 0;
+  }
+  .third-prize__lookup-row {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .third-prize__header-image {
+    width: 358px;
+    top: -32px;
+  }
+
+  .third-prize__lookup-input {
+    width: 140px;
+    font-size: 16px;
+  }
+
+  .third-prize__lookup-btn {
+    font-size: 16px;
+  }
+
+  .third-prize__lookup-result {
+    font-size: 18px;
+    min-width: 300px;
+  }
+
+  .third-prize__container {
+    padding: 52px 7px 0px;
+  }
+
+  .third-prize__lookup-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .third-prize__lookup-label {
+    font-size: 18px;
+  }
+
+  .third-prize__lookup-search {
+    flex: 0;
+  }
+
+  .backpack-prize__title {
+    font-size: 24px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 28px;
+    padding: 10px 24px;
+  }
+
+  .backpack-prize__table {
+    min-width: 350px;
+  }
+
+  .first-prize {
+    padding: 70px 0 22px;
+  }
+
+  .second-prize__phone-overlay {
+    padding: 0px 0px;
+  }
+
+  .backpack-prize__table th {
+    font-size: 18px;
+  }
+
+  .backpack-prize__table td {
+    font-size: 18px;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) {
+  .lottery-banner {
+    min-height: 360px;
+  }
+
+  .lottery-banner__title {
+    font-size: 38px;
+  }
+
+  .lottery-banner__sub {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .lottery-banner__logo {
+    height: 120px;
+  }
+
+  .first-prize__container {
+    padding: 140px 16px 45px;
+  }
+
+  .first-prize__header-image {
+    width: 500px;
+    top: -50px;
+  }
+
+  .first-prize__digit {
+    font-size: 48px;
+    padding: 0 4px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 28px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 32px;
+    padding: 10px 28px;
+  }
+
+  .second-prize__boards {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .second-prize__board {
+    width: 200px;
+  }
+
+  .second-prize__digit {
+    font-size: 24px;
+    padding: 0;
+  }
+
+  .second-prize__spin-btn {
+    font-size: 28px;
+  }
+
+  .third-prize__lookup-row {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .third-prize__header-image {
+    width: 358px;
+    top: -32px;
+  }
+
+  .third-prize__lookup-input {
+    width: 160px;
+    font-size: 18px;
+  }
+
+  .third-prize__lookup-label {
+    font-size: 20px;
+  }
+
+  .third-prize__lookup-result {
+    font-size: 20px;
+  }
+
+  .backpack-prize__title {
+    font-size: 28px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 32px;
+    padding: 10px 28px;
+  }
+
+  .backpack-prize__table {
+    min-width: 480px;
+  }
+
+  .backpack-prize__table th {
+    font-size: 20px;
+  }
+
+  .backpack-prize__table td {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 639px) {
+  .lottery-banner__sub {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .lottery-banner__subtitle {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) {
+  .lottery-banner {
+    min-height: 380px;
+  }
+
+  .lottery-banner__title {
+    font-size: 48px;
+  }
+
+  .lottery-banner__sub {
+    flex-direction: row; /* ✅ đổi về ngang */
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 3vw, 24px); /* khoảng cách hợp lý */
+  }
+
+  .lottery-banner__subtitle {
+    flex-direction: row; /* ✅ reset */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* tạo chút khoảng cách giữa các dòng text */
+  }
+
+  .lottery-banner__logo {
+    height: 140px;
+  }
+
+  .first-prize__container {
+    padding: 190px 24px 50px;
+  }
+
+  .first-prize__header-image {
+    width: 650px;
+    top: -55px;
+  }
+
+  .first-prize__digit {
+    font-size: 64px;
+    padding: 0 5px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 36px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 38px;
+    padding: 12px 32px;
+  }
+
+  .second-prize__boards {
+    gap: 24px;
+    align-items: center;
+  }
+
+  .second-prize__board {
+    width: 280px;
+  }
+
+  .second-prize__digit {
+    font-size: 32px;
+  }
+
+  .third-prize__container {
+    padding: 240px 40px 50px;
+  }
+
+  .third-prize__lookup-input {
+    width: 180px;
+    font-size: 20px;
+  }
+
+  .third-prize__lookup-label {
+    font-size: 24px;
+  }
+
+  .third-prize__lookup-result {
+    font-size: 24px;
+  }
+
+  .backpack-prize__title {
+    font-size: 32px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 38px;
+    padding: 12px 32px;
+  }
+
+  .backpack-prize__table {
+    min-width: 600px;
+  }
+}
+
+/* lg: ≥768px */
+@media (min-width: 768px) {
+  .lottery-banner {
+    min-height: 400px;
+  }
+
+  .lottery-banner__title {
+    font-size: 68px;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 42px;
+  }
+
+  .lottery-banner__logo {
+    height: 160px;
+  }
+
+  .first-prize__container {
+    padding: 250px 32px 52px;
+  }
+
+  .first-prize__header-image {
+    width: 620px;
+    top: -58px;
+  }
+
+  .first-prize__digit {
+    font-size: 76px;
+    padding: 0 6px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 44px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 42px;
+    padding: 12px 36px;
+  }
+
+  .second-prize__boards {
+    gap: 28px;
+  }
+
+  .second-prize__board {
+    width: 320px;
+  }
+
+  .second-prize__digit {
+    font-size: 36px;
+  }
+
+  .third-prize__container {
+    padding: 250px 60px 52px;
+  }
+
+  .third-prize__lookup-input {
+    width: 200px;
+    font-size: 22px;
+  }
+
+  .third-prize__lookup-label {
+    font-size: 26px;
+  }
+
+  .third-prize__lookup-result {
+    font-size: 26px;
+  }
+
+  .backpack-prize__title {
+    font-size: 34px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 42px;
+    padding: 12px 36px;
+  }
+
+  .backpack-prize__table {
+    min-width: 700px;
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) {
+  .lottery-banner {
+    min-height: 420px;
+  }
+
+  .lottery-banner__title {
+    font-size: 78px;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 48px;
+  }
+
+  .lottery-banner__logo {
+    height: 180px;
+  }
+
+  .first-prize__container {
+    padding: 260px 80px 54px;
+  }
+
+  .first-prize__header-image {
+    width: 720px;
+    top: -60px;
+  }
+
+  .first-prize__digit {
+    font-size: 88px;
+    padding: 0 7px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 52px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 46px;
+    padding: 12px 40px;
+  }
+
+  .second-prize {
+    padding: 110px 0 120px;
+  }
+
+  .second-prize__header-image {
+    width: 1000px;
+    top: -64px;
+  }
+
+  .second-prize__boards {
+    gap: 16px;
+  }
+
+  .second-prize__action {
+    bottom: -40px;
+  }
+
+  .second-prize__board {
+    width: 380px;
+  }
+
+  .second-prize__container {
+    padding: 254px 64px 56px; /* hoặc 254px 32px 56px như cũ */
+  }
+
+  .second-prize__spin-btn {
+    font-size: 50px;
+  }
+
+  .second-prize__digit {
+    font-size: 38px;
+  }
+
+  .third-prize__container {
+    padding: 260px 100px 54px;
+  }
+
+  .third-prize__lookup-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .third-prize__lookup-btn {
+    padding: 8px 20px;
+  }
+
+  .third-prize__header-image {
+    width: 1000px;
+    top: -70px;
+  }
+
+  .backpack-prize__title {
+    font-size: 36px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 46px;
+    padding: 12px 40px;
+  }
+
+  .backpack-prize__table th {
+    font-size: 30px;
+  }
+
+  .backpack-prize__table td {
+    font-size: 30px;
+  }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) {
+  .lottery-banner__title {
+    font-size: 85px;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 52px;
+  }
+
+  .lottery-banner__logo {
+    height: 190px;
+  }
+
+  .first-prize__container {
+    padding: 266px 120px 56px;
+  }
+
+  .first-prize__header-image {
+    width: 800px;
+    top: -62px;
+  }
+
+  .first-prize__digit {
+    font-size: 96px;
+    padding: 0 8px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 58px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 50px;
+    padding: 12px 44px;
+  }
+
+  .second-prize__board {
+    width: 420px;
+  }
+
+  .second-prize__digit {
+    font-size: 40px;
+  }
+
+  .third-prize__container {
+    padding: 266px 140px 56px;
+  }
+
+  .backpack-prize__title {
+    font-size: 38px;
+  }
+
+  .backpack-prize__spin-btn {
+    font-size: 50px;
+    padding: 12px 44px;
+  }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) {
+  .lottery-banner__title {
+    font-size: 90px;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 55px;
+  }
+
+  .lottery-banner__logo {
+    height: 195px;
+  }
+
+  .first-prize__header-image {
+    width: 850px;
+    top: -63px;
+  }
+
+  .first-prize__digit {
+    font-size: 100px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 60px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 52px;
+    padding: 12px 46px;
+  }
+
+  .second-prize__board {
+    width: 450px;
+  }
+
+  .second-prize__digit {
+    font-size: 41px;
+  }
+
+  .third-prize__container {
+    padding: 266px 155px 56px;
+  }
+}
+
+/* 4xl: ≥1920px -> giá trị gốc từ design desktop */
+@media (min-width: 1920px) {
+  .lottery-banner__title {
+    font-size: 91px;
+  }
+
+  .lottery-banner__subtitle {
+    font-size: 55.67px;
+  }
+
+  .lottery-banner__logo {
+    height: 196px;
+  }
+
+  .first-prize__header-image {
+    width: 900px;
+    top: -64px;
+  }
+
+  .first-prize__digit {
+    font-size: 105px;
+  }
+
+  .first-prize__name-overlay {
+    font-size: 64px;
+  }
+
+  .first-prize__spin-btn {
+    font-size: 54px;
+    padding: 12px 48px;
+  }
+
+  .second-prize__header-image {
+    width: 1000px;
+  }
+
+  .second-prize__board {
+    width: 500px;
+  }
+
+  .second-prize__digit {
+    font-size: 42px;
+  }
+
+  .third-prize__header-image {
+    width: 1000px;
+  }
+
+  .third-prize__container {
+    padding: 270px 165px 56px;
+  }
+}

@@ -1,0 +1,1015 @@
+.visa {
+  position: relative;
+  overflow: visible; /* thay từ hidden thành visible */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ảnh nền */
+.visa__bg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* MOBILE: ảnh bgTop anchor ở trên, bgBottom anchor ở dưới */
+@media (max-width: 767px) {
+  .visa__bg--top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    margin-bottom: 0;
+  }
+
+  .visa__bg--bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    margin-top: 0;
+  }
+
+  .visa {
+    padding-top: 80px; /* khoảng trống cho ảnh top */
+    padding-bottom: 60px; /* khoảng trống cho ảnh bottom */
+    min-height: 100vh; /* đảm bảo container đủ cao */
+  }
+}
+
+/* DESKTOP: giữ nguyên layout hiện tại */
+@media (min-width: 768px) {
+  .visa__bg--top {
+    margin-bottom: -60px;
+  }
+
+  .visa__bg--bottom {
+    margin-top: -60px;
+  }
+
+  .visa {
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: auto;
+  }
+}
+
+/* Bỏ fade hoặc chỉ hiển thị trên desktop */
+.visa__fade {
+  display: none; /* ẩn hoàn toàn */
+}
+
+/* Hoặc nếu muốn giữ fade chỉ trên desktop: */
+/*
+@media (min-width: 768px) {
+  .visa__fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 45%;
+    height: 800px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      #fff 25%,
+      #fff 75%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    z-index: 0;
+  }
+}
+*/
+
+/* Tiêu đề trên nền */
+.visa__bg-title {
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 5; /* tăng z-index để hiển thị trên table */
+}
+
+.visa__title {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 800;
+  font-size: 66px;
+  margin: 0;
+  font-family: "MyVisaBlackFont", sans-serif;
+}
+
+.visa__subtitle {
+  color: #fff;
+  text-transform: uppercase;
+  font-family: "MyVisaBlackFont", sans-serif;
+  font-weight: 900;
+  font-size: 116px;
+  margin: 6px 0 0;
+  text-wrap: nowrap;
+}
+
+.visa__content {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+}
+
+:root {
+  --visa-accent: #ff8a28;
+  --visa-chip: #ff5629;
+}
+
+/* MOBILE: table trong document flow */
+@media (max-width: 767px) {
+
+  .visa__table {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 0 auto;
+    z-index: 3;
+    background: #fff;
+    border-radius: 16px;
+    width: calc(100% - 32px);
+    min-height: auto;
+    height: auto; /* auto height theo content */
+    padding: 16px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    font-family: "MyVisaBookFont", sans-serif;
+    font-size: 14px;
+  }
+}
+
+/* DESKTOP: giữ nguyên absolute positioning */
+@media (min-width: 768px) {
+  .visa__table {
+    --pad: 0px;
+    position: absolute;
+    top: -427px;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 2;
+    background: #fff;
+    border-radius: 28px;
+    width: min(1739px, 90%);
+    height: 980px;
+    padding: var(--pad);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    font-family: "MyVisaBookFont", sans-serif;
+    font-size: 20px;
+  }
+}
+
+/* hàng = 4 cột: nhãn | 3 cột */
+.vt__row {
+  display: grid;
+  grid-template-columns: 230px repeat(3, 1fr);
+  column-gap: 0;
+  align-items: start;
+  position: relative;
+  flex: 1;
+}
+
+/* kẻ NGANG (đứt) giữa các hàng – trừ padding trong */
+.vt__row + .vt__row::after {
+  content: "";
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  top: 0;
+  border-top: 2px dashed var(--visa-accent);
+}
+
+/* cột nhãn bên trái */
+.vt__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 22px 6px 0;
+  text-align: center;
+  font-weight: 800;
+  color: #ff7854;
+  font-size: 24px;
+  border-right: 2px dashed var(--visa-accent);
+  height: 100%;
+  justify-content: center;
+}
+.vt__label img {
+  width: 60px;
+  height: auto;
+  display: block;
+}
+
+/* chip tiêu đề (oval cam) – center trong cell */
+.vt__chip {
+  display: inline-block;
+  background: var(--visa-chip);
+  color: #fff;
+  font-family: "MyVisaBoldFont", sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  letter-spacing: 0.3px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  margin: 0 0 14px;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.08);
+  justify-self: center;
+}
+
+/* cột nội dung (3 cột phải) */
+.vt__cell {
+  padding: 24px 12px;
+  box-sizing: border-box;
+  height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  justify-items: start;
+  align-items: start;
+  position: relative;
+}
+
+.vt__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.vt__cell:not(:last-child) {
+  border-right: 2px dashed var(--visa-accent);
+}
+
+/* danh sách & text */
+.vt__list {
+  margin: 0;
+  padding-left: 18px;
+  list-style-type: "- ";
+  text-align: left;
+}
+.vt__list li {
+  margin: 6px 0;
+  line-height: 1.45;
+}
+
+/* li chứa QR không có - */
+.vt__qr-li {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.vt__qr {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+.vt__label-text {
+  font-weight: bold;
+}
+
+.vt__line {
+  margin: 6px 0;
+  font-weight: 700;
+}
+.vt__desc {
+  margin: 0 0 10px;
+  text-align: left;
+  line-height: 1.52;
+}
+
+/* Chi phí: hiển thị như mock */
+.vt__costlist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.vt__costitem {
+  position: relative;
+  padding-left: 16px;
+  margin: 4px 0 10px;
+  line-height: 1.5;
+}
+.vt__costitem::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-weight: 700;
+}
+.vt__costlabel {
+  font-weight: 800;
+  display: inline-block;
+}
+.vt__costdesc {
+  display: block;
+  margin-top: 2px;
+}
+
+.vt__cell--withqr {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-items: start;
+  justify-items: center;
+  text-align: center;
+}
+.vt__qr {
+  width: 160px;
+  height: auto;
+  margin-top: 10px;
+  justify-self: center;
+}
+
+.visa__table::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
+  pointer-events: none;
+}
+
+/* ref link styling */
+.vt__ref-li {
+  list-style: none;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.vt__ref {
+  text-align: center;
+  margin-top: 12px;
+}
+
+.vt__ref a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--visa-chip);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  word-break: break-word;
+  margin-top: 8px;
+}
+
+.vt__ref a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  opacity: 0.98;
+}
+
+.vt__ref a:focus-visible {
+  outline: 3px solid rgba(255, 138, 40, 0.22);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+/* ========== RESPONSIVE BREAKPOINTS ========== */
+
+/* xs: ≤359px */
+@media (max-width: 359px) {
+  .visa {
+    padding-top: 60px;
+    padding-bottom: 50px;
+  }
+
+  .visa__title {
+    font-size: 20px;
+  }
+
+  .visa__subtitle {
+    font-size: 28px;
+  }
+
+  .visa__bg-title {
+    top: 8px;
+  }
+
+  .visa__table {
+    width: calc(100% - 24px);
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 13px;
+  }
+
+  .vt__row {
+    display: block;
+    padding: 12px 8px;
+  }
+
+  .vt__row + .vt__row {
+    border-top: 2px dashed var(--visa-accent);
+    margin-top: 12px;
+    padding-top: 12px;
+  }
+
+  .vt__row + .vt__row::after {
+    display: none;
+  }
+
+  .vt__label {
+    flex-direction: row;
+    justify-content: flex-start;
+    text-align: left;
+    border-right: none;
+    border-bottom: 1px dashed var(--visa-accent);
+    padding: 0 0 8px 0;
+    margin-bottom: 12px;
+    gap: 8px;
+    font-size: 16px;
+    height: auto;
+  }
+
+  .vt__label img {
+    width: 32px;
+  }
+
+  .vt__cell {
+    border-right: none;
+    padding: 6px 0;
+    margin-bottom: 10px;
+  }
+
+  .vt__chip {
+    font-size: 12px;
+    padding: 5px 10px;
+    margin-bottom: 6px;
+  }
+
+  .vt__qr {
+    width: 100px;
+  }
+
+  .vt__ref a {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .vt__cell:not(:last-child) {
+    border-right: none;
+  }
+  .vt__label {
+    border-right: none;
+    padding: 0;
+  }
+
+  .visa__content {
+    margin-top: 120px;
+  }
+
+  .vt__row {
+    padding: 0;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) and (max-width: 479px) {
+  .visa {
+    padding-bottom: 55px;
+  }
+
+  .visa__title {
+    font-size: 24px;
+  }
+
+  .visa__subtitle {
+    font-size: 32px;
+  }
+
+  .visa__table {
+    width: calc(100% - 28px);
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 14px;
+  }
+
+  .vt__row {
+    display: block;
+    padding: 14px 10px;
+  }
+
+  .vt__label {
+    font-size: 17px;
+    gap: 8px;
+  }
+
+  .vt__label img {
+    width: 36px;
+  }
+
+  .vt__chip {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+  
+
+  .vt__qr {
+    width: 110px;
+  }
+
+  .vt__cell:not(:last-child) {
+    border-right: none;
+  }
+  .vt__label {
+    border-right: none;
+    padding: 0;
+  }
+
+  .visa__content {
+    margin-top: 120px;
+  }
+  .vt__row {
+    padding: 0;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) and (max-width: 639px) {
+  .visa {
+    padding-bottom: 60px;
+  }
+
+  .visa__title {
+    font-size: 28px;
+  }
+
+  .visa__subtitle {
+    font-size: 40px;
+  }
+
+  .visa__table {
+    width: calc(100% - 32px);
+    padding: 16px;
+    border-radius: 16px;
+    font-size: 15px;
+  }
+
+  .vt__row {
+    padding: 16px 12px;
+  }
+
+  .vt__label {
+    font-size: 18px;
+  }
+
+  .vt__label img {
+    width: 40px;
+  }
+
+  .vt__chip {
+    font-size: 14px;
+    padding: 7px 14px;
+  }
+
+  .vt__qr {
+    width: 120px;
+  }
+
+  .vt__cell:not(:last-child) {
+    border-right: none;
+  }
+  .vt__label {
+    border-right: none;
+    padding: 0;
+  }
+
+  .visa__content {
+    margin-top: 120px;
+  }
+
+  .vt__row {
+    padding: 0;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) and (max-width: 767px) {
+  .visa {
+    padding-bottom: 65px;
+  }
+
+  .visa__title {
+    font-size: 32px;
+  }
+
+  .visa__subtitle {
+    font-size: 48px;
+  }
+
+  .visa__table {
+    width: calc(100% - 36px);
+    padding: 18px;
+    border-radius: 18px;
+    font-size: 16px;
+  }
+
+  .vt__row {
+    padding: 18px 14px;
+  }
+
+  .vt__label {
+    font-size: 19px;
+  }
+
+  .vt__label img {
+    width: 44px;
+  }
+
+  .vt__qr {
+    width: 130px;
+  }
+
+  .vt__cell:not(:last-child) {
+    border-right: none;
+  }
+  .vt__label {
+    border-right: none;
+    padding: 0;
+  }
+
+  .visa__content {
+    margin-top: 120px;
+  }
+
+  .vt__row {
+    padding: 0;
+  }
+}
+
+/* Giữ nguyên các responsive breakpoints cho desktop */
+@media (min-width: 768px) {
+  /* Desktop code giữ nguyên như hiện tại */
+  .vt__chip--mobile {
+    display: none !important;
+  }
+
+  .visa__title {
+    font-size: 48px;
+  }
+
+  .visa__subtitle {
+    font-size: 84px;
+  }
+
+  .visa__bg-title {
+    top: 5%;
+  }
+
+  .visa__table {
+    width: 88%;
+    height: 980px;
+    top: -350px;
+    font-size: 18px;
+    border-radius: 24px;
+  }
+
+  .vt__row {
+    display: grid;
+    grid-template-columns: 180px repeat(3, 1fr);
+    padding: 0;
+    align-items: start;
+  }
+
+  .vt__row + .vt__row {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .vt__row + .vt__row::after {
+    display: block;
+  }
+
+  .vt__label {
+    flex-direction: column;
+    text-align: center;
+    border-right: 2px dashed var(--visa-accent);
+    border-bottom: none;
+    padding: 6px 16px 6px 0;
+    margin-bottom: 0;
+    font-size: 20px;
+    height: 100%;
+    justify-content: center;
+  }
+
+  .vt__label img {
+    width: 50px;
+  }
+
+  .vt__cell {
+    padding: 20px 10px;
+    border-right: 2px dashed var(--visa-accent);
+    margin-bottom: 0;
+  }
+
+  .vt__cell:last-child {
+    border-right: none;
+  }
+
+  .vt__chip {
+    font-size: 16px;
+    padding: 8px 16px;
+    justify-self: center;
+  }
+
+  .vt__qr {
+    width: 140px;
+  }
+}
+
+/* Giữ nguyên tất cả breakpoints lớn hơn */
+@media (min-width: 1024px) {
+  .visa__title {
+    font-size: 54px;
+  }
+  .visa__subtitle {
+    font-size: 96px;
+  }
+  .visa__bg-title {
+    top: 4%;
+  }
+  .visa__table {
+    width: 85%;
+    top: -380px;
+    font-size: 19px;
+    border-radius: 26px;
+  }
+  .vt__row {
+    grid-template-columns: 200px repeat(3, 1fr);
+  }
+  .vt__label {
+    font-size: 22px;
+    padding: 6px 18px 6px 0;
+  }
+  .vt__label img {
+    width: 55px;
+  }
+  .vt__cell {
+    padding: 22px 12px;
+  }
+  .vt__chip {
+    font-size: 17px;
+    padding: 9px 18px;
+  }
+  .vt__qr {
+    width: 150px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .visa__title {
+    font-size: 60px;
+  }
+  .visa__subtitle {
+    font-size: 108px;
+  }
+  .visa__bg-title {
+    top: 3.5%;
+  }
+  .visa__table {
+    width: min(1600px, 88%);
+    top: -410px;
+    font-size: 20px;
+    border-radius: 28px;
+  }
+  .vt__row {
+    grid-template-columns: 220px repeat(3, 1fr);
+  }
+  .vt__label {
+    font-size: 23px;
+    padding: 6px 20px 6px 0;
+  }
+  .vt__label img {
+    width: 58px;
+  }
+  .vt__cell {
+    padding: 24px 12px;
+  }
+  .vt__chip {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+  .vt__qr {
+    width: 155px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .visa__title {
+    font-size: 64px;
+  }
+  .visa__subtitle {
+    font-size: 112px;
+  }
+  .visa__bg-title {
+    top: 3.2%;
+  }
+  .visa__table {
+    width: min(1700px, 90%);
+    top: -420px;
+  }
+  .vt__row {
+    grid-template-columns: 225px repeat(3, 1fr);
+  }
+  .vt__label {
+    font-size: 24px;
+    padding: 6px 21px 6px 0;
+  }
+  .vt__label img {
+    width: 60px;
+  }
+  .vt__qr {
+    width: 158px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .visa__title {
+    font-size: 66px;
+  }
+  .visa__subtitle {
+    font-size: 116px;
+  }
+  .visa__bg-title {
+    top: 3%;
+  }
+  .visa__table {
+    width: min(1739px, 90%);
+    top: -427px;
+    font-size: 20px;
+  }
+  .vt__row {
+    grid-template-columns: 230px repeat(3, 1fr);
+  }
+  .vt__label {
+    font-size: 24px;
+    padding: 6px 22px 6px 0;
+  }
+  .vt__label img {
+    width: 60px;
+  }
+  .vt__chip {
+    font-size: 18px;
+    padding: 10px 22px;
+  }
+  .vt__qr {
+    width: 160px;
+  }
+}
+
+/* Căn giữa nội dung trong cell có class vt__cell--center trên mobile */
+@media (max-width: 767px) {
+  .vt__cell--center {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Desktop giữ nguyên justify-items: start */
+@media (min-width: 768px) {
+  .vt__cell--center {
+    justify-items: start;
+    align-items: start;
+    text-align: left;
+  }
+}
+
+/* Macot con gấu ở góc trên bên phải của table */
+.visa__bear {
+  position: absolute;
+  top: -333px;
+  right: -33px;
+  width: 350px;
+  height: 350px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Responsive cho mobile: ẩn con gấu */
+@media (max-width: 767px) {
+  .visa__bear {
+    display: none;
+  }
+}
+
+/* QR Code centering - đảm bảo luôn nằm giữa trên mobile */
+.vt__qr-li {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.vt__qr {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobile responsive - đảm bảo QR luôn center */
+@media (max-width: 359px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 100px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+@media (min-width: 360px) and (max-width: 479px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 110px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 639px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 120px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 767px) {
+  .vt__qr-li {
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .vt__qr {
+    width: 130px;
+    margin: 10px auto 0;
+    display: block;
+  }
+}
+
+/* Cell chứa QR cũng cần center */
+.vt__cell--withqr {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-items: start;
+  justify-items: center;
+  text-align: center;
+}
+
+/* Mobile: đảm bảo QR content được center */
+@media (max-width: 767px) {
+  .vt__cell--withqr {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .vt__cell--withqr .vt__content {
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+}
