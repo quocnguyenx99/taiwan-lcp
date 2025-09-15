@@ -887,8 +887,8 @@
   }
 
   .first-prize__header-image {
-    width: 350px;
-    top: -45px;
+    width: 360px;
+    top: -24px;
   }
 
   .first-prize__digit {
@@ -915,8 +915,8 @@
   }
 
   .second-prize__header-image {
-    width: 358px;
-    top: -40px;
+    width: 360px;
+    top: -24px;
   }
 
   .second-prize__boards {
@@ -953,7 +953,7 @@
 
   .third-prize__header-image {
     width: 358px;
-    top: -32px;
+    top: -24px;
   }
 
   .third-prize__lookup-input {
@@ -1157,7 +1157,7 @@
   }
 
   .lottery-banner__sub {
-    flex-direction: row; /* ✅ đổi về ngang */
+    flex-direction: column; /* ✅ đổi về ngang */
     align-items: center;
     justify-content: center;
     gap: clamp(12px, 3vw, 24px); /* khoảng cách hợp lý */
@@ -1248,7 +1248,7 @@
   }
 
   .lottery-banner__title {
-    font-size: 68px;
+    font-size: 48px;
   }
 
   .lottery-banner__subtitle {
@@ -1260,7 +1260,7 @@
   }
 
   .first-prize__container {
-    padding: 250px 32px 52px;
+    padding: 190px 32px 52px;
   }
 
   .first-prize__header-image {
@@ -1275,6 +1275,11 @@
 
   .first-prize__name-overlay {
     font-size: 44px;
+  }
+
+  .first-prize__header-image {
+    width: 700px;
+    top: -44px;
   }
 
   .first-prize__spin-btn {
@@ -1294,8 +1299,27 @@
     font-size: 36px;
   }
 
+  .second-prize__header-image {
+    width: 700px;
+    top: -42px;
+  }
+
+  .second-prize__container {
+    padding: 160px 32px 56px;
+  }
+
+  .third-prize__header-image {
+    width: 700px;
+    top: -40px;
+  }
+
+  .third-prize__lookup-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .third-prize__container {
-    padding: 250px 60px 52px;
+    padding: 160px 60px 52px;
   }
 
   .third-prize__lookup-input {
@@ -1331,16 +1355,23 @@
     min-height: 420px;
   }
 
+  .lottery-banner__sub {
+    flex-direction: row; /* ✅ reset */
+    align-items: center;
+    justify-content: center;
+    gap: clamp(16px, 2vw, 32px); /* khoảng cách hợp lý */
+  }
+
   .lottery-banner__title {
     font-size: 78px;
   }
 
   .lottery-banner__subtitle {
-    font-size: 48px;
+    font-size: 36px;
   }
 
   .lottery-banner__logo {
-    height: 180px;
+    height: 140px;
   }
 
   .first-prize__container {
@@ -1348,8 +1379,8 @@
   }
 
   .first-prize__header-image {
-    width: 720px;
-    top: -60px;
+    width: 1000px;
+    top: -70px;
   }
 
   .first-prize__digit {
@@ -1403,6 +1434,11 @@
     padding: 260px 100px 54px;
   }
 
+  .third-prize__lookup-row {
+    flex-direction: row; /* reset */
+    gap: 20px;
+  }
+
   .third-prize__lookup-icon {
     width: 80px;
     height: 80px;
@@ -1442,11 +1478,11 @@
   }
 
   .lottery-banner__subtitle {
-    font-size: 52px;
+    font-size: 40px;
   }
 
   .lottery-banner__logo {
-    height: 190px;
+    height: 150px;
   }
 
   .first-prize__container {
@@ -1454,8 +1490,8 @@
   }
 
   .first-prize__header-image {
-    width: 800px;
-    top: -62px;
+    width: 1100px;
+    top: -76px;
   }
 
   .first-prize__digit {

@@ -57,7 +57,7 @@ const Login: React.FC = () => {
     <main className="login-page">
       <Toaster richColors position="top-right" />
       <section className="login-card container">
-        <h1>Đăng nhập test</h1>
+        <h1>Đăng nhập</h1>
 
         {error && (
           <div className="login-error" role="alert">

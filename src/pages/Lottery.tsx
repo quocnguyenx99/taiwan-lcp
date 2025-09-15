@@ -36,6 +36,140 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const [bottleList, setBottleList] = useState<Winner[]>([]); // prizeId = 4
   const [bagList, setBagList] = useState<Winner[]>([]); // prizeId = 5
 
+  // Thêm sample 100 records cho balo (nếu chưa có)
+  const backpackSample: Winner[] = [
+    { number_phone: "0945408728", full_name: "Trần Thanh Khiết" },
+    { number_phone: "0857305348", full_name: "Phạm Tuấn Anh" },
+    { number_phone: "0967131112", full_name: "Phạm Quân" },
+    { number_phone: "0969421547", full_name: "Đào Thái Dương" },
+    { number_phone: "0902463269", full_name: "ĐỖ PHƯỚC DANH" },
+    { number_phone: "0905777098", full_name: "Nguyễn Thị Phương Thảo" },
+    { number_phone: "0969043530", full_name: "Phạm trung tính" },
+    { number_phone: "0947853384", full_name: "Hoàng anh quốc" },
+    { number_phone: "0372864598", full_name: "Vũ văn linh" },
+    { number_phone: "0976608340", full_name: "Huỳnh Quang Tiên" },
+    { number_phone: "0369897344", full_name: "Trần bảo hoàng" },
+    { number_phone: "0332954799", full_name: "NGUYỄN HOÀNG PHƯƠNG NAM" },
+    { number_phone: "0896662240", full_name: "Ng thi phuong an" },
+    { number_phone: "0707022924", full_name: "Hồ Hải Đăng" },
+    { number_phone: "0782998281", full_name: "Trần sương thanh hải" },
+    { number_phone: "0931971007", full_name: "Lê Thành đạt" },
+    { number_phone: "0708459569", full_name: "Hà Nguyễn Nhật Minh" },
+    { number_phone: "0868773512", full_name: "Võ Đặng đường" },
+    { number_phone: "0772890874", full_name: "Nguyễn trương hải duy" },
+    { number_phone: "0907096017", full_name: "Lê Nguyễn hiếu thông" },
+    { number_phone: "0941233509", full_name: "Kiều Đăng Nguyên" },
+    { number_phone: "0969936076", full_name: "NGUYỄN THỊ PHƯƠNG ANH" },
+    { number_phone: "0902588780", full_name: "Nguyen Thi Hoang Oanh" },
+    { number_phone: "0772103926", full_name: "Đào Thanh Nhân" },
+    { number_phone: "0789683374", full_name: "Lê Phú Hoà" },
+    { number_phone: "0794714612", full_name: "Hà Ngô Quang Minh" },
+    { number_phone: "0377921171", full_name: "Mai Gia Bảo" },
+    { number_phone: "0898135240", full_name: "Phan Thanh Bình" },
+    { number_phone: "0788200653", full_name: "Trương Thị Thuý Phương" },
+    { number_phone: "0334806096", full_name: "Nguyễn văn lâm" },
+    { number_phone: "0365435370", full_name: "Nguyễn Phương Mai" },
+    { number_phone: "0326648998", full_name: "Nguyễn Hồng Quân" },
+    { number_phone: "0365629897", full_name: "Tô Thanh cường" },
+    { number_phone: "0828161459", full_name: "Cao Tuyến Trung" },
+    { number_phone: "0566355042", full_name: "Nguyễn Hoàng Thái" },
+    { number_phone: "0981981978", full_name: "NGUYỄN LÊ HOÀNG LÂN" },
+    { number_phone: "0366718765", full_name: "Võ Mai Hùng Anh" },
+    { number_phone: "0987524878", full_name: "Trần Hoàng quân" },
+    { number_phone: "0918228175", full_name: "Hồ thị kiều linh" },
+    { number_phone: "0865663164", full_name: "Tạ Đức Phúc" },
+    { number_phone: "0329865712", full_name: "Hồ Thanh Hóa" },
+    { number_phone: "0786078806", full_name: "Nguyễn minh khôi" },
+    { number_phone: "0795747151", full_name: "Nguyễn Thành nhân" },
+    { number_phone: "0973533995", full_name: "NGUYỄN VÕ TÙNG" },
+    { number_phone: "0921327386", full_name: "Võ minh nghĩa" },
+    { number_phone: "0931821812", full_name: "Phan Nhật Trường" },
+    { number_phone: "0355037448", full_name: "Nguyễn Thị Lan Anh" },
+    { number_phone: "0343158004", full_name: "Lê Minh Nhật" },
+    { number_phone: "0931304810", full_name: "Nguyễn trúc quỳnh" },
+    { number_phone: "0859650995", full_name: "LƯƠNG NGỌC VĨNH HUY" },
+    { number_phone: "0328096064", full_name: "Bùi Phương Thảo" },
+    { number_phone: "0366922860", full_name: "Lê Xuân dương" },
+    { number_phone: "0387920961", full_name: "LÊ NHẬT QUanG" },
+    { number_phone: "0985167128", full_name: "Nguyễn Hoàng Hiệp" },
+    { number_phone: "0339456098", full_name: "Nguyễn Hữu Hiệp" },
+    { number_phone: "0796829523", full_name: "Trần duy chương" },
+    { number_phone: "0909202041", full_name: "Trần Quốc đạt" },
+    { number_phone: "0907612423", full_name: "Đặng Hoàng Khang" },
+    { number_phone: "0366333149", full_name: "Cao Nguyễn Anh Vũ" },
+    { number_phone: "0336872678", full_name: "Hoàng Lan Anh" },
+    { number_phone: "0708044741", full_name: "Trần Đoàn Gia Huân" },
+    { number_phone: "0938993538", full_name: "Dương Ngọc Kim" },
+    { number_phone: "0367460106", full_name: "Trần Minh nhựt" },
+    { number_phone: "0848333937", full_name: "Đặng nguyên phương" },
+    { number_phone: "0888211040", full_name: "Nguyễn Nhựt Khang Nhựt Khang" },
+    { number_phone: "0965435451", full_name: "Trương Tấn Tài" },
+    { number_phone: "0868756249", full_name: "Phan Nhật Huy" },
+    { number_phone: "0559502422", full_name: "Đỗ Hoàng Long" },
+    { number_phone: "0342892004", full_name: "Đào TRỌNG KHẢI" },
+    { number_phone: "0902821908", full_name: "Mạch Chấn Giang" },
+    { number_phone: "0937010816", full_name: "Võ Thị HỒng my" },
+    { number_phone: "0789433919", full_name: "Lê Thu Thảo" },
+    { number_phone: "0387385900", full_name: "Lục Thị Giang" },
+    { number_phone: "0397809536", full_name: "Phạm Đình nam" },
+    { number_phone: "0376903439", full_name: "Nguyễn Đình Trường" },
+    { number_phone: "0582312139", full_name: "Trần thanh trà" },
+    { number_phone: "0773061824", full_name: "Khổng Lê Minh" },
+    { number_phone: "0983871703", full_name: "Lê Thu Phương" },
+    { number_phone: "0949697898", full_name: "Ngô gia nhựt" },
+    { number_phone: "0854568679", full_name: "Đỗ mạnh thịnh" },
+    { number_phone: "0943890108", full_name: "MAI THỊ NGỌC YẾN" },
+    { number_phone: "0765197885", full_name: "Dang Quoc Anh" },
+    { number_phone: "0767207537", full_name: "LƯƠNG Ngọc quế chi" },
+    { number_phone: "0334028875", full_name: "Nguyễn thanh tùng" },
+    { number_phone: "0768013457", full_name: "Le Nhat Tan" },
+    { number_phone: "0858091585", full_name: "Nguyễn Hà Quang Dũng" },
+    { number_phone: "0384215606", full_name: "Huỳnh bẢO nGỌC" },
+    { number_phone: "0908668603", full_name: "Trần Quốc anh" },
+    { number_phone: "0365707425", full_name: "Trương quốc khánh" },
+    { number_phone: "0825200539", full_name: "Nguyễn Đức Huy" },
+    { number_phone: "0346770948", full_name: "Phạm Nguyễn hoàng tiến" },
+    { number_phone: "0907713825", full_name: "Võ Viết Dũng" },
+    { number_phone: "0905459342", full_name: "Nguyễn bảo minh hoàng" },
+    { number_phone: "0395433185", full_name: "Ngô Tấn hậu" },
+    { number_phone: "0397789739", full_name: "Nguyễn Phước Dũng" },
+    { number_phone: "0385487636", full_name: "Đào thị Hoa" },
+    { number_phone: "0911630090", full_name: "Trịnh công hiếu" },
+    { number_phone: "0373352572", full_name: "Đỗ thành trung" },
+    { number_phone: "0986226612", full_name: "Phạm Hải Hà" },
+    { number_phone: "0942912209", full_name: "Vũ thái sơn" },
+  ];
+
+  // State cho số lượng record hiển thị
+  const [backpackVisible, setBackpackVisible] = useState(10);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Khi mount, set sample cho balo nếu chưa có
+  useEffect(() => {
+    if (backpackList.length === 0) setBackpackList(backpackSample);
+    // eslint-disable-next-line
+  }, []);
+
+  // Khi bấm XEM THÊM hoặc THU GỌN
+  const handleToggleBackpack = () => {
+    if (isExpanded) {
+      // Thu gọn: chỉ hiển thị 10 record đầu
+      setBackpackVisible(10);
+      setIsExpanded(false);
+      // Cuộn lên bảng balo
+      setTimeout(() => {
+        const table = document.querySelector(".backpack-prize__table-wrap");
+        if (table) {
+          table.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    } else {
+      // Mở rộng: hiển thị hết 100 record
+      setBackpackVisible(backpackList.length);
+      setIsExpanded(true);
+    }
+  };
+
   // Socket / timer
   const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const stopTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -313,7 +447,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
           {/* BALO DU LỊCH (prizeId = 3) */}
           <div className="backpack-prize">
             <div className="backpack-prize__title">BALO DU LỊCH</div>
-
             <div className="backpack-prize__table-wrap">
               <table className="backpack-prize__table">
                 <thead>
@@ -324,7 +457,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {backpackList.map((w, idx) => (
+                  {backpackList.slice(0, backpackVisible).map((w, idx) => (
                     <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
@@ -333,6 +466,14 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="backpack-prize__more">
+              <button
+                className="backpack-prize__more-btn"
+                onClick={handleToggleBackpack}
+              >
+                {isExpanded ? "THU GỌN" : "XEM THÊM"}
+              </button>
             </div>
           </div>
 
@@ -361,6 +502,9 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   ))}
                 </tbody>
               </table>
+            </div>
+            <div className="backpack-prize__more">
+              <button className="backpack-prize__more-btn">XEM THÊM</button>
             </div>
           </div>
 
