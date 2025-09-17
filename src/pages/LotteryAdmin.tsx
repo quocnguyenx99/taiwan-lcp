@@ -16,36 +16,50 @@ interface Winner {
   full_name: string;
 }
 
-const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
+const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const activeCampaignId = campaignId || "taiwan-lcp";
 
-  const [thirdTable, setThirdTable] = useState<Winner[]>([]);
-  const [thirdVisibleCount, setThirdVisibleCount] = useState(5);
-
-  const [fourthTable, setFourthTable] = useState<Winner[]>([]);
-  const [fourthVisibleCount, setFourthVisibleCount] = useState(5);
-
-  const [fifthTable, setFifthTable] = useState<Winner[]>([]);
-  const [fifthVisibleCount, setFifthVisibleCount] = useState(5);
-
-  // Giải nhất (1 người)
-  const [firstDigits, setFirstDigits] = useState<number[]>(Array(10).fill(0));
+  // Giải nhất (1 người) - UPDATE TYPE ĐỂ HỖ TRỢ X
+  const [firstDigits, setFirstDigits] = useState<(number | string)[]>(Array(10).fill(0));
   const [firstSpinning, setFirstSpinning] = useState(false);
   const firstSpinningRef = useRef(false);
   const [firstWinner, setFirstWinner] = useState<Winner | null>(null);
 
-  // Giải nhì (3 người)
-  const [secondDigits, setSecondDigits] = useState<number[][]>(
-    Array.from({ length: 3 }, () => Array(10).fill(0)) // tránh fill cùng tham chiếu
+  // Giải nhì (3 người) - UPDATE TYPE ĐỂ HỖ TRỢ X
+  const [secondDigits, setSecondDigits] = useState<(number | string)[][]>(
+    Array.from({ length: 3 }, () => Array(10).fill(0))
   );
-  const [secondSpinning, setSecondSpinning] = useState(false);
-  const secondSpinningRef = useRef(false);
+  const [secondSpinningStates, setSecondSpinningStates] = useState<boolean[]>([false, false, false]);
   const [secondWinners, setSecondWinners] = useState<Winner[]>([]);
 
   // Giải 3–5 (chỉ render bảng)
   const [backpackList, setBackpackList] = useState<Winner[]>([]); // prizeId = 3
   const [bottleList, setBottleList] = useState<Winner[]>([]); // prizeId = 4
   const [bagList, setBagList] = useState<Winner[]>([]); // prizeId = 5
+
+  // State cho số lượng record hiển thị của từng giải
+  const [backpackVisible, setBackpackVisible] = useState(10);
+  const [isBackpackExpanded, setIsBackpackExpanded] = useState(false);
+
+  const [bottleVisible, setBottleVisible] = useState(10);
+  const [isBottleExpanded, setIsBottleExpanded] = useState(false);
+
+  const [bagVisible, setBagVisible] = useState(10);
+  const [isBagExpanded, setIsBagExpanded] = useState(false);
+
+  // Thêm state cho tra cứu
+  const [searchPhone, setSearchPhone] = useState("");
+  const [searchResult, setSearchResult] = useState<{
+    found: boolean;
+    message: string;
+    winner?: Winner & { prize_id: number; prize: string };
+  } | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // State để lưu danh sách gốc (không bị filter)
+  const [originalBackpackList, setOriginalBackpackList] = useState<Winner[]>([]);
+  const [originalBottleList, setOriginalBottleList] = useState<Winner[]>([]);
+  const [originalBagList, setOriginalBagList] = useState<Winner[]>([]);
 
   // Admin gating
   const [hasToken, setHasToken] = useState(false);
@@ -54,6 +68,212 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const stopTimeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const socketRef = useRef<any | null>(null);
+
+  // Hàm toggle cho từng giải
+  const handleToggleBackpack = () => {
+    if (isBackpackExpanded) {
+      setBackpackVisible(10);
+      setIsBackpackExpanded(false);
+      setTimeout(() => {
+        const table = document.querySelector(".backpack-prize");
+        if (table) {
+          const headerHeight = 110;
+          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: tablePosition - headerHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+    } else {
+      setBackpackVisible(backpackList.length);
+      setIsBackpackExpanded(true);
+    }
+  };
+
+  const handleToggleBottle = () => {
+    if (isBottleExpanded) {
+      setBottleVisible(10);
+      setIsBottleExpanded(false);
+      setTimeout(() => {
+        const table = document.querySelector(".bottle-prize");
+        if (table) {
+          const headerHeight = 110;
+          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: tablePosition - headerHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+    } else {
+      setBottleVisible(bottleList.length);
+      setIsBottleExpanded(true);
+    }
+  };
+
+  const handleToggleBag = () => {
+    if (isBagExpanded) {
+      setBagVisible(10);
+      setIsBagExpanded(false);
+      setTimeout(() => {
+        const table = document.querySelector(".bag-prize");
+        if (table) {
+          const headerHeight = 110;
+          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: tablePosition - headerHeight,
+            behavior: "smooth",
+          });
+        }
+      }, 100);
+    } else {
+      setBagVisible(bagList.length);
+      setIsBagExpanded(true);
+    }
+  };
+
+  // Hàm tra cứu số điện thoại
+  const handleSearch = async () => {
+    // Nếu input trống, reset về danh sách gốc
+    if (!searchPhone.trim()) {
+      setSearchResult(null);
+      setBackpackList(originalBackpackList);
+      setBackpackVisible(10);
+      setIsBackpackExpanded(false);
+
+      setBottleList(originalBottleList);
+      setBottleVisible(10);
+      setIsBottleExpanded(false);
+
+      setBagList(originalBagList);
+      setBagVisible(10);
+      setIsBagExpanded(false);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch("https://be.dudoanchungketlcp-tta.vn/api/prize/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phone: searchPhone.trim(),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.status && result.data) {
+        // Trúng giải - chỉ hiển thị 1 record trong bảng tương ứng
+        setSearchResult({
+          found: true,
+          message: "CHÚC MỪNG BẠN NẰM TRONG DANH SÁCH TRÚNG GIẢI.",
+          winner: result.data,
+        });
+
+        // Filter bảng tương ứng chỉ hiển thị 1 record
+        const winnerRecord = {
+          number_phone: result.data.number_phone,
+          full_name: result.data.full_name,
+        };
+
+        if (result.data.prize_id === 3) {
+          setBackpackList([winnerRecord]);
+          setBackpackVisible(1);
+          setIsBackpackExpanded(false);
+          // Scroll xuống bảng balo sau khi render
+          setTimeout(() => {
+            const table = document.querySelector(".backpack-prize");
+            if (table) {
+              const headerHeight = 110;
+              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: tablePosition - headerHeight,
+                behavior: "smooth",
+              });
+            }
+          }, 100);
+        } else if (result.data.prize_id === 4) {
+          setBottleList([winnerRecord]);
+          setBottleVisible(1);
+          setIsBottleExpanded(false);
+          // Scroll xuống bảng bình nước sau khi render
+          setTimeout(() => {
+            const table = document.querySelector(".bottle-prize");
+            if (table) {
+              const headerHeight = 110;
+              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: tablePosition - headerHeight,
+                behavior: "smooth",
+              });
+            }
+          }, 100);
+        } else if (result.data.prize_id === 5) {
+          setBagList([winnerRecord]);
+          setBagVisible(1);
+          setIsBagExpanded(false);
+          // Scroll xuống bảng túi xếp sau khi render
+          setTimeout(() => {
+            const table = document.querySelector(".bag-prize");
+            if (table) {
+              const headerHeight = 110;
+              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: tablePosition - headerHeight,
+                behavior: "smooth",
+              });
+            }
+          }, 100);
+        }
+      } else {
+        // Không trúng giải - khôi phục lại danh sách gốc
+        setSearchResult({
+          found: false,
+          message: "BẠN KHÔNG NẰM TRONG DANH SÁCH TRÚNG GIẢI.",
+        });
+
+        // Khôi phục lại danh sách gốc
+        setBackpackList(originalBackpackList);
+        setBackpackVisible(10);
+        setIsBackpackExpanded(false);
+
+        setBottleList(originalBottleList);
+        setBottleVisible(10);
+        setIsBottleExpanded(false);
+
+        setBagList(originalBagList);
+        setBagVisible(10);
+        setIsBagExpanded(false);
+      }
+    } catch (error) {
+      console.error("Error searching:", error);
+      setSearchResult({
+        found: false,
+        message: "CÓ LỖI XẢY RA KHI TRA CỨU.",
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Hàm scroll đến section tương ứng
+  const scrollToSection = (sectionClass: string, delay = 1000) => {
+    setTimeout(() => {
+      const section = document.querySelector(sectionClass);
+      if (section) {
+        const headerHeight = 110;
+        const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: sectionPosition - headerHeight,
+          behavior: "smooth",
+        });
+      }
+    }, delay);
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -64,7 +284,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     });
     socketRef.current = socket;
 
-    // join đúng campaign ngay từ đầu
     socket.emit("join", { campaignId: activeCampaignId });
 
     // === HÀM QUAY GIẢI NHẤT ===
@@ -82,24 +301,43 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       }, 80);
     };
 
-    // === HÀM QUAY GIẢI NHÌ (3 ô) ===
-    const startSecondSpin = () => {
-      if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
-      stopTimeoutsRef.current.forEach(clearTimeout);
-      stopTimeoutsRef.current = [];
-      setSecondSpinning(true);
-      secondSpinningRef.current = true;
-      setSecondWinners([]);
-      spinIntervalRef.current = setInterval(() => {
-        setSecondDigits((prev) =>
-          prev.map(() =>
-            Array.from({ length: 10 }, () => Math.floor(Math.random() * 10))
-          )
-        );
+    // === HÀM QUAY GIẢI NHÌ THEO INDEX ===
+    const startSecondSpin = (prizeIndex: number) => {
+      console.log(`🎰 Starting spin for second prize ${prizeIndex + 1} (prizeId: ${prizeIndex + 21})`);
+      
+      // Cập nhật trạng thái spinning cho giải cụ thể
+      setSecondSpinningStates(prev => {
+        const newStates = [...prev];
+        newStates[prizeIndex] = true;
+        console.log(`🎰 Updated spinning states:`, newStates);
+        return newStates;
+      });
+
+      // Clear interval cũ nếu có
+      if (spinIntervalRef.current) {
+        clearInterval(spinIntervalRef.current);
+        spinIntervalRef.current = null;
+      }
+
+      // Tạo interval riêng cho giải này
+      const spinInterval = setInterval(() => {
+        setSecondDigits(prev => {
+          const newDigits = prev.map((arr, idx) => {
+            // Chỉ quay animation cho giải đang được chọn
+            if (idx === prizeIndex) {
+              return Array.from({ length: 10 }, () => Math.floor(Math.random() * 10));
+            }
+            return arr; // Giữ nguyên các giải khác
+          });
+          return newDigits;
+        });
       }, 80);
+
+      // Lưu interval này để có thể clear sau
+      spinIntervalRef.current = spinInterval;
     };
 
-    // === STOP SPIN: dùng cho cả giải 1 & 2, và set dữ liệu bảng cho 3–5 ===
+    // === STOP SPIN: xử lý từng giải riêng biệt ===
     const stopSpin = (payload: any) => {
       console.log("🎯 STOP SPIN PAYLOAD:", payload);
       const prizeId: number = payload?.prizeId;
@@ -114,14 +352,24 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       stopTimeoutsRef.current.forEach(clearTimeout);
       stopTimeoutsRef.current = [];
 
+      // Hàm helper để xử lý number_phone có chứa XXXX
+      const processPhoneDisplay = (phoneStr: string) => {
+        const cleanPhone = phoneStr.padStart(10, "0").slice(0, 10);
+        return cleanPhone.split("").map((char) => {
+          if (char === "X" || char === "x") {
+            return "X"; // Giữ nguyên X
+          }
+          const num = Number(char);
+          return isNaN(num) ? "X" : num; // Nếu không phải số thì hiển thị X
+        });
+      };
+
       // Giải 1: reveal 1 người, có animation "giảm tốc"
       if (prizeId === 1) {
         setFirstSpinning(false);
         firstSpinningRef.current = false;
         const first = results[0];
-        const resultStr = String(first.number_phone)
-          .padStart(10, "0")
-          .slice(0, 10);
+        const displayArray = processPhoneDisplay(String(first.number_phone));
 
         for (let i = 0; i < 10; i++) {
           const t = setTimeout(() => {
@@ -130,46 +378,129 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 Array.from({ length: 10 }, () => Math.floor(Math.random() * 10))
               );
             } else {
-              setFirstDigits(resultStr.split("").map((c) => Number(c)));
+              setFirstDigits(displayArray);
               setFirstWinner(first);
+              scrollToSection(".second-prize", 2000);
             }
           }, 120 + i * 120);
           stopTimeoutsRef.current.push(t);
         }
       }
 
-      // Giải 2: reveal 3 người, hiển thị 3 ô số theo thứ tự
-      if (prizeId === 2) {
-        setSecondSpinning(false);
-        secondSpinningRef.current = false;
-        const reveal = results.slice(0, 3);
-        reveal.forEach((w, idx) => {
-          setTimeout(() => {
-            const resultStr = String(w.number_phone)
-              .padStart(10, "0")
-              .slice(0, 10);
-            setSecondDigits((prev) => {
-              const newDigits = prev.map((arr) => [...arr]); // clone an toàn
-              newDigits[idx] = resultStr.split("").map((c) => Number(c));
-              return newDigits;
-            });
-          }, 300 * idx);
+      // Giải 2: xử lý từng giải Nhì riêng biệt (21, 22, 23)
+      if (prizeId >= 21 && prizeId <= 23) {
+        const prizeIndex = prizeId - 21; // 21->0, 22->1, 23->2
+        const winner = results[0]; // Mỗi lần chỉ nhận 1 người
+        
+        console.log(`🏆 Stopping spin for second prize ${prizeIndex + 1} (prizeId: ${prizeId})`);
+        console.log(`🏆 Winner:`, winner);
+        
+        // Dừng animation cho giải này
+        setSecondSpinningStates(prev => {
+          const newStates = [...prev];
+          newStates[prizeIndex] = false;
+          console.log(`🏆 Updated spinning states after stop:`, newStates);
+          return newStates;
         });
-        setSecondWinners(reveal);
+
+        // Animation giảm tốc cho giải này
+        const displayArray = processPhoneDisplay(String(winner.number_phone));
+
+        for (let i = 0; i < 8; i++) {
+          const t = setTimeout(() => {
+            if (i < 7) {
+              setSecondDigits(prev => {
+                const newDigits = prev.map((arr, idx) => {
+                  if (idx === prizeIndex) {
+                    return Array.from({ length: 10 }, () => Math.floor(Math.random() * 10));
+                  }
+                  return arr;
+                });
+                return newDigits;
+              });
+            } else {
+              // Hiển thị kết quả cuối cùng
+              setSecondDigits(prev => {
+                const newDigits = prev.map((arr, idx) => {
+                  if (idx === prizeIndex) {
+                    return displayArray;
+                  }
+                  return arr;
+                });
+                return newDigits;
+              });
+
+              // Cập nhật danh sách winners
+              setSecondWinners(prev => {
+                const newWinners = [...prev];
+                newWinners[prizeIndex] = winner;
+                console.log(`🏆 Updated second winners:`, newWinners);
+                return newWinners;
+              });
+
+              // Nếu đây là giải cuối cùng (prizeId 23), scroll xuống giải 3
+              if (prizeId === 23) {
+                console.log(`🏆 Completed all second prizes, scrolling to third prize`);
+                scrollToSection(".third-prize", 2000);
+              }
+            }
+          }, 100 + i * 150); // Animation giảm tốc
+          stopTimeoutsRef.current.push(t);
+        }
       }
 
-      // Giải 3–5: render bảng
-      if (prizeId === 3) setBackpackList(results);
-      if (prizeId === 4) setBottleList(results);
-      if (prizeId === 5) setBagList(results);
+      // Giải 3–5: render bảng và scroll xuống giải tiếp theo
+      if (prizeId === 3) {
+        setOriginalBackpackList(results);
+        setBackpackList(results);
+        setBackpackVisible(10);
+        setIsBackpackExpanded(false);
+        scrollToSection(".backpack-prize", 500);
+      }
+      if (prizeId === 4) {
+        setOriginalBottleList(results);
+        setBottleList(results);
+        setBottleVisible(10);
+        setIsBottleExpanded(false);
+        scrollToSection(".bottle-prize", 500);
+      }
+      if (prizeId === 5) {
+        setOriginalBagList(results);
+        setBagList(results);
+        setBagVisible(10);
+        setIsBagExpanded(false);
+        scrollToSection(".bag-prize", 500);
+      }
     };
 
     // Lắng nghe start-spin để khởi động animation đúng giải
     socket.on("start-spin", (p: any) => {
       console.log("📡 start-spin:", p);
       if (p?.campaignId && p.campaignId !== activeCampaignId) return;
-      if (p?.prizeId === 1 && !firstSpinningRef.current) startFirstSpin();
-      if (p?.prizeId === 2 && !secondSpinningRef.current) startSecondSpin();
+      
+      if (p?.prizeId === 1 && !firstSpinningRef.current) {
+        console.log("🎰 Starting first prize spin");
+        startFirstSpin();
+      }
+      
+      // Xử lý các giải Nhì riêng biệt
+      if (p?.prizeId >= 21 && p?.prizeId <= 23) {
+        const prizeIndex = p.prizeId - 21;
+        console.log(`📡 Received start-spin for second prize ${prizeIndex + 1} (prizeId: ${p.prizeId})`);
+        
+        // Lấy current state thay vì dựa vào stale closure
+        setSecondSpinningStates(currentStates => {
+          console.log(`📡 Current spinning states:`, currentStates);
+          if (!currentStates[prizeIndex]) {
+            console.log(`📡 Starting spin for prize index ${prizeIndex}`);
+            // Call startSecondSpin trong microtask để đảm bảo state đã update
+            setTimeout(() => startSecondSpin(prizeIndex), 0);
+          } else {
+            console.log(`📡 Prize index ${prizeIndex} is already spinning`);
+          }
+          return currentStates; // Không thay đổi state ở đây
+        });
+      }
     });
 
     // Lắng nghe stop-spin để dừng và show kết quả
@@ -180,6 +511,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     });
 
     return () => {
+      console.log("🔌 Cleaning up socket connection");
       socket.off("start-spin");
       socket.off("stop-spin");
       if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
@@ -188,9 +520,9 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [activeCampaignId]);
+  }, [activeCampaignId]); // BỎ secondSpinningStates khỏi dependency array
 
-  // Call API theo prizeId 1..5
+  // Call API theo prizeId 1..5 - GIỮ NGUYÊN LOGIC ADMIN
   const handleSpinClick = async (prizeId: number) => {
     try {
       await fetch(
@@ -263,7 +595,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             <div className="first-prize__phone-overlay">
               {firstDigits.map((d, i) => (
                 <span key={i} className="first-prize__digit">
-                  {d}
+                  {d === 'X' ? 'X' : d}
                 </span>
               ))}
             </div>
@@ -310,7 +642,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 <div className="second-prize__phone-overlay">
                   {row.map((d, i) => (
                     <span key={i} className="second-prize__digit">
-                      {d}
+                      {d === 'X' ? 'X' : d}
                     </span>
                   ))}
                 </div>
@@ -325,14 +657,16 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               </div>
             ))}
           </div>
+
+          {/* CHỈ 1 BUTTON DUY NHẤT CHO GIẢI NHÌ */}
           {hasToken && (
             <div className="second-prize__action">
               <button
                 className="second-prize__spin-btn"
                 onClick={() => handleSpinClick(2)}
-                disabled={secondSpinning}
+                disabled={secondSpinningStates.some(state => state)}
               >
-                {secondSpinning ? "ĐANG QUAY..." : "QUAY SỐ"}
+                {secondSpinningStates.some(state => state) ? "ĐANG QUAY GIẢI NHÌ..." : "QUAY SỐ"}
               </button>
             </div>
           )}
@@ -363,13 +697,26 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                     className="third-prize__lookup-input"
                     placeholder="0123456789"
                     maxLength={10}
+                    value={searchPhone}
+                    onChange={(e) => setSearchPhone(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        handleSearch();
+                      }
+                    }}
                   />
-                  <button className="third-prize__lookup-btn">TRA CỨU</button>
+                  <button
+                    className="third-prize__lookup-btn"
+                    onClick={handleSearch}
+                    disabled={isSearching}
+                  >
+                    {isSearching ? "ĐANG TRA..." : "TRA CỨU"}
+                  </button>
                 </div>
               </div>
             </div>
             <div className="third-prize__lookup-result">
-              BẠN KHÔNG NẰM TRONG DANH SÁCH TRÚNG GIẢI.
+              {searchResult ? searchResult.message : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
             </div>
           </div>
 
@@ -396,7 +743,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {backpackList.map((w, idx) => (
+                  {backpackList.slice(0, backpackVisible).map((w, idx) => (
                     <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
@@ -406,20 +753,20 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </tbody>
               </table>
             </div>
-            {thirdVisibleCount < thirdTable.length && (
-      <div className="backpack-prize__more">
-        <button
-          className="backpack-prize__more-btn"
-          onClick={() => setThirdVisibleCount(thirdTable.length)}
-        >
-          XEM THÊM
-        </button>
-      </div>
-    )}
+            {backpackList.length > 10 && (
+              <div className="backpack-prize__more">
+                <button
+                  className="backpack-prize__more-btn"
+                  onClick={handleToggleBackpack}
+                >
+                  {isBackpackExpanded ? "THU GỌN" : "XEM THÊM"}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH (prizeId = 4) */}
-          <div className="backpack-prize">
+          <div className="backpack-prize bottle-prize">
             <div className="backpack-prize__title">
               BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH
             </div>
@@ -433,7 +780,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </button>
               </div>
             )}
-            <div className="backpack-prize__table-wrap">
+            <div className="bottle-prize__table-wrap">
               <table className="backpack-prize__table">
                 <thead>
                   <tr>
@@ -443,7 +790,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {bottleList.map((w, idx) => (
+                  {bottleList.slice(0, bottleVisible).map((w, idx) => (
                     <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
@@ -453,20 +800,20 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </tbody>
               </table>
             </div>
-            {fourthVisibleCount < fourthTable.length && (
-      <div className="backpack-prize__more">
-        <button
-          className="backpack-prize__more-btn"
-          onClick={() => setFourthVisibleCount(fourthTable.length)}
-        >
-          XEM THÊM
-        </button>
-      </div>
-    )}
+            {bottleList.length > 10 && (
+              <div className="backpack-prize__more">
+                <button
+                  className="backpack-prize__more-btn"
+                  onClick={handleToggleBottle}
+                >
+                  {isBottleExpanded ? "THU GỌN" : "XEM THÊM"}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* TÚI XẾP TIỆN LỢI (prizeId = 5) */}
-          <div className="backpack-prize">
+          <div className="backpack-prize bag-prize">
             <div className="backpack-prize__title">TÚI XẾP TIỆN LỢI</div>
             {hasToken && (
               <div className="backpack-prize__action">
@@ -478,7 +825,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </button>
               </div>
             )}
-            <div className="backpack-prize__table-wrap">
+            <div className="bag-prize__table-wrap">
               <table className="backpack-prize__table">
                 <thead>
                   <tr>
@@ -488,7 +835,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {bagList.map((w, idx) => (
+                  {bagList.slice(0, bagVisible).map((w, idx) => (
                     <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
@@ -498,9 +845,16 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </tbody>
               </table>
             </div>
-            <div className="backpack-prize__more">
-              <button className="backpack-prize__more-btn">XEM THÊM</button>
-            </div>
+            {bagList.length > 10 && (
+              <div className="backpack-prize__more">
+                <button
+                  className="backpack-prize__more-btn"
+                  onClick={handleToggleBag}
+                >
+                  {isBagExpanded ? "THU GỌN" : "XEM THÊM"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -509,4 +863,4 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   );
 };
 
-export default Lottery;
+export default LotteryAdmin;

@@ -20,15 +20,21 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const activeCampaignId = campaignId || "taiwan-lcp";
 
   // Giải nhất (1 người)
-  const [firstDigits, setFirstDigits] = useState<number[]>(Array(10).fill(0));
+  const [firstDigits, setFirstDigits] = useState<(number | string)[]>(
+    Array(10).fill(0)
+  );
   const firstSpinningRef = useRef(false);
   const [firstWinner, setFirstWinner] = useState<Winner | null>(null);
 
-  // Giải nhì (3 người)
-  const [secondDigits, setSecondDigits] = useState<number[][]>(
+  // Giải nhì (3 người) - thay đổi state để xử lý từng giải riêng
+  const [secondDigits, setSecondDigits] = useState<(number | string)[][]>(
     Array.from({ length: 3 }, () => Array(10).fill(0))
   );
-  const secondSpinningRef = useRef(false);
+  const [secondSpinningStates, setSecondSpinningStates] = useState<boolean[]>([
+    false,
+    false,
+    false,
+  ]);
   const [secondWinners, setSecondWinners] = useState<Winner[]>([]);
 
   // Giải 3–5 (chỉ render bảng)
@@ -56,7 +62,9 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const [isSearching, setIsSearching] = useState(false);
 
   // State để lưu danh sách gốc (không bị filter)
-  const [originalBackpackList, setOriginalBackpackList] = useState<Winner[]>([]);
+  const [originalBackpackList, setOriginalBackpackList] = useState<Winner[]>(
+    []
+  );
   const [originalBottleList, setOriginalBottleList] = useState<Winner[]>([]);
   const [originalBagList, setOriginalBagList] = useState<Winner[]>([]);
 
@@ -69,10 +77,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         const table = document.querySelector(".backpack-prize");
         if (table) {
           const headerHeight = 110;
-          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          const tablePosition =
+            table.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: tablePosition - headerHeight,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
       }, 100);
@@ -90,10 +99,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         const table = document.querySelector(".bottle-prize");
         if (table) {
           const headerHeight = 110;
-          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          const tablePosition =
+            table.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: tablePosition - headerHeight,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
       }, 100);
@@ -111,10 +121,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         const table = document.querySelector(".bag-prize");
         if (table) {
           const headerHeight = 110;
-          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          const tablePosition =
+            table.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: tablePosition - headerHeight,
-            behavior: "smooth"
+            behavior: "smooth",
           });
         }
       }, 100);
@@ -132,33 +143,36 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       setBackpackList(originalBackpackList);
       setBackpackVisible(10);
       setIsBackpackExpanded(false);
-      
+
       setBottleList(originalBottleList);
       setBottleVisible(10);
       setIsBottleExpanded(false);
-      
+
       setBagList(originalBagList);
       setBagVisible(10);
       setIsBagExpanded(false);
       return;
     }
-  
+
     setIsSearching(true);
     try {
-      const response = await fetch("https://be.dudoanchungketlcp-tta.vn/api/prize/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone: searchPhone.trim(),
-        }),
-      });
-  
+      const response = await fetch(
+        "https://be.dudoanchungketlcp-tta.vn/api/prize/search",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: searchPhone.trim(),
+          }),
+        }
+      );
+
       const result = await response.json();
-  
+
       console.log("Search result:", result);
-  
+
       if (result.status && result.data) {
         // Trúng giải - chỉ hiển thị 1 record trong bảng tương ứng
         setSearchResult({
@@ -166,13 +180,13 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
           message: "CHÚC MỪNG BẠN NẰM TRONG DANH SÁCH TRÚNG GIẢI.",
           winner: result.data,
         });
-  
+
         // Filter bảng tương ứng chỉ hiển thị 1 record
         const winnerRecord = {
           number_phone: result.data.number_phone,
           full_name: result.data.full_name,
         };
-  
+
         if (result.data.prize_id === 3) {
           setBackpackList([winnerRecord]);
           setBackpackVisible(1);
@@ -182,10 +196,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             const table = document.querySelector(".backpack-prize");
             if (table) {
               const headerHeight = 110; // Chiều cao header
-              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              const tablePosition =
+                table.getBoundingClientRect().top + window.scrollY;
               window.scrollTo({
                 top: tablePosition - headerHeight,
-                behavior: "smooth"
+                behavior: "smooth",
               });
             }
           }, 100);
@@ -198,10 +213,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             const table = document.querySelector(".bottle-prize");
             if (table) {
               const headerHeight = 110; // Chiều cao header
-              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              const tablePosition =
+                table.getBoundingClientRect().top + window.scrollY;
               window.scrollTo({
                 top: tablePosition - headerHeight,
-                behavior: "smooth"
+                behavior: "smooth",
               });
             }
           }, 100);
@@ -214,10 +230,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             const table = document.querySelector(".bag-prize");
             if (table) {
               const headerHeight = 110; // Chiều cao header
-              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              const tablePosition =
+                table.getBoundingClientRect().top + window.scrollY;
               window.scrollTo({
                 top: tablePosition - headerHeight,
-                behavior: "smooth"
+                behavior: "smooth",
               });
             }
           }, 100);
@@ -228,16 +245,16 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
           found: false,
           message: "BẠN KHÔNG NẰM TRONG DANH SÁCH TRÚNG GIẢI.",
         });
-        
+
         // Khôi phục lại danh sách gốc
         setBackpackList(originalBackpackList);
         setBackpackVisible(10);
         setIsBackpackExpanded(false);
-        
+
         setBottleList(originalBottleList);
         setBottleVisible(10);
         setIsBottleExpanded(false);
-        
+
         setBagList(originalBagList);
         setBagVisible(10);
         setIsBagExpanded(false);
@@ -253,20 +270,21 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     }
   };
 
-// Hàm scroll đến section tương ứng
-const scrollToSection = (sectionClass: string, delay = 1000) => {
-  setTimeout(() => {
-    const section = document.querySelector(sectionClass);
-    if (section) {
-      const headerHeight = 110; // Chiều cao header
-      const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: sectionPosition - headerHeight,
-        behavior: "smooth"
-      });
-    }
-  }, delay);
-};
+  // Hàm scroll đến section tương ứng
+  const scrollToSection = (sectionClass: string, delay = 1000) => {
+    setTimeout(() => {
+      const section = document.querySelector(sectionClass);
+      if (section) {
+        const headerHeight = 110; // Chiều cao header
+        const sectionPosition =
+          section.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({
+          top: sectionPosition - headerHeight,
+          behavior: "smooth",
+        });
+      }
+    }, delay);
+  };
 
   // Socket / timer
   const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -295,23 +313,49 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
       }, 80);
     };
 
-    // === HÀM QUAY GIẢI NHÌ (3 ô) ===
-    const startSecondSpin = () => {
-      if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
-      stopTimeoutsRef.current.forEach(clearTimeout);
-      stopTimeoutsRef.current = [];
-      secondSpinningRef.current = true;
-      setSecondWinners([]);
-      spinIntervalRef.current = setInterval(() => {
-        setSecondDigits((prev) =>
-          prev.map(() =>
-            Array.from({ length: 10 }, () => Math.floor(Math.random() * 10))
-          )
-        );
+    // === HÀM QUAY GIẢI NHÌ THEO INDEX ===
+    const startSecondSpin = (prizeIndex: number) => {
+      console.log(
+        `🎰 Starting spin for second prize ${prizeIndex + 1} (prizeId: ${
+          prizeIndex + 21
+        })`
+      );
+
+      // Cập nhật trạng thái spinning cho giải cụ thể
+      setSecondSpinningStates((prev) => {
+        const newStates = [...prev];
+        newStates[prizeIndex] = true;
+        console.log(`🎰 Updated spinning states:`, newStates);
+        return newStates;
+      });
+
+      // Clear interval cũ nếu có
+      if (spinIntervalRef.current) {
+        clearInterval(spinIntervalRef.current);
+        spinIntervalRef.current = null;
+      }
+
+      // Tạo interval riêng cho giải này
+      const spinInterval = setInterval(() => {
+        setSecondDigits((prev) => {
+          const newDigits = prev.map((arr, idx) => {
+            // Chỉ quay animation cho giải đang được chọn
+            if (idx === prizeIndex) {
+              return Array.from({ length: 10 }, () =>
+                Math.floor(Math.random() * 10)
+              );
+            }
+            return arr; // Giữ nguyên các giải khác
+          });
+          return newDigits;
+        });
       }, 80);
+
+      // Lưu interval này để có thể clear sau
+      spinIntervalRef.current = spinInterval;
     };
 
-    // === STOP SPIN: dùng cho cả giải 1 & 2, và set dữ liệu bảng cho 3–5 ===
+    // === STOP SPIN: xử lý từng giải riêng biệt ===
     const stopSpin = (payload: any) => {
       console.log("🎯 STOP SPIN PAYLOAD:", payload);
       const prizeId: number = payload?.prizeId;
@@ -326,13 +370,23 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
       stopTimeoutsRef.current.forEach(clearTimeout);
       stopTimeoutsRef.current = [];
 
+      // Hàm helper để xử lý number_phone có chứa XXXX
+      const processPhoneDisplay = (phoneStr: string) => {
+        const cleanPhone = phoneStr.padStart(10, "0").slice(0, 10);
+        return cleanPhone.split("").map((char) => {
+          if (char === "X" || char === "x") {
+            return "X"; // Giữ nguyên X
+          }
+          const num = Number(char);
+          return isNaN(num) ? "X" : num; // Nếu không phải số thì hiển thị X
+        });
+      };
+
       // Giải 1: reveal 1 người, có animation "giảm tốc"
       if (prizeId === 1) {
         firstSpinningRef.current = false;
         const first = results[0];
-        const resultStr = String(first.number_phone)
-          .padStart(10, "0")
-          .slice(0, 10);
+        const displayArray = processPhoneDisplay(String(first.number_phone));
 
         for (let i = 0; i < 10; i++) {
           const t = setTimeout(() => {
@@ -341,7 +395,7 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
                 Array.from({ length: 10 }, () => Math.floor(Math.random() * 10))
               );
             } else {
-              setFirstDigits(resultStr.split("").map((c) => Number(c)));
+              setFirstDigits(displayArray);
               setFirstWinner(first);
               // Sau khi hoàn thành giải 1, scroll xuống giải 2
               scrollToSection(".second-prize", 2000);
@@ -351,57 +405,96 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
         }
       }
 
-      // Giải 2: reveal 3 người, hiển thị 3 ô số theo thứ tự
-      if (prizeId === 2) {
-        secondSpinningRef.current = false;
-        const reveal = results.slice(0, 3);
-        reveal.forEach((w, idx) => {
-          setTimeout(() => {
-            const resultStr = String(w.number_phone)
-              .padStart(10, "0")
-              .slice(0, 10);
-            setSecondDigits((prev) => {
-              const newDigits = prev.map((arr) => [...arr]); // clone an toàn
-              newDigits[idx] = resultStr.split("").map((c) => Number(c));
-              return newDigits;
-            });
-            
-            // Sau khi hoàn thành reveal cuối cùng, scroll xuống giải 3
-            if (idx === reveal.length - 1) {
-              scrollToSection(".third-prize", 2000);
-            }
-          }, 300 * idx);
+      // Giải 2: xử lý từng giải Nhì riêng biệt (21, 22, 23)
+      if (prizeId >= 21 && prizeId <= 23) {
+        const prizeIndex = prizeId - 21; // 21->0, 22->1, 23->2
+        const winner = results[0]; // Mỗi lần chỉ nhận 1 người
+
+        console.log(
+          `🏆 Stopping spin for second prize ${
+            prizeIndex + 1
+          } (prizeId: ${prizeId})`
+        );
+        console.log(`🏆 Winner:`, winner);
+
+        // Dừng animation cho giải này
+        setSecondSpinningStates((prev) => {
+          const newStates = [...prev];
+          newStates[prizeIndex] = false;
+          console.log(`🏆 Updated spinning states after stop:`, newStates);
+          return newStates;
         });
-        setSecondWinners(reveal);
+
+        // Animation giảm tốc cho giải này
+        const displayArray = processPhoneDisplay(String(winner.number_phone));
+
+        for (let i = 0; i < 8; i++) {
+          const t = setTimeout(() => {
+            if (i < 7) {
+              setSecondDigits((prev) => {
+                const newDigits = prev.map((arr, idx) => {
+                  if (idx === prizeIndex) {
+                    return Array.from({ length: 10 }, () =>
+                      Math.floor(Math.random() * 10)
+                    );
+                  }
+                  return arr;
+                });
+                return newDigits;
+              });
+            } else {
+              // Hiển thị kết quả cuối cùng
+              setSecondDigits((prev) => {
+                const newDigits = prev.map((arr, idx) => {
+                  if (idx === prizeIndex) {
+                    return displayArray;
+                  }
+                  return arr;
+                });
+                return newDigits;
+              });
+
+              // Cập nhật danh sách winners
+              setSecondWinners((prev) => {
+                const newWinners = [...prev];
+                newWinners[prizeIndex] = winner;
+                console.log(`🏆 Updated second winners:`, newWinners);
+                return newWinners;
+              });
+
+              // Nếu đây là giải cuối cùng (prizeId 23), scroll xuống giải 3
+              if (prizeId === 23) {
+                console.log(
+                  `🏆 Completed all second prizes, scrolling to third prize`
+                );
+                scrollToSection(".third-prize", 2000);
+              }
+            }
+          }, 100 + i * 150); // Animation giảm tốc
+          stopTimeoutsRef.current.push(t);
+        }
       }
 
       // Giải 3–5: render bảng và scroll xuống giải tiếp theo
       if (prizeId === 3) {
-        setOriginalBackpackList(results); // Lưu danh sách gốc
+        setOriginalBackpackList(results);
         setBackpackList(results);
         setBackpackVisible(10);
         setIsBackpackExpanded(false);
-        // Scroll xuống bảng balo ngay lập tức, sau đó scroll xuống giải 4
         scrollToSection(".backpack-prize", 500);
-        // Nếu có giải 4 tiếp theo, có thể scroll xuống (tùy logic)
-        // scrollToSection(".bottle-prize", 3000);
       }
       if (prizeId === 4) {
-        setOriginalBottleList(results); // Lưu danh sách gốc
+        setOriginalBottleList(results);
         setBottleList(results);
         setBottleVisible(10);
         setIsBottleExpanded(false);
-        // Scroll xuống bảng bình nước
         scrollToSection(".bottle-prize", 500);
-        // Nếu có giải 5 tiếp theo, có thể scroll xuống
-        // scrollToSection(".bag-prize", 3000);
       }
       if (prizeId === 5) {
-        setOriginalBagList(results); // Lưu danh sách gốc
+        setOriginalBagList(results);
         setBagList(results);
         setBagVisible(10);
         setIsBagExpanded(false);
-        // Scroll xuống bảng túi xếp
         scrollToSection(".bag-prize", 500);
       }
     };
@@ -410,8 +503,34 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
     socket.on("start-spin", (p: any) => {
       console.log("📡 start-spin:", p);
       if (p?.campaignId && p.campaignId !== activeCampaignId) return;
-      if (p?.prizeId === 1 && !firstSpinningRef.current) startFirstSpin();
-      if (p?.prizeId === 2 && !secondSpinningRef.current) startSecondSpin();
+
+      if (p?.prizeId === 1 && !firstSpinningRef.current) {
+        console.log("🎰 Starting first prize spin");
+        startFirstSpin();
+      }
+
+      // Xử lý các giải Nhì riêng biệt
+      if (p?.prizeId >= 21 && p?.prizeId <= 23) {
+        const prizeIndex = p.prizeId - 21;
+        console.log(
+          `📡 Received start-spin for second prize ${
+            prizeIndex + 1
+          } (prizeId: ${p.prizeId})`
+        );
+
+        // Lấy current state thay vì dựa vào stale closure
+        setSecondSpinningStates((currentStates) => {
+          console.log(`📡 Current spinning states:`, currentStates);
+          if (!currentStates[prizeIndex]) {
+            console.log(`📡 Starting spin for prize index ${prizeIndex}`);
+            // Call startSecondSpin trong microtask để đảm bảo state đã update
+            setTimeout(() => startSecondSpin(prizeIndex), 0);
+          } else {
+            console.log(`📡 Prize index ${prizeIndex} is already spinning`);
+          }
+          return currentStates; // Không thay đổi state ở đây
+        });
+      }
     });
 
     // Lắng nghe stop-spin để dừng và show kết quả
@@ -422,6 +541,7 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
     });
 
     return () => {
+      console.log("🔌 Cleaning up socket connection");
       socket.off("start-spin");
       socket.off("stop-spin");
       if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
@@ -430,7 +550,7 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
       socket.disconnect();
       socketRef.current = null;
     };
-  }, [activeCampaignId]);
+  }, [activeCampaignId]); // BỎ secondSpinningStates khỏi dependency array
 
   return (
     <div>
@@ -487,7 +607,7 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
             <div className="first-prize__phone-overlay">
               {firstDigits.map((d, i) => (
                 <span key={i} className="first-prize__digit">
-                  {d}
+                  {d === "X" ? "X" : d}
                 </span>
               ))}
             </div>
@@ -522,7 +642,7 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
                 <div className="second-prize__phone-overlay">
                   {row.map((d, i) => (
                     <span key={i} className="second-prize__digit">
-                      {d}
+                      {d === "X" ? "X" : d}
                     </span>
                   ))}
                 </div>
@@ -572,7 +692,7 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
                       }
                     }}
                   />
-                  <button 
+                  <button
                     className="third-prize__lookup-btn"
                     onClick={handleSearch}
                     disabled={isSearching}
@@ -583,7 +703,9 @@ const scrollToSection = (sectionClass: string, delay = 1000) => {
               </div>
             </div>
             <div className="third-prize__lookup-result">
-              {searchResult ? searchResult.message : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
+              {searchResult
+                ? searchResult.message
+                : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
             </div>
           </div>
 
