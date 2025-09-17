@@ -36,139 +36,237 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const [bottleList, setBottleList] = useState<Winner[]>([]); // prizeId = 4
   const [bagList, setBagList] = useState<Winner[]>([]); // prizeId = 5
 
-  // Thêm sample 100 records cho balo (nếu chưa có)
-  const backpackSample: Winner[] = [
-    { number_phone: "0945408728", full_name: "Trần Thanh Khiết" },
-    { number_phone: "0857305348", full_name: "Phạm Tuấn Anh" },
-    { number_phone: "0967131112", full_name: "Phạm Quân" },
-    { number_phone: "0969421547", full_name: "Đào Thái Dương" },
-    { number_phone: "0902463269", full_name: "ĐỖ PHƯỚC DANH" },
-    { number_phone: "0905777098", full_name: "Nguyễn Thị Phương Thảo" },
-    { number_phone: "0969043530", full_name: "Phạm trung tính" },
-    { number_phone: "0947853384", full_name: "Hoàng anh quốc" },
-    { number_phone: "0372864598", full_name: "Vũ văn linh" },
-    { number_phone: "0976608340", full_name: "Huỳnh Quang Tiên" },
-    { number_phone: "0369897344", full_name: "Trần bảo hoàng" },
-    { number_phone: "0332954799", full_name: "NGUYỄN HOÀNG PHƯƠNG NAM" },
-    { number_phone: "0896662240", full_name: "Ng thi phuong an" },
-    { number_phone: "0707022924", full_name: "Hồ Hải Đăng" },
-    { number_phone: "0782998281", full_name: "Trần sương thanh hải" },
-    { number_phone: "0931971007", full_name: "Lê Thành đạt" },
-    { number_phone: "0708459569", full_name: "Hà Nguyễn Nhật Minh" },
-    { number_phone: "0868773512", full_name: "Võ Đặng đường" },
-    { number_phone: "0772890874", full_name: "Nguyễn trương hải duy" },
-    { number_phone: "0907096017", full_name: "Lê Nguyễn hiếu thông" },
-    { number_phone: "0941233509", full_name: "Kiều Đăng Nguyên" },
-    { number_phone: "0969936076", full_name: "NGUYỄN THỊ PHƯƠNG ANH" },
-    { number_phone: "0902588780", full_name: "Nguyen Thi Hoang Oanh" },
-    { number_phone: "0772103926", full_name: "Đào Thanh Nhân" },
-    { number_phone: "0789683374", full_name: "Lê Phú Hoà" },
-    { number_phone: "0794714612", full_name: "Hà Ngô Quang Minh" },
-    { number_phone: "0377921171", full_name: "Mai Gia Bảo" },
-    { number_phone: "0898135240", full_name: "Phan Thanh Bình" },
-    { number_phone: "0788200653", full_name: "Trương Thị Thuý Phương" },
-    { number_phone: "0334806096", full_name: "Nguyễn văn lâm" },
-    { number_phone: "0365435370", full_name: "Nguyễn Phương Mai" },
-    { number_phone: "0326648998", full_name: "Nguyễn Hồng Quân" },
-    { number_phone: "0365629897", full_name: "Tô Thanh cường" },
-    { number_phone: "0828161459", full_name: "Cao Tuyến Trung" },
-    { number_phone: "0566355042", full_name: "Nguyễn Hoàng Thái" },
-    { number_phone: "0981981978", full_name: "NGUYỄN LÊ HOÀNG LÂN" },
-    { number_phone: "0366718765", full_name: "Võ Mai Hùng Anh" },
-    { number_phone: "0987524878", full_name: "Trần Hoàng quân" },
-    { number_phone: "0918228175", full_name: "Hồ thị kiều linh" },
-    { number_phone: "0865663164", full_name: "Tạ Đức Phúc" },
-    { number_phone: "0329865712", full_name: "Hồ Thanh Hóa" },
-    { number_phone: "0786078806", full_name: "Nguyễn minh khôi" },
-    { number_phone: "0795747151", full_name: "Nguyễn Thành nhân" },
-    { number_phone: "0973533995", full_name: "NGUYỄN VÕ TÙNG" },
-    { number_phone: "0921327386", full_name: "Võ minh nghĩa" },
-    { number_phone: "0931821812", full_name: "Phan Nhật Trường" },
-    { number_phone: "0355037448", full_name: "Nguyễn Thị Lan Anh" },
-    { number_phone: "0343158004", full_name: "Lê Minh Nhật" },
-    { number_phone: "0931304810", full_name: "Nguyễn trúc quỳnh" },
-    { number_phone: "0859650995", full_name: "LƯƠNG NGỌC VĨNH HUY" },
-    { number_phone: "0328096064", full_name: "Bùi Phương Thảo" },
-    { number_phone: "0366922860", full_name: "Lê Xuân dương" },
-    { number_phone: "0387920961", full_name: "LÊ NHẬT QUanG" },
-    { number_phone: "0985167128", full_name: "Nguyễn Hoàng Hiệp" },
-    { number_phone: "0339456098", full_name: "Nguyễn Hữu Hiệp" },
-    { number_phone: "0796829523", full_name: "Trần duy chương" },
-    { number_phone: "0909202041", full_name: "Trần Quốc đạt" },
-    { number_phone: "0907612423", full_name: "Đặng Hoàng Khang" },
-    { number_phone: "0366333149", full_name: "Cao Nguyễn Anh Vũ" },
-    { number_phone: "0336872678", full_name: "Hoàng Lan Anh" },
-    { number_phone: "0708044741", full_name: "Trần Đoàn Gia Huân" },
-    { number_phone: "0938993538", full_name: "Dương Ngọc Kim" },
-    { number_phone: "0367460106", full_name: "Trần Minh nhựt" },
-    { number_phone: "0848333937", full_name: "Đặng nguyên phương" },
-    { number_phone: "0888211040", full_name: "Nguyễn Nhựt Khang Nhựt Khang" },
-    { number_phone: "0965435451", full_name: "Trương Tấn Tài" },
-    { number_phone: "0868756249", full_name: "Phan Nhật Huy" },
-    { number_phone: "0559502422", full_name: "Đỗ Hoàng Long" },
-    { number_phone: "0342892004", full_name: "Đào TRỌNG KHẢI" },
-    { number_phone: "0902821908", full_name: "Mạch Chấn Giang" },
-    { number_phone: "0937010816", full_name: "Võ Thị HỒng my" },
-    { number_phone: "0789433919", full_name: "Lê Thu Thảo" },
-    { number_phone: "0387385900", full_name: "Lục Thị Giang" },
-    { number_phone: "0397809536", full_name: "Phạm Đình nam" },
-    { number_phone: "0376903439", full_name: "Nguyễn Đình Trường" },
-    { number_phone: "0582312139", full_name: "Trần thanh trà" },
-    { number_phone: "0773061824", full_name: "Khổng Lê Minh" },
-    { number_phone: "0983871703", full_name: "Lê Thu Phương" },
-    { number_phone: "0949697898", full_name: "Ngô gia nhựt" },
-    { number_phone: "0854568679", full_name: "Đỗ mạnh thịnh" },
-    { number_phone: "0943890108", full_name: "MAI THỊ NGỌC YẾN" },
-    { number_phone: "0765197885", full_name: "Dang Quoc Anh" },
-    { number_phone: "0767207537", full_name: "LƯƠNG Ngọc quế chi" },
-    { number_phone: "0334028875", full_name: "Nguyễn thanh tùng" },
-    { number_phone: "0768013457", full_name: "Le Nhat Tan" },
-    { number_phone: "0858091585", full_name: "Nguyễn Hà Quang Dũng" },
-    { number_phone: "0384215606", full_name: "Huỳnh bẢO nGỌC" },
-    { number_phone: "0908668603", full_name: "Trần Quốc anh" },
-    { number_phone: "0365707425", full_name: "Trương quốc khánh" },
-    { number_phone: "0825200539", full_name: "Nguyễn Đức Huy" },
-    { number_phone: "0346770948", full_name: "Phạm Nguyễn hoàng tiến" },
-    { number_phone: "0907713825", full_name: "Võ Viết Dũng" },
-    { number_phone: "0905459342", full_name: "Nguyễn bảo minh hoàng" },
-    { number_phone: "0395433185", full_name: "Ngô Tấn hậu" },
-    { number_phone: "0397789739", full_name: "Nguyễn Phước Dũng" },
-    { number_phone: "0385487636", full_name: "Đào thị Hoa" },
-    { number_phone: "0911630090", full_name: "Trịnh công hiếu" },
-    { number_phone: "0373352572", full_name: "Đỗ thành trung" },
-    { number_phone: "0986226612", full_name: "Phạm Hải Hà" },
-    { number_phone: "0942912209", full_name: "Vũ thái sơn" },
-  ];
-
-  // State cho số lượng record hiển thị
+  // State cho số lượng record hiển thị của từng giải
   const [backpackVisible, setBackpackVisible] = useState(10);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isBackpackExpanded, setIsBackpackExpanded] = useState(false);
 
-  // Khi mount, set sample cho balo nếu chưa có
-  useEffect(() => {
-    if (backpackList.length === 0) setBackpackList(backpackSample);
-    // eslint-disable-next-line
-  }, []);
+  const [bottleVisible, setBottleVisible] = useState(10);
+  const [isBottleExpanded, setIsBottleExpanded] = useState(false);
 
-  // Khi bấm XEM THÊM hoặc THU GỌN
+  const [bagVisible, setBagVisible] = useState(10);
+  const [isBagExpanded, setIsBagExpanded] = useState(false);
+
+  // Thêm state cho tra cứu
+  const [searchPhone, setSearchPhone] = useState("");
+  const [searchResult, setSearchResult] = useState<{
+    found: boolean;
+    message: string;
+    winner?: Winner & { prize_id: number; prize: string };
+  } | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // State để lưu danh sách gốc (không bị filter)
+  const [originalBackpackList, setOriginalBackpackList] = useState<Winner[]>([]);
+  const [originalBottleList, setOriginalBottleList] = useState<Winner[]>([]);
+  const [originalBagList, setOriginalBagList] = useState<Winner[]>([]);
+
+  // Hàm toggle cho từng giải
   const handleToggleBackpack = () => {
-    if (isExpanded) {
-      // Thu gọn: chỉ hiển thị 10 record đầu
+    if (isBackpackExpanded) {
       setBackpackVisible(10);
-      setIsExpanded(false);
-      // Cuộn lên bảng balo
+      setIsBackpackExpanded(false);
       setTimeout(() => {
-        const table = document.querySelector(".backpack-prize__table-wrap");
+        const table = document.querySelector(".backpack-prize");
         if (table) {
-          table.scrollIntoView({ behavior: "smooth", block: "start" });
+          const headerHeight = 110;
+          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: tablePosition - headerHeight,
+            behavior: "smooth"
+          });
         }
       }, 100);
     } else {
-      // Mở rộng: hiển thị hết 100 record
       setBackpackVisible(backpackList.length);
-      setIsExpanded(true);
+      setIsBackpackExpanded(true);
     }
   };
+
+  const handleToggleBottle = () => {
+    if (isBottleExpanded) {
+      setBottleVisible(10);
+      setIsBottleExpanded(false);
+      setTimeout(() => {
+        const table = document.querySelector(".bottle-prize");
+        if (table) {
+          const headerHeight = 110;
+          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: tablePosition - headerHeight,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    } else {
+      setBottleVisible(bottleList.length);
+      setIsBottleExpanded(true);
+    }
+  };
+
+  const handleToggleBag = () => {
+    if (isBagExpanded) {
+      setBagVisible(10);
+      setIsBagExpanded(false);
+      setTimeout(() => {
+        const table = document.querySelector(".bag-prize");
+        if (table) {
+          const headerHeight = 110;
+          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({
+            top: tablePosition - headerHeight,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    } else {
+      setBagVisible(bagList.length);
+      setIsBagExpanded(true);
+    }
+  };
+
+  // Hàm tra cứu số điện thoại
+  const handleSearch = async () => {
+    // Nếu input trống, reset về danh sách gốc
+    if (!searchPhone.trim()) {
+      setSearchResult(null);
+      setBackpackList(originalBackpackList);
+      setBackpackVisible(10);
+      setIsBackpackExpanded(false);
+      
+      setBottleList(originalBottleList);
+      setBottleVisible(10);
+      setIsBottleExpanded(false);
+      
+      setBagList(originalBagList);
+      setBagVisible(10);
+      setIsBagExpanded(false);
+      return;
+    }
+  
+    setIsSearching(true);
+    try {
+      const response = await fetch("https://be.dudoanchungketlcp-tta.vn/api/prize/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          phone: searchPhone.trim(),
+        }),
+      });
+  
+      const result = await response.json();
+  
+      console.log("Search result:", result);
+  
+      if (result.status && result.data) {
+        // Trúng giải - chỉ hiển thị 1 record trong bảng tương ứng
+        setSearchResult({
+          found: true,
+          message: "CHÚC MỪNG BẠN NẰM TRONG DANH SÁCH TRÚNG GIẢI.",
+          winner: result.data,
+        });
+  
+        // Filter bảng tương ứng chỉ hiển thị 1 record
+        const winnerRecord = {
+          number_phone: result.data.number_phone,
+          full_name: result.data.full_name,
+        };
+  
+        if (result.data.prize_id === 3) {
+          setBackpackList([winnerRecord]);
+          setBackpackVisible(1);
+          setIsBackpackExpanded(false);
+          // Scroll xuống bảng balo sau khi render
+          setTimeout(() => {
+            const table = document.querySelector(".backpack-prize");
+            if (table) {
+              const headerHeight = 110; // Chiều cao header
+              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: tablePosition - headerHeight,
+                behavior: "smooth"
+              });
+            }
+          }, 100);
+        } else if (result.data.prize_id === 4) {
+          setBottleList([winnerRecord]);
+          setBottleVisible(1);
+          setIsBottleExpanded(false);
+          // Scroll xuống bảng bình nước sau khi render
+          setTimeout(() => {
+            const table = document.querySelector(".bottle-prize");
+            if (table) {
+              const headerHeight = 110; // Chiều cao header
+              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: tablePosition - headerHeight,
+                behavior: "smooth"
+              });
+            }
+          }, 100);
+        } else if (result.data.prize_id === 5) {
+          setBagList([winnerRecord]);
+          setBagVisible(1);
+          setIsBagExpanded(false);
+          // Scroll xuống bảng túi xếp sau khi render
+          setTimeout(() => {
+            const table = document.querySelector(".bag-prize");
+            if (table) {
+              const headerHeight = 110; // Chiều cao header
+              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              window.scrollTo({
+                top: tablePosition - headerHeight,
+                behavior: "smooth"
+              });
+            }
+          }, 100);
+        }
+      } else {
+        // Không trúng giải - khôi phục lại danh sách gốc
+        setSearchResult({
+          found: false,
+          message: "BẠN KHÔNG NẰM TRONG DANH SÁCH TRÚNG GIẢI.",
+        });
+        
+        // Khôi phục lại danh sách gốc
+        setBackpackList(originalBackpackList);
+        setBackpackVisible(10);
+        setIsBackpackExpanded(false);
+        
+        setBottleList(originalBottleList);
+        setBottleVisible(10);
+        setIsBottleExpanded(false);
+        
+        setBagList(originalBagList);
+        setBagVisible(10);
+        setIsBagExpanded(false);
+      }
+    } catch (error) {
+      console.error("Error searching:", error);
+      setSearchResult({
+        found: false,
+        message: "CÓ LỖI XẢY RA KHI TRA CỨU.",
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+// Hàm scroll đến section tương ứng
+const scrollToSection = (sectionClass: string, delay = 1000) => {
+  setTimeout(() => {
+    const section = document.querySelector(sectionClass);
+    if (section) {
+      const headerHeight = 110; // Chiều cao header
+      const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({
+        top: sectionPosition - headerHeight,
+        behavior: "smooth"
+      });
+    }
+  }, delay);
+};
 
   // Socket / timer
   const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -245,6 +343,8 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             } else {
               setFirstDigits(resultStr.split("").map((c) => Number(c)));
               setFirstWinner(first);
+              // Sau khi hoàn thành giải 1, scroll xuống giải 2
+              scrollToSection(".second-prize", 2000);
             }
           }, 120 + i * 120);
           stopTimeoutsRef.current.push(t);
@@ -265,15 +365,45 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               newDigits[idx] = resultStr.split("").map((c) => Number(c));
               return newDigits;
             });
+            
+            // Sau khi hoàn thành reveal cuối cùng, scroll xuống giải 3
+            if (idx === reveal.length - 1) {
+              scrollToSection(".third-prize", 2000);
+            }
           }, 300 * idx);
         });
         setSecondWinners(reveal);
       }
 
-      // Giải 3–5: render bảng
-      if (prizeId === 3) setBackpackList(results);
-      if (prizeId === 4) setBottleList(results);
-      if (prizeId === 5) setBagList(results);
+      // Giải 3–5: render bảng và scroll xuống giải tiếp theo
+      if (prizeId === 3) {
+        setOriginalBackpackList(results); // Lưu danh sách gốc
+        setBackpackList(results);
+        setBackpackVisible(10);
+        setIsBackpackExpanded(false);
+        // Scroll xuống bảng balo ngay lập tức, sau đó scroll xuống giải 4
+        scrollToSection(".backpack-prize", 500);
+        // Nếu có giải 4 tiếp theo, có thể scroll xuống (tùy logic)
+        // scrollToSection(".bottle-prize", 3000);
+      }
+      if (prizeId === 4) {
+        setOriginalBottleList(results); // Lưu danh sách gốc
+        setBottleList(results);
+        setBottleVisible(10);
+        setIsBottleExpanded(false);
+        // Scroll xuống bảng bình nước
+        scrollToSection(".bottle-prize", 500);
+        // Nếu có giải 5 tiếp theo, có thể scroll xuống
+        // scrollToSection(".bag-prize", 3000);
+      }
+      if (prizeId === 5) {
+        setOriginalBagList(results); // Lưu danh sách gốc
+        setBagList(results);
+        setBagVisible(10);
+        setIsBagExpanded(false);
+        // Scroll xuống bảng túi xếp
+        scrollToSection(".bag-prize", 500);
+      }
     };
 
     // Lắng nghe start-spin để khởi động animation đúng giải
@@ -434,13 +564,26 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                     className="third-prize__lookup-input"
                     placeholder="0123456789"
                     maxLength={10}
+                    value={searchPhone}
+                    onChange={(e) => setSearchPhone(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") {
+                        handleSearch();
+                      }
+                    }}
                   />
-                  <button className="third-prize__lookup-btn">TRA CỨU</button>
+                  <button 
+                    className="third-prize__lookup-btn"
+                    onClick={handleSearch}
+                    disabled={isSearching}
+                  >
+                    {isSearching ? "ĐANG TRA..." : "TRA CỨU"}
+                  </button>
                 </div>
               </div>
             </div>
             <div className="third-prize__lookup-result">
-              BẠN KHÔNG NẰM TRONG DANH SÁCH TRÚNG GIẢI.
+              {searchResult ? searchResult.message : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
             </div>
           </div>
 
@@ -467,23 +610,24 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </tbody>
               </table>
             </div>
-            <div className="backpack-prize__more">
-              <button
-                className="backpack-prize__more-btn"
-                onClick={handleToggleBackpack}
-              >
-                {isExpanded ? "THU GỌN" : "XEM THÊM"}
-              </button>
-            </div>
+            {backpackList.length > 10 && (
+              <div className="backpack-prize__more">
+                <button
+                  className="backpack-prize__more-btn"
+                  onClick={handleToggleBackpack}
+                >
+                  {isBackpackExpanded ? "THU GỌN" : "XEM THÊM"}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH (prizeId = 4) */}
-          <div className="backpack-prize">
+          <div className="backpack-prize bottle-prize">
             <div className="backpack-prize__title">
               BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH
             </div>
-
-            <div className="backpack-prize__table-wrap">
+            <div className="bottle-prize__table-wrap">
               <table className="backpack-prize__table">
                 <thead>
                   <tr>
@@ -493,7 +637,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {bottleList.map((w, idx) => (
+                  {bottleList.slice(0, bottleVisible).map((w, idx) => (
                     <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
@@ -503,16 +647,22 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </tbody>
               </table>
             </div>
-            <div className="backpack-prize__more">
-              <button className="backpack-prize__more-btn">XEM THÊM</button>
-            </div>
+            {bottleList.length > 10 && (
+              <div className="backpack-prize__more">
+                <button
+                  className="backpack-prize__more-btn"
+                  onClick={handleToggleBottle}
+                >
+                  {isBottleExpanded ? "THU GỌN" : "XEM THÊM"}
+                </button>
+              </div>
+            )}
           </div>
 
           {/* TÚI XẾP TIỆN LỢI (prizeId = 5) */}
-          <div className="backpack-prize">
+          <div className="backpack-prize bag-prize">
             <div className="backpack-prize__title">TÚI XẾP TIỆN LỢI</div>
-
-            <div className="backpack-prize__table-wrap">
+            <div className="bag-prize__table-wrap">
               <table className="backpack-prize__table">
                 <thead>
                   <tr>
@@ -522,7 +672,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {bagList.map((w, idx) => (
+                  {bagList.slice(0, bagVisible).map((w, idx) => (
                     <tr key={idx}>
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
@@ -532,9 +682,16 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </tbody>
               </table>
             </div>
-            <div className="backpack-prize__more">
-              <button className="backpack-prize__more-btn">XEM THÊM</button>
-            </div>
+            {bagList.length > 10 && (
+              <div className="backpack-prize__more">
+                <button
+                  className="backpack-prize__more-btn"
+                  onClick={handleToggleBag}
+                >
+                  {isBagExpanded ? "THU GỌN" : "XEM THÊM"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </section>

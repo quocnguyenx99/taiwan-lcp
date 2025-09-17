@@ -32,8 +32,10 @@ import vid1 from "../assets/videos/videos_full.mp4";
 
 import { Toaster, toast } from "sonner";
 import SEO from "../components/SEO";
+import SuccessPopup from "../components/SuccessPopup";
 
 const Landing: React.FC = () => {
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({
@@ -93,7 +95,7 @@ const Landing: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const formElement = e.currentTarget; // Lưu reference trước khi async
+    const formElement = e.currentTarget;
     const fd = new FormData(formElement);
     const data = {
       full_name: fd.get("name") as string,
@@ -180,22 +182,16 @@ const Landing: React.FC = () => {
         return;
       }
 
-      // Kiểm tra success
       if (result.status === true) {
-        toast.success("Gửi dự đoán thành công! Chúc bạn may mắn!", {
-          position: "top-right",
-        });
+        setShowSuccessPopup(true);
 
-        // Reset form và đội được chọn khi submit thành công
         setSelectedTeamId(null);
         setErrors({ name: "", phone: "", email: "", address: "" });
 
-        // Reset form fields - sử dụng formElement đã lưu
         if (formElement) {
           formElement.reset();
         }
       } else {
-        // Trường hợp khác (không phải success hoặc duplicate phone)
         toast.error(result.message || "Có lỗi xảy ra. Vui lòng thử lại!", {
           position: "top-right",
         });
@@ -208,6 +204,10 @@ const Landing: React.FC = () => {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleClosePopup = () => {
+    setShowSuccessPopup(false);
   };
 
   return (
@@ -1101,6 +1101,12 @@ const Landing: React.FC = () => {
           </div>
         </section>
       </main>
+
+      {/* Success Popup */}
+      <SuccessPopup 
+        isVisible={showSuccessPopup} 
+        onClose={handleClosePopup} 
+      />
     </>
   );
 };
