@@ -1,0 +1,99 @@
+.admin-dashboard {
+  min-height: 100vh;
+  padding: 24px;
+  color: var(--color-text, #1f2937);
+}
+
+.admin-dashboard__container {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.admin-dashboard__header {
+  margin-bottom: 20px;
+}
+
+.admin-dashboard__title {
+  margin: 0 0 6px 0;
+  font-size: 48px;
+  font-weight: 700;
+  color: white;
+}
+
+.admin-dashboard__subtitle {
+  margin: 0;
+  font-size: 24px;
+  color:white;
+}
+
+/* Cards grid */
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px; /* to hơn */
+}
+
+.admin-card {
+  background: var(--color-primary, #ff6a00); /* nền primary để chữ trắng nổi bật */
+  color: #fff; /* chữ trắng */
+  border: none;
+  border-radius: 16px;
+  padding: 28px 24px;         /* to hơn */
+  min-height: 160px;          /* card cao hơn */
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, transform 0.08s ease, filter 0.15s ease;
+  outline: none;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+
+.admin-card:hover,
+.admin-card:focus-visible {
+  filter: brightness(0.95);
+  box-shadow: 0 14px 28px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+.admin-card__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-card__title {
+  margin: 0 0 8px 0;
+  font-size: 22px;            /* to hơn */
+  font-weight: 800;
+  color: #fff;                /* trắng */
+}
+
+.admin-card__desc {
+  margin: 0;
+  font-size: 16px;            /* to hơn */
+  color: rgba(255,255,255,0.9); /* trắng nhạt */
+}
+
+.admin-card__arrow {
+  color: #fff;                /* trắng */
+  font-weight: 900;
+  font-size: 28px;            /* to hơn */
+  transition: transform 0.15s ease;
+}
+
+.admin-card:hover .admin-card__arrow,
+.admin-card:focus-visible .admin-card__arrow {
+  transform: translateX(2px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .admin-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .admin-cards { grid-template-columns: 1fr; }
+  .admin-card { min-height: 140px; padding: 24px 20px; }
+  .admin-card__title { font-size: 20px; }
+  .admin-card__desc { font-size: 15px; }
+}

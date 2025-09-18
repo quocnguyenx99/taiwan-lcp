@@ -218,12 +218,18 @@
   text-transform: uppercase;
   z-index: 11;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 102, 0, 0.3);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-  display: block;
   cursor: pointer;
+  
+  /* Thay đổi từ ellipsis sang wrap 2 dòng */
+  white-space: normal; /* Cho phép wrap */
+  overflow: visible; /* Hiển thị hết text */
+  text-overflow: unset; /* Bỏ ellipsis */
+  line-height: 1.1; /* Điều chỉnh line height */
+  max-height: calc(2 * 1.1em); /* Giới hạn 2 dòng */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+  -webkit-box-orient: vertical;
+  word-break: break-word; /* Cho phép break từ dài */
 }
 
 /* Nút QUAY SỐ dưới khung */
@@ -375,10 +381,18 @@
   text-transform: uppercase;
   z-index: 11;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.6), 0 0 14px rgba(255, 102, 0, 0.3);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   cursor: pointer;
+  
+  /* Thay đổi từ ellipsis sang wrap 2 dòng */
+  white-space: normal; /* Cho phép wrap */
+  overflow: visible; /* Hiển thị hết text */
+  text-overflow: unset; /* Bỏ ellipsis */
+  line-height: 1.1; /* Điều chỉnh line height */
+  max-height: calc(2 * 1.1em); /* Giới hạn 2 dòng */
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
+  -webkit-box-orient: vertical;
+  word-break: break-word; /* Cho phép break từ dài */
 }
 
 /* Nút QUAY SỐ */
@@ -665,7 +679,6 @@
   font-size: 28px;
   font-weight: 700;
   border: none;
-  border-radius: 2px;
   padding: 8px 32px;
   cursor: pointer;
   letter-spacing: 1px;
@@ -676,6 +689,33 @@
 .backpack-prize__more-btn:hover {
   background: #ff6b35;
   color: #fff;
+}
+
+/* Animation cho table rows - CHỈ THÊM PHẦN NÀY */
+.prize-table-row {
+  transition: all 0.4s ease;
+}
+
+.prize-table-row--hidden {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.prize-table-row--visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: slideInUp 0.5s ease forwards;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Mobile điều chỉnh nhỏ lại */
@@ -739,6 +779,8 @@
 
   .first-prize__name-overlay {
     font-size: 18px;
+    line-height: 1.2;
+    max-height: calc(2 * 1.2em);
   }
 
   .first-prize__spin-btn {
@@ -883,7 +925,7 @@
   }
 
   .first-prize__container {
-    padding: 90px 12px 40px;
+    padding: 116px 12px 20px;
   }
 
   .first-prize__header-image {
@@ -898,6 +940,8 @@
 
   .first-prize__name-overlay {
     font-size: 20px;
+    line-height: 1.2;
+    max-height: calc(2 * 1.2em);
   }
 
   .first-prize__spin-btn {
@@ -911,11 +955,11 @@
 
   /* Second Prize */
   .second-prize__container {
-    padding: 80px 32px 56px;
+    padding: 132px 32px 20px;
   }
 
   .second-prize__header-image {
-    width: 360px;
+    width: 355px;
     top: -24px;
   }
 
@@ -971,7 +1015,7 @@
   }
 
   .third-prize__container {
-    padding: 52px 7px 0px;
+    padding: 114px 7px 0px;
   }
 
   .third-prize__lookup-icon {
@@ -1061,6 +1105,8 @@
 
   .first-prize__name-overlay {
     font-size: 28px;
+    line-height: 1.15;
+    max-height: calc(2 * 1.15em);
   }
 
   .first-prize__spin-btn {
@@ -1094,7 +1140,7 @@
   }
 
   .third-prize__header-image {
-    width: 358px;
+    width: 500px;
     top: -32px;
   }
 
@@ -1190,6 +1236,8 @@
 
   .first-prize__name-overlay {
     font-size: 36px;
+    line-height: 1.1;
+    max-height: calc(2 * 1.1em);
   }
 
   .first-prize__spin-btn {
@@ -1260,7 +1308,7 @@
   }
 
   .first-prize__container {
-    padding: 190px 32px 52px;
+    padding: 226px 32px 52px;
   }
 
   .first-prize__header-image {
@@ -1275,6 +1323,8 @@
 
   .first-prize__name-overlay {
     font-size: 44px;
+    line-height: 1.1;
+    max-height: calc(2 * 1.1em);
   }
 
   .first-prize__header-image {
@@ -1305,7 +1355,7 @@
   }
 
   .second-prize__container {
-    padding: 160px 32px 56px;
+    padding: 260px 32px 56px;
   }
 
   .third-prize__header-image {
@@ -1319,7 +1369,7 @@
   }
 
   .third-prize__container {
-    padding: 160px 60px 52px;
+    padding: 250px 60px 52px;
   }
 
   .third-prize__lookup-input {
@@ -1375,7 +1425,7 @@
   }
 
   .first-prize__container {
-    padding: 260px 80px 54px;
+    padding: 308px 80px 54px;
   }
 
   .first-prize__header-image {
@@ -1390,6 +1440,8 @@
 
   .first-prize__name-overlay {
     font-size: 52px;
+    line-height: 1.1;
+    max-height: calc(2 * 1.1em);
   }
 
   .first-prize__spin-btn {
@@ -1419,7 +1471,7 @@
   }
 
   .second-prize__container {
-    padding: 254px 64px 56px; /* hoặc 254px 32px 56px như cũ */
+    padding: 360px 64px 56px; /* hoặc 254px 32px 56px như cũ */
   }
 
   .second-prize__spin-btn {
@@ -1431,7 +1483,7 @@
   }
 
   .third-prize__container {
-    padding: 260px 100px 54px;
+    padding: 378px 100px 54px;
   }
 
   .third-prize__lookup-row {
@@ -1486,7 +1538,7 @@
   }
 
   .first-prize__container {
-    padding: 266px 120px 56px;
+    padding: 343px 120px 56px;
   }
 
   .first-prize__header-image {
@@ -1501,6 +1553,8 @@
 
   .first-prize__name-overlay {
     font-size: 58px;
+    line-height: 1.1;
+    max-height: calc(2 * 1.1em);
   }
 
   .first-prize__spin-btn {
@@ -1517,7 +1571,7 @@
   }
 
   .third-prize__container {
-    padding: 266px 140px 56px;
+    padding: 360px 140px 56px;
   }
 
   .backpack-prize__title {
@@ -1555,6 +1609,8 @@
 
   .first-prize__name-overlay {
     font-size: 60px;
+    line-height: 1.1;
+    max-height: calc(2 * 1.1em);
   }
 
   .first-prize__spin-btn {
@@ -1571,7 +1627,7 @@
   }
 
   .third-prize__container {
-    padding: 266px 155px 56px;
+    padding: 360px 155px 56px;
   }
 }
 
@@ -1590,7 +1646,7 @@
   }
 
   .first-prize__header-image {
-    width: 900px;
+    width: 990px;
     top: -64px;
   }
 
@@ -1600,6 +1656,8 @@
 
   .first-prize__name-overlay {
     font-size: 64px;
+    line-height: 1.1;
+    max-height: calc(2 * 1.1em);
   }
 
   .first-prize__spin-btn {
@@ -1624,6 +1682,6 @@
   }
 
   .third-prize__container {
-    padding: 270px 165px 56px;
+    padding: 360px 165px 56px;
   }
 }

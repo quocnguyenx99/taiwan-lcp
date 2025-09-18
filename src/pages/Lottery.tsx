@@ -6,14 +6,46 @@ import "../styles/lottery.css";
 
 import groupPrize1 from "../assets/groupPrize1.png";
 import boardPrize1 from "../assets/boardPrize1.png";
+import boardPrize2 from "../assets/boardPrize2.png";
+
 import groupPrize2 from "../assets/groupPrize2.png";
 import groupPrize3 from "../assets/groupPrize3.png";
 import lookupImage from "../assets/lookupImage.png";
 import Header from "../components/Header";
+import Countdown from "../components/Countdown";
 
 interface Winner {
   number_phone: string;
   full_name: string;
+}
+
+interface PrizeData {
+  id: number;
+  title: string;
+  description: string;
+  picture: string | null;
+  status: number;
+  type: number;
+  members: Array<{
+    id: number;
+    full_name: string;
+    number_phone: string;
+    email: string;
+    address: string;
+    created_at: string;
+    team_id: number;
+    team_vote: {
+      id: number;
+      name: string;
+    };
+  }>;
+}
+
+interface ApiResponse {
+  status: boolean;
+  errorCode: number;
+  message: string;
+  data: PrizeData[];
 }
 
 const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
@@ -68,11 +100,44 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const [originalBottleList, setOriginalBottleList] = useState<Winner[]>([]);
   const [originalBagList, setOriginalBagList] = useState<Winner[]>([]);
 
+  // State để kiểm soát hiển thị countdown
+  const [showCountdown, setShowCountdown] = useState(true);
+
+  // Thêm state để track loading
+  const [isLoadingInitialData, setIsLoadingInitialData] = useState(true);
+
+  // Thêm states cho animation table
+  const [backpackAnimatedRows, setBackpackAnimatedRows] = useState(0);
+  const [bottleAnimatedRows, setBottleAnimatedRows] = useState(0);
+  const [bagAnimatedRows, setBagAnimatedRows] = useState(0);
+  const [isAnimatingBackpack, setIsAnimatingBackpack] = useState(false);
+  const [isAnimatingBottle, setIsAnimatingBottle] = useState(false);
+  const [isAnimatingBag, setIsAnimatingBag] = useState(false);
+
+  // Refs để clear timeout khi cần
+  const backpackAnimationRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const bottleAnimationRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const bagAnimationRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Hàm helper để convert phone number thành digit array
+  const processPhoneToDigits = (phoneStr: string): (number | string)[] => {
+    const cleanPhone = phoneStr.padStart(10, "0").slice(0, 10);
+    return cleanPhone.split("").map((char) => {
+      if (char === "X" || char === "x") {
+        return "X";
+      }
+      const num = Number(char);
+      return isNaN(num) ? "X" : num;
+    });
+  };
+
   // Hàm toggle cho từng giải
   const handleToggleBackpack = () => {
     if (isBackpackExpanded) {
       setBackpackVisible(10);
       setIsBackpackExpanded(false);
+      setBackpackAnimatedRows(10); // Hiển thị 10 rows khi thu gọn
+      setIsAnimatingBackpack(false);
       setTimeout(() => {
         const table = document.querySelector(".backpack-prize");
         if (table) {
@@ -88,6 +153,8 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     } else {
       setBackpackVisible(backpackList.length);
       setIsBackpackExpanded(true);
+      setBackpackAnimatedRows(backpackList.length); // Hiển thị tất cả ngay lập tức
+      setIsAnimatingBackpack(false);
     }
   };
 
@@ -95,6 +162,8 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     if (isBottleExpanded) {
       setBottleVisible(10);
       setIsBottleExpanded(false);
+      setBottleAnimatedRows(10);
+      setIsAnimatingBottle(false);
       setTimeout(() => {
         const table = document.querySelector(".bottle-prize");
         if (table) {
@@ -110,6 +179,8 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     } else {
       setBottleVisible(bottleList.length);
       setIsBottleExpanded(true);
+      setBottleAnimatedRows(bottleList.length);
+      setIsAnimatingBottle(false);
     }
   };
 
@@ -117,6 +188,8 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     if (isBagExpanded) {
       setBagVisible(10);
       setIsBagExpanded(false);
+      setBagAnimatedRows(10);
+      setIsAnimatingBag(false);
       setTimeout(() => {
         const table = document.querySelector(".bag-prize");
         if (table) {
@@ -132,6 +205,8 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     } else {
       setBagVisible(bagList.length);
       setIsBagExpanded(true);
+      setBagAnimatedRows(bagList.length);
+      setIsAnimatingBag(false);
     }
   };
 
@@ -285,6 +360,117 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       }
     }, delay);
   };
+
+  // Fetch initial data khi component mount
+  useEffect(() => {
+    const fetchInitialResults = async () => {
+      try {
+        setIsLoadingInitialData(true);
+        console.log("Fetching initial prize results...");
+        
+        const response = await fetch(
+          "https://be.dudoanchungketlcp-tta.vn/api/prize/get-member"
+        );
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const result: ApiResponse = await response.json();
+        
+        if (result.status && result.data) {
+          console.log("Initial data loaded:", result.data);
+          
+          result.data.forEach((prize) => {
+            const { type, members } = prize;
+            
+            if (!members || members.length === 0) {
+              console.log(`No members found for prize type ${type}`);
+              return;
+            }
+            
+            switch (type) {
+              case 1: // Giải nhất
+                if (members.length > 0) {
+                  const winner = members[0];
+                  const digits = processPhoneToDigits(winner.number_phone);
+                  setFirstDigits(digits);
+                  setFirstWinner({
+                    number_phone: winner.number_phone,
+                    full_name: winner.full_name
+                  });
+                  console.log("First prize winner loaded:", winner.full_name);
+                }
+                break;
+                
+              case 2: // Giải nhì (có thể có nhiều người)
+                if (members.length > 0) {
+                  // Tạo array cho tối đa 3 giải nhì
+                  const newSecondDigits = Array.from({ length: 3 }, () => Array(10).fill(0));
+                  const newSecondWinners: Winner[] = [];
+                  
+                  members.slice(0, 3).forEach((member, idx) => {
+                    const digits = processPhoneToDigits(member.number_phone);
+                    newSecondDigits[idx] = digits;
+                    newSecondWinners[idx] = {
+                      number_phone: member.number_phone,
+                      full_name: member.full_name
+                    };
+                  });
+                  
+                  setSecondDigits(newSecondDigits);
+                  setSecondWinners(newSecondWinners);
+                  console.log(`Second prize winners loaded: ${members.length} winners`);
+                }
+                break;
+                
+              case 3: // Balo du lịch
+                const backpackWinners = members.map(m => ({
+                  number_phone: m.number_phone,
+                  full_name: m.full_name
+                }));
+                setOriginalBackpackList(backpackWinners);
+                setBackpackList(backpackWinners);
+                console.log(`Backpack prize loaded: ${members.length} winners`);
+                break;
+                
+              case 4: // Bình nước
+                const bottleWinners = members.map(m => ({
+                  number_phone: m.number_phone,
+                  full_name: m.full_name
+                }));
+                setOriginalBottleList(bottleWinners);
+                setBottleList(bottleWinners);
+                console.log(`Bottle prize loaded: ${members.length} winners`);
+                break;
+                
+              case 5: // Túi xếp
+                const bagWinners = members.map(m => ({
+                  number_phone: m.number_phone,
+                  full_name: m.full_name
+                }));
+                setOriginalBagList(bagWinners);
+                setBagList(bagWinners);
+                console.log(`Bag prize loaded: ${members.length} winners`);
+                break;
+                
+              default:
+                console.log(`Unknown prize type: ${type}`);
+            }
+          });
+        } else {
+          console.log("No initial data available or API returned error");
+        }
+      } catch (error) {
+        console.error("Error fetching initial results:", error);
+      } finally {
+        setIsLoadingInitialData(false);
+        console.log("Initial data loading completed");
+      }
+    };
+
+    fetchInitialResults();
+  }, []);
 
   // Socket / timer
   const spinIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -475,27 +661,115 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         }
       }
 
-      // Giải 3–5: render bảng và scroll xuống giải tiếp theo
+      // Giải 3–5: render bảng với animation
       if (prizeId === 3) {
+        console.log(`🎒 Setting backpack results: ${results.length} winners`);
         setOriginalBackpackList(results);
         setBackpackList(results);
         setBackpackVisible(10);
         setIsBackpackExpanded(false);
+        
+        // Reset animation state
+        setBackpackAnimatedRows(0);
+        setIsAnimatingBackpack(false);
+
+        // Bắt đầu animation sau 800ms
+        setTimeout(() => {
+          animateTableRows("backpack", results.length, 200);
+        }, 800);
+
         scrollToSection(".backpack-prize", 500);
       }
+
       if (prizeId === 4) {
+        console.log(`🍼 Setting bottle results: ${results.length} winners`);
         setOriginalBottleList(results);
         setBottleList(results);
         setBottleVisible(10);
         setIsBottleExpanded(false);
+        
+        setBottleAnimatedRows(0);
+        setIsAnimatingBottle(false);
+
+        setTimeout(() => {
+          animateTableRows("bottle", results.length, 200);
+        }, 800);
+
         scrollToSection(".bottle-prize", 500);
       }
+
       if (prizeId === 5) {
+        console.log(`👜 Setting bag results: ${results.length} winners`);
         setOriginalBagList(results);
         setBagList(results);
         setBagVisible(10);
         setIsBagExpanded(false);
+        
+        setBagAnimatedRows(0);
+        setIsAnimatingBag(false);
+
+        setTimeout(() => {
+          animateTableRows("bag", results.length, 200);
+        }, 800);
+
         scrollToSection(".bag-prize", 500);
+      }
+    };
+
+    // === HÀM ANIMATE TABLE ROWS ===
+    const animateTableRows = (
+      prizeType: 'backpack' | 'bottle' | 'bag',
+      totalRows: number,
+      delayBetweenRows = 200
+    ) => {
+      const maxRowsToShow = Math.min(totalRows, 10);
+      
+      let animationRef: React.MutableRefObject<ReturnType<typeof setTimeout>[]>;
+      let setAnimatedRows: React.Dispatch<React.SetStateAction<number>>;
+      let setIsAnimating: React.Dispatch<React.SetStateAction<boolean>>;
+      
+      switch (prizeType) {
+        case 'backpack':
+          animationRef = backpackAnimationRef;
+          setAnimatedRows = setBackpackAnimatedRows;
+          setIsAnimating = setIsAnimatingBackpack;
+          break;
+        case 'bottle':
+          animationRef = bottleAnimationRef;
+          setAnimatedRows = setBottleAnimatedRows;
+          setIsAnimating = setIsAnimatingBottle;
+          break;
+        case 'bag':
+          animationRef = bagAnimationRef;
+          setAnimatedRows = setBagAnimatedRows;
+          setIsAnimating = setIsAnimatingBag;
+          break;
+      }
+
+      // Clear previous timeouts
+      animationRef.current.forEach(clearTimeout);
+      animationRef.current = [];
+
+      // Reset và bắt đầu animation
+      setAnimatedRows(0);
+      setIsAnimating(true);
+
+      console.log(`🎭 Starting table animation for ${prizeType}, showing ${maxRowsToShow} rows`);
+
+      // Animate từng row
+      for (let i = 0; i < maxRowsToShow; i++) {
+        const timeout = setTimeout(() => {
+          setAnimatedRows(i + 1);
+          console.log(`🎭 Showing row ${i + 1}/${maxRowsToShow} for ${prizeType}`);
+          
+          // Khi hoàn thành animation cuối cùng
+          if (i === maxRowsToShow - 1) {
+            setIsAnimating(false);
+            console.log(`✅ Table animation completed for ${prizeType}`);
+          }
+        }, i * delayBetweenRows);
+
+        animationRef.current.push(timeout);
       }
     };
 
@@ -552,6 +826,36 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     };
   }, [activeCampaignId]); // BỎ secondSpinningStates khỏi dependency array
 
+  // Callback khi countdown hết thời gian
+  const handleCountdownExpired = () => {
+    setShowCountdown(false);
+    console.log("🕒 Countdown expired, hiding component");
+  };
+
+  // Hiển thị loading state khi đang fetch data ban đầu
+  if (isLoadingInitialData) {
+    return (
+      <div>
+        <Header />
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '50vh',
+          fontSize: '18px',
+          color: 'white'
+        }}>
+          <div>
+            <div>Đang tải dữ liệu...</div>
+            <div style={{ fontSize: '14px', marginTop: '8px', opacity: 0.7 }}>
+              Vui lòng chờ trong giây lát
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header />
@@ -590,6 +894,9 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       </section>
       {/* END BANNER */}
 
+      {/* COUNTDOWN - Chỉ hiển thị khi chưa hết thời gian */}
+      {showCountdown && <Countdown onExpired={handleCountdownExpired} />}
+
       {/* START FIRST PRIZE SECTION */}
       <section className="first-prize">
         <div className="first-prize__container container">
@@ -600,7 +907,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
           <div className="first-prize__board">
             <img
               className="first-prize__board-image"
-              src={boardPrize1}
+              src={boardPrize2}
               alt="Bảng kết quả"
             />
 
@@ -636,7 +943,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               <div className="second-prize__board" key={idx}>
                 <img
                   className="second-prize__board-image"
-                  src={boardPrize1}
+                  src={boardPrize2}
                   alt="Bảng kết quả"
                 />
                 <div className="second-prize__phone-overlay">
@@ -723,7 +1030,12 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </thead>
                 <tbody>
                   {backpackList.slice(0, backpackVisible).map((w, idx) => (
-                    <tr key={idx}>
+                    <tr 
+                      key={idx}
+                      className={`prize-table-row ${
+                        idx < backpackAnimatedRows ? 'prize-table-row--visible' : 'prize-table-row--hidden'
+                      }`}
+                    >
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
                       <td>{w.full_name}</td>
@@ -733,10 +1045,14 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               </table>
             </div>
             {backpackList.length > 10 && (
-              <div className="backpack-prize__more">
+              <div className="backpack-prize__more" style={{
+                opacity: isAnimatingBackpack ? 0 : 1,
+                transition: 'opacity 0.3s ease'
+              }}>
                 <button
                   className="backpack-prize__more-btn"
                   onClick={handleToggleBackpack}
+                  disabled={isAnimatingBackpack}
                 >
                   {isBackpackExpanded ? "THU GỌN" : "XEM THÊM"}
                 </button>
@@ -760,7 +1076,12 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </thead>
                 <tbody>
                   {bottleList.slice(0, bottleVisible).map((w, idx) => (
-                    <tr key={idx}>
+                    <tr 
+                      key={idx}
+                      className={`prize-table-row ${
+                        idx < bottleAnimatedRows ? 'prize-table-row--visible' : 'prize-table-row--hidden'
+                      }`}
+                    >
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
                       <td>{w.full_name}</td>
@@ -770,7 +1091,10 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               </table>
             </div>
             {bottleList.length > 10 && (
-              <div className="backpack-prize__more">
+              <div className="backpack-prize__more" style={{
+                opacity: isAnimatingBottle ? 0 : 1,
+                transition: 'opacity 0.3s ease'
+              }}>
                 <button
                   className="backpack-prize__more-btn"
                   onClick={handleToggleBottle}
@@ -795,7 +1119,12 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 </thead>
                 <tbody>
                   {bagList.slice(0, bagVisible).map((w, idx) => (
-                    <tr key={idx}>
+                    <tr 
+                      key={idx}
+                      className={`prize-table-row ${
+                        idx < bagAnimatedRows ? 'prize-table-row--visible' : 'prize-table-row--hidden'
+                      }`}
+                    >
                       <td>{idx + 1}</td>
                       <td>{w.number_phone}</td>
                       <td>{w.full_name}</td>
@@ -805,7 +1134,10 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               </table>
             </div>
             {bagList.length > 10 && (
-              <div className="backpack-prize__more">
+              <div className="backpack-prize__more" style={{
+                opacity: isAnimatingBag ? 0 : 1,
+                transition: 'opacity 0.3s ease'
+              }}>
                 <button
                   className="backpack-prize__more-btn"
                   onClick={handleToggleBag}

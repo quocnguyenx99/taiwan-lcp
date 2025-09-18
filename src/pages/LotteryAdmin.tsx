@@ -20,7 +20,9 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const activeCampaignId = campaignId || "taiwan-lcp";
 
   // Giải nhất (1 người) - UPDATE TYPE ĐỂ HỖ TRỢ X
-  const [firstDigits, setFirstDigits] = useState<(number | string)[]>(Array(10).fill(0));
+  const [firstDigits, setFirstDigits] = useState<(number | string)[]>(
+    Array(10).fill(0)
+  );
   const [firstSpinning, setFirstSpinning] = useState(false);
   const firstSpinningRef = useRef(false);
   const [firstWinner, setFirstWinner] = useState<Winner | null>(null);
@@ -29,7 +31,11 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const [secondDigits, setSecondDigits] = useState<(number | string)[][]>(
     Array.from({ length: 3 }, () => Array(10).fill(0))
   );
-  const [secondSpinningStates, setSecondSpinningStates] = useState<boolean[]>([false, false, false]);
+  const [secondSpinningStates, setSecondSpinningStates] = useState<boolean[]>([
+    false,
+    false,
+    false,
+  ]);
   const [secondWinners, setSecondWinners] = useState<Winner[]>([]);
 
   // Giải 3–5 (chỉ render bảng)
@@ -57,7 +63,9 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   const [isSearching, setIsSearching] = useState(false);
 
   // State để lưu danh sách gốc (không bị filter)
-  const [originalBackpackList, setOriginalBackpackList] = useState<Winner[]>([]);
+  const [originalBackpackList, setOriginalBackpackList] = useState<Winner[]>(
+    []
+  );
   const [originalBottleList, setOriginalBottleList] = useState<Winner[]>([]);
   const [originalBagList, setOriginalBagList] = useState<Winner[]>([]);
 
@@ -78,7 +86,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         const table = document.querySelector(".backpack-prize");
         if (table) {
           const headerHeight = 110;
-          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          const tablePosition =
+            table.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: tablePosition - headerHeight,
             behavior: "smooth",
@@ -99,7 +108,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         const table = document.querySelector(".bottle-prize");
         if (table) {
           const headerHeight = 110;
-          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          const tablePosition =
+            table.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: tablePosition - headerHeight,
             behavior: "smooth",
@@ -120,7 +130,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         const table = document.querySelector(".bag-prize");
         if (table) {
           const headerHeight = 110;
-          const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+          const tablePosition =
+            table.getBoundingClientRect().top + window.scrollY;
           window.scrollTo({
             top: tablePosition - headerHeight,
             behavior: "smooth",
@@ -154,15 +165,18 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
     setIsSearching(true);
     try {
-      const response = await fetch("https://be.dudoanchungketlcp-tta.vn/api/prize/search", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone: searchPhone.trim(),
-        }),
-      });
+      const response = await fetch(
+        "https://be.dudoanchungketlcp-tta.vn/api/prize/search",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: searchPhone.trim(),
+          }),
+        }
+      );
 
       const result = await response.json();
 
@@ -189,7 +203,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             const table = document.querySelector(".backpack-prize");
             if (table) {
               const headerHeight = 110;
-              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              const tablePosition =
+                table.getBoundingClientRect().top + window.scrollY;
               window.scrollTo({
                 top: tablePosition - headerHeight,
                 behavior: "smooth",
@@ -205,7 +220,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             const table = document.querySelector(".bottle-prize");
             if (table) {
               const headerHeight = 110;
-              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              const tablePosition =
+                table.getBoundingClientRect().top + window.scrollY;
               window.scrollTo({
                 top: tablePosition - headerHeight,
                 behavior: "smooth",
@@ -221,7 +237,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             const table = document.querySelector(".bag-prize");
             if (table) {
               const headerHeight = 110;
-              const tablePosition = table.getBoundingClientRect().top + window.scrollY;
+              const tablePosition =
+                table.getBoundingClientRect().top + window.scrollY;
               window.scrollTo({
                 top: tablePosition - headerHeight,
                 behavior: "smooth",
@@ -266,7 +283,8 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       const section = document.querySelector(sectionClass);
       if (section) {
         const headerHeight = 110;
-        const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
+        const sectionPosition =
+          section.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({
           top: sectionPosition - headerHeight,
           behavior: "smooth",
@@ -303,10 +321,14 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
     // === HÀM QUAY GIẢI NHÌ THEO INDEX ===
     const startSecondSpin = (prizeIndex: number) => {
-      console.log(`🎰 Starting spin for second prize ${prizeIndex + 1} (prizeId: ${prizeIndex + 21})`);
-      
+      console.log(
+        `🎰 Starting spin for second prize ${prizeIndex + 1} (prizeId: ${
+          prizeIndex + 21
+        })`
+      );
+
       // Cập nhật trạng thái spinning cho giải cụ thể
-      setSecondSpinningStates(prev => {
+      setSecondSpinningStates((prev) => {
         const newStates = [...prev];
         newStates[prizeIndex] = true;
         console.log(`🎰 Updated spinning states:`, newStates);
@@ -321,11 +343,13 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
       // Tạo interval riêng cho giải này
       const spinInterval = setInterval(() => {
-        setSecondDigits(prev => {
+        setSecondDigits((prev) => {
           const newDigits = prev.map((arr, idx) => {
             // Chỉ quay animation cho giải đang được chọn
             if (idx === prizeIndex) {
-              return Array.from({ length: 10 }, () => Math.floor(Math.random() * 10));
+              return Array.from({ length: 10 }, () =>
+                Math.floor(Math.random() * 10)
+              );
             }
             return arr; // Giữ nguyên các giải khác
           });
@@ -391,12 +415,16 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       if (prizeId >= 21 && prizeId <= 23) {
         const prizeIndex = prizeId - 21; // 21->0, 22->1, 23->2
         const winner = results[0]; // Mỗi lần chỉ nhận 1 người
-        
-        console.log(`🏆 Stopping spin for second prize ${prizeIndex + 1} (prizeId: ${prizeId})`);
+
+        console.log(
+          `🏆 Stopping spin for second prize ${
+            prizeIndex + 1
+          } (prizeId: ${prizeId})`
+        );
         console.log(`🏆 Winner:`, winner);
-        
+
         // Dừng animation cho giải này
-        setSecondSpinningStates(prev => {
+        setSecondSpinningStates((prev) => {
           const newStates = [...prev];
           newStates[prizeIndex] = false;
           console.log(`🏆 Updated spinning states after stop:`, newStates);
@@ -409,10 +437,12 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         for (let i = 0; i < 8; i++) {
           const t = setTimeout(() => {
             if (i < 7) {
-              setSecondDigits(prev => {
+              setSecondDigits((prev) => {
                 const newDigits = prev.map((arr, idx) => {
                   if (idx === prizeIndex) {
-                    return Array.from({ length: 10 }, () => Math.floor(Math.random() * 10));
+                    return Array.from({ length: 10 }, () =>
+                      Math.floor(Math.random() * 10)
+                    );
                   }
                   return arr;
                 });
@@ -420,7 +450,7 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               });
             } else {
               // Hiển thị kết quả cuối cùng
-              setSecondDigits(prev => {
+              setSecondDigits((prev) => {
                 const newDigits = prev.map((arr, idx) => {
                   if (idx === prizeIndex) {
                     return displayArray;
@@ -431,7 +461,7 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               });
 
               // Cập nhật danh sách winners
-              setSecondWinners(prev => {
+              setSecondWinners((prev) => {
                 const newWinners = [...prev];
                 newWinners[prizeIndex] = winner;
                 console.log(`🏆 Updated second winners:`, newWinners);
@@ -440,7 +470,9 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
               // Nếu đây là giải cuối cùng (prizeId 23), scroll xuống giải 3
               if (prizeId === 23) {
-                console.log(`🏆 Completed all second prizes, scrolling to third prize`);
+                console.log(
+                  `🏆 Completed all second prizes, scrolling to third prize`
+                );
                 scrollToSection(".third-prize", 2000);
               }
             }
@@ -477,19 +509,23 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     socket.on("start-spin", (p: any) => {
       console.log("📡 start-spin:", p);
       if (p?.campaignId && p.campaignId !== activeCampaignId) return;
-      
+
       if (p?.prizeId === 1 && !firstSpinningRef.current) {
         console.log("🎰 Starting first prize spin");
         startFirstSpin();
       }
-      
+
       // Xử lý các giải Nhì riêng biệt
       if (p?.prizeId >= 21 && p?.prizeId <= 23) {
         const prizeIndex = p.prizeId - 21;
-        console.log(`📡 Received start-spin for second prize ${prizeIndex + 1} (prizeId: ${p.prizeId})`);
-        
+        console.log(
+          `📡 Received start-spin for second prize ${
+            prizeIndex + 1
+          } (prizeId: ${p.prizeId})`
+        );
+
         // Lấy current state thay vì dựa vào stale closure
-        setSecondSpinningStates(currentStates => {
+        setSecondSpinningStates((currentStates) => {
           console.log(`📡 Current spinning states:`, currentStates);
           if (!currentStates[prizeIndex]) {
             console.log(`📡 Starting spin for prize index ${prizeIndex}`);
@@ -595,7 +631,7 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             <div className="first-prize__phone-overlay">
               {firstDigits.map((d, i) => (
                 <span key={i} className="first-prize__digit">
-                  {d === 'X' ? 'X' : d}
+                  {d === "X" ? "X" : d}
                 </span>
               ))}
             </div>
@@ -642,7 +678,7 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                 <div className="second-prize__phone-overlay">
                   {row.map((d, i) => (
                     <span key={i} className="second-prize__digit">
-                      {d === 'X' ? 'X' : d}
+                      {d === "X" ? "X" : d}
                     </span>
                   ))}
                 </div>
@@ -664,9 +700,11 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               <button
                 className="second-prize__spin-btn"
                 onClick={() => handleSpinClick(2)}
-                disabled={secondSpinningStates.some(state => state)}
+                disabled={secondSpinningStates.some((state) => state)}
               >
-                {secondSpinningStates.some(state => state) ? "ĐANG QUAY GIẢI NHÌ..." : "QUAY SỐ"}
+                {secondSpinningStates.some((state) => state)
+                  ? "ĐANG QUAY GIẢI NHÌ..."
+                  : "QUAY SỐ"}
               </button>
             </div>
           )}
@@ -716,7 +754,9 @@ const LotteryAdmin: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               </div>
             </div>
             <div className="third-prize__lookup-result">
-              {searchResult ? searchResult.message : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
+              {searchResult
+                ? searchResult.message
+                : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
             </div>
           </div>
 
