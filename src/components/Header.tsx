@@ -14,13 +14,13 @@ const Header: React.FC = () => {
     { href: "terms", label: "T&C" },
     { href: "video", label: "Video" },
     { href: "/visa", label: "Visa" },
-    { href: "/rewards", label: "Rewards" },
+    // { href: "/rewards", label: "Rewards" },
   ];
 
   const navVisa = [
     { href: "/", label: "Home" },
     { href: "/visa", label: "Visa" },
-    { href: "/rewards", label: "Rewards" },
+    // { href: "/rewards", label: "Rewards" },
   ];
 
   const nav = location.pathname === "/" ? navLanding : navVisa;
