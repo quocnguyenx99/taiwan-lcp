@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Layout from "./components/Layout";
 import Landing from "./pages/Landing";
-import Login from "./pages/Login"; // thêm import
+import Login from "./pages/Login";
 import MemberList from "./pages/MemberList";
 import PrivateRoute from "./components/PrivateRoute";
 import LotteryAdmin from "./pages/LotteryAdmin";
@@ -19,7 +19,15 @@ export default function App() {
 
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
-        <Route path="rewards" element={<Lottery />} />
+        {/* ✅ Wrap Lottery với Suspense */}
+        <Route 
+          path="rewards" 
+          element={
+            <Suspense fallback={<div className="skeleton">Đang tải kết quả quay số...</div>}>
+              <Lottery />
+            </Suspense>
+          } 
+        />
       </Route>
 
       <Route
@@ -32,7 +40,6 @@ export default function App() {
       />
 
       {/* Private routes (require token in localStorage) */}
-
       <Route
         path="/admin/dashboard"
         element={

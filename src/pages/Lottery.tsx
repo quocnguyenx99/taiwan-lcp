@@ -5,7 +5,6 @@ import lcpIcon from "../assets/lcpIcon.png";
 import "../styles/lottery.css";
 
 import groupPrize1 from "../assets/groupPrize1.png";
-import boardPrize1 from "../assets/boardPrize1.png";
 import boardPrize2 from "../assets/boardPrize2.png";
 
 import groupPrize2 from "../assets/groupPrize2.png";
@@ -246,8 +245,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
       const result = await response.json();
 
-      console.log("Search result:", result);
-
       if (result.status && result.data) {
         // Trúng giải - chỉ hiển thị 1 record trong bảng tương ứng
         setSearchResult({
@@ -407,7 +404,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     const fetchInitialResults = async () => {
       try {
         setIsLoadingInitialData(true);
-        console.log("🔄 Fetching initial prize results...");
 
         const response = await fetch(
           "https://be.dudoanchungketlcp-tta.vn/api/prize/get-member"
@@ -442,10 +438,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                     number_phone: winner.number_phone,
                     full_name: winner.full_name,
                   });
-                  console.log(
-                    "🏆 First prize winner loaded:",
-                    winner.full_name
-                  );
+                 
                 }
                 break;
 
@@ -467,9 +460,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
                   setSecondDigits(newSecondDigits);
                   setSecondWinners(newSecondWinners);
-                  console.log(
-                    `🥈 Second prize winners loaded: ${members.length} winners`
-                  );
+                  
                 }
                 break;
 
@@ -484,9 +475,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   setBackpackList(backpackWinners);
                   setBackpackAnimatedRows(Math.min(backpackWinners.length, 10));
                   setIsAnimatingBackpack(false);
-                  console.log(
-                    `🎒 Backpack prize (id: ${id}) loaded: ${members.length} winners`
-                  );
+                  
                 } else if (id === 4) {
                   // ✅ Bình nước (id = 4)
                   const bottleWinners = members.map((m) => ({
@@ -497,9 +486,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   setBottleList(bottleWinners);
                   setBottleAnimatedRows(Math.min(bottleWinners.length, 10));
                   setIsAnimatingBottle(false);
-                  console.log(
-                    `🍼 Bottle prize (id: ${id}) loaded: ${members.length} winners`
-                  );
+                 
                 } else if (id === 5) {
                   // ✅ Túi xếp (id = 5)
                   const bagWinners = members.map((m) => ({
@@ -510,9 +497,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   setBagList(bagWinners);
                   setBagAnimatedRows(Math.min(bagWinners.length, 10));
                   setIsAnimatingBag(false);
-                  console.log(
-                    `👜 Bag prize (id: ${id}) loaded: ${members.length} winners`
-                  );
+                  
                 }
                 break;
 
@@ -527,7 +512,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
         console.error("❌ Error fetching initial results:", error);
       } finally {
         setIsLoadingInitialData(false);
-        console.log("✅ Initial data loading completed");
       }
     };
 
@@ -563,17 +547,12 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
     // === HÀM QUAY GIẢI NHÌ THEO INDEX ===
     const startSecondSpin = (prizeIndex: number) => {
-      console.log(
-        `🎰 Starting spin for second prize ${prizeIndex + 1} (prizeId: ${
-          prizeIndex + 21
-        })`
-      );
+     
 
       // Cập nhật trạng thái spinning cho giải cụ thể
       setSecondSpinningStates((prev) => {
         const newStates = [...prev];
         newStates[prizeIndex] = true;
-        console.log(`🎰 Updated spinning states:`, newStates);
         return newStates;
       });
 
@@ -663,13 +642,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             prizeIndex + 1
           } (prizeId: ${prizeId})`
         );
-        console.log(`🏆 Winner:`, winner);
 
         // Dừng animation cho giải này
         setSecondSpinningStates((prev) => {
           const newStates = [...prev];
           newStates[prizeIndex] = false;
-          console.log(`🏆 Updated spinning states after stop:`, newStates);
           return newStates;
         });
 
@@ -706,15 +683,11 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               setSecondWinners((prev) => {
                 const newWinners = [...prev];
                 newWinners[prizeIndex] = winner;
-                console.log(`🏆 Updated second winners:`, newWinners);
                 return newWinners;
               });
 
               // Nếu đây là giải cuối cùng (prizeId 23), scroll xuống giải 3
               if (prizeId === 23) {
-                console.log(
-                  `🏆 Completed all second prizes, scrolling to third prize`
-                );
                 scrollToSection(".third-prize", 2000);
               }
             }
@@ -725,9 +698,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
       // Giải 3–5: render bảng với animation CHỈ KHI SOCKET QUAY
       if (prizeId === 3) {
-        console.log(
-          `🎒 Setting backpack results from socket: ${results.length} winners`
-        );
         setOriginalBackpackList(results);
         setBackpackList(results);
         setBackpackVisible(10);
@@ -746,9 +716,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       }
 
       if (prizeId === 4) {
-        console.log(
-          `🍼 Setting bottle results from socket: ${results.length} winners`
-        );
         setOriginalBottleList(results);
         setBottleList(results);
         setBottleVisible(10);
@@ -766,9 +733,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       }
 
       if (prizeId === 5) {
-        console.log(
-          `👜 Setting bag results from socket: ${results.length} winners`
-        );
         setOriginalBagList(results);
         setBagList(results);
         setBagVisible(10);
@@ -824,22 +788,15 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       setAnimatedRows(0);
       setIsAnimating(true);
 
-      console.log(
-        `🎭 Starting table animation for ${prizeType}, showing ${maxRowsToShow} rows`
-      );
 
       // Animate từng row
       for (let i = 0; i < maxRowsToShow; i++) {
         const timeout = setTimeout(() => {
           setAnimatedRows(i + 1);
-          console.log(
-            `🎭 Showing row ${i + 1}/${maxRowsToShow} for ${prizeType}`
-          );
 
           // Khi hoàn thành animation cuối cùng
           if (i === maxRowsToShow - 1) {
             setIsAnimating(false);
-            console.log(`✅ Table animation completed for ${prizeType}`);
           }
         }, i * delayBetweenRows);
 
@@ -889,7 +846,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     });
 
     return () => {
-      console.log("🔌 Cleaning up socket connection");
       socket.off("start-spin");
       socket.off("stop-spin");
       if (spinIntervalRef.current) clearInterval(spinIntervalRef.current);
@@ -912,7 +868,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   // Callback khi countdown hết thời gian
   const handleCountdownExpired = () => {
     setShowCountdown(false);
-    console.log("🕒 Countdown expired, hiding component");
   };
 
   // Hiển thị loading state khi đang fetch data ban đầu

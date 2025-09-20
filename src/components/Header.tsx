@@ -9,18 +9,18 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLanding = [
-    { href: "/", label: "Home" },
-    { href: "vote", label: "Vote" },
-    { href: "terms", label: "T&C" },
+    { href: "/", label: "Trang chủ" },
+    { href: "vote", label: "Bình chọn" },
+    { href: "terms", label: "Thể lệ" },
     { href: "video", label: "Video" },
     { href: "/visa", label: "Visa" },
-    // { href: "/rewards", label: "Rewards" },
+    { href: "/rewards", label: "Kết quả" },
   ];
 
   const navVisa = [
-    { href: "/", label: "Home" },
+    { href: "/", label: "Trang chủ" },
     { href: "/visa", label: "Visa" },
-    // { href: "/rewards", label: "Rewards" },
+    { href: "/rewards", label: "Kết quả" },
   ];
 
   const nav = location.pathname === "/" ? navLanding : navVisa;

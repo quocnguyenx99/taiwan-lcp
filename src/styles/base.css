@@ -115,3 +115,58 @@ a {
   margin-left: 50%;
   transform: translateX(-50%);
 }
+
+/* ...existing CSS... */
+
+/* ✅ Loading skeleton cho Lottery page */
+.skeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+  color: #fff;
+  font-family: "MyFont", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ✅ Animation cho loading text */
+.skeleton::after {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 3px;
+  background: #ff6b35;
+  border-radius: 50%;
+  margin-left: 8px;
+  animation: skeleton-pulse 1.5s infinite;
+}
+
+@keyframes skeleton-pulse {
+  0%, 20% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+/* ✅ Responsive cho skeleton */
+@media (max-width: 640px) {
+  .skeleton {
+    font-size: 16px;
+    padding: 20px;
+    text-align: center;
+  }
+}
+
+/* ...rest of existing CSS... */
