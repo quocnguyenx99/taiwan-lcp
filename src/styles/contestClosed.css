@@ -1,0 +1,329 @@
+.contest-closed {
+  padding: 40px 0;
+  background: transparent;
+  position: relative;
+  z-index: 10;
+}
+
+.contest-closed__container {
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.contest-closed__notification {
+  position: relative;
+  border: 2px solid var(--color-secondary, #ff914d);
+  padding: 40px 20px 110px;
+  text-align: center;
+}
+
+.contest-closed__message {
+  font-family: "MyFont", sans-serif;
+  font-size: 80px;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  line-height: 1.2;
+}
+
+.contest-closed__button {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    #ffebc1 0%,
+    #ffb663 50%,
+    var(--color-primary, #ff6b35) 100%
+  );
+  padding: 12px 32px;
+  border: none;
+  font-size: 54px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: 700;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  color: #000;
+  font-family: "MyFont", sans-serif;
+  min-width: 300px;
+}
+
+.contest-closed__button:hover {
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+.contest-closed__button:active {
+  transform: translateX(-50%) translateY(0);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+
+/* Mobile First - Extra Small: <360px */
+@media (max-width: 359px) {
+  .contest-closed {
+    padding: 20px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 10px;
+  }
+
+  .contest-closed__notification {
+    border-width: 1px;
+    padding: 20px 10px 60px;
+  }
+
+  .contest-closed__message {
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.3;
+  }
+
+  .contest-closed__button {
+    font-size: 12px;
+    padding: 8px 16px;
+    min-width: 200px;
+    bottom: -20px;
+  }
+}
+
+/* sm: ≥360px */
+@media (min-width: 360px) and (max-width: 479px) {
+  .contest-closed {
+    padding: 22px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 12px;
+  }
+
+  .contest-closed__notification {
+    border-width: 1px;
+    padding: 22px 12px 40px;
+  }
+
+  .contest-closed__message {
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.3;
+  }
+
+  .contest-closed__button {
+    font-size: 18px;
+    padding: 8px 18px;
+    min-width: 220px;
+    bottom: -22px;
+  }
+}
+
+/* ms: ≥480px */
+@media (min-width: 480px) and (max-width: 639px) {
+  .contest-closed {
+    padding: 24px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 14px;
+  }
+
+  .contest-closed__notification {
+    border-width: 2px;
+    padding: 24px 14px 56px;
+  }
+
+  .contest-closed__message {
+    font-size: 30px;
+    letter-spacing: 1.2px;
+    line-height: 1.2;
+  }
+
+  .contest-closed__button {
+    font-size: 24px;
+    padding: 9px 20px;
+    min-width: 240px;
+    bottom: -24px;
+  }
+}
+
+/* md: ≥640px */
+@media (min-width: 640px) and (max-width: 767px) {
+  .contest-closed {
+    padding: 26px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 16px;
+  }
+
+  .contest-closed__notification {
+    border-width: 2px;
+    padding: 26px 16px 60px;
+  }
+
+  .contest-closed__message {
+    font-size: 36px;
+    letter-spacing: 1.4px;
+    line-height: 1.2;
+  }
+
+  .contest-closed__button {
+    font-size: 24px;
+    padding: 10px 24px;
+    min-width: 260px;
+    bottom: -26px;
+  }
+}
+
+/* lg: ≥768px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .contest-closed {
+    padding: 28px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 18px;
+  }
+
+  .contest-closed__notification {
+    border-width: 2px;
+    padding: 28px 18px 80px;
+  }
+
+  .contest-closed__message {
+    font-size: 40px;
+    letter-spacing: 1.6px;
+    line-height: 1.2;
+  }
+
+  .contest-closed__button {
+    font-size: 32px;
+    padding: 10px 26px;
+    min-width: 280px;
+    bottom: -28px;
+  }
+}
+
+/* xl: ≥1024px */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .contest-closed {
+    padding: 32px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 20px;
+  }
+
+  .contest-closed__notification {
+    border-width: 2px;
+    padding: 32px 20px 85px;
+  }
+
+  .contest-closed__message {
+    font-size: 48px;
+    letter-spacing: 1.8px;
+    line-height: 1.2;
+  }
+
+  .contest-closed__button {
+    font-size: 30px;
+    padding: 11px 28px;
+    min-width: 300px;
+    bottom: -30px;
+  }
+}
+
+/* 2xl: ≥1280px */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .contest-closed {
+    padding: 34px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 20px;
+  }
+
+  .contest-closed__notification {
+    border-width: 2px;
+    padding: 34px 20px 90px;
+  }
+
+  .contest-closed__message {
+    font-size: 56px;
+    letter-spacing: 1.9px;
+    line-height: 1.2;
+  }
+
+  .contest-closed__button {
+    font-size: 36px;
+    padding: 11px 30px;
+    min-width: 320px;
+    bottom: -32px;
+  }
+}
+
+/* 3xl: ≥1536px */
+@media (min-width: 1536px) and (max-width: 1919px) {
+  .contest-closed {
+    padding: 36px 0;
+  }
+
+  .contest-closed__container {
+    padding: 0 20px;
+  }
+
+  .contest-closed__notification {
+    border-width: 2px;
+    padding: 36px 20px 95px;
+  }
+
+  .contest-closed__message {
+    font-size: 64px;
+    letter-spacing: 2px;
+    line-height: 1.2;
+  }
+
+  .contest-closed__button {
+    font-size: 42px;
+    padding: 11px 30px;
+    min-width: 340px;
+    bottom: -33px;
+  }
+}
+
+/* 4xl: ≥1920px - Giá trị gốc */
+@media (min-width: 1920px) {
+  .contest-closed {
+    padding: 40px 0; /* Giá trị gốc */
+  }
+
+  .contest-closed__container {
+    padding: 0 20px; /* Giá trị gốc */
+  }
+
+  .contest-closed__notification {
+    border-width: 2px; /* Giá trị gốc */
+    padding: 40px 20px 110px; /* Giá trị gốc */
+  }
+
+  .contest-closed__message {
+    font-size: 80px; /* Giá trị gốc */
+    letter-spacing: 2px; /* Giá trị gốc */
+    line-height: 1.2; /* Giá trị gốc */
+  }
+
+  .contest-closed__button {
+    font-size: 54px; /* Giá trị gốc */
+    padding: 12px 32px; /* Giá trị gốc */
+    min-width: 300px; /* Giá trị gốc */
+    bottom: -30px; /* Giá trị gốc */
+  }
+}
+

@@ -44,7 +44,7 @@ const Login: React.FC = () => {
       toast.success("Đăng nhập thành công!");
 
       // Chuyển hướng ngay lập tức
-      navigate("/admin/member-list", { replace: true });
+      navigate("/admin/dashboard", { replace: true });
     } catch (err: any) {
       const errorMsg = err?.message || "Lỗi khi đăng nhập";
       setError(errorMsg);

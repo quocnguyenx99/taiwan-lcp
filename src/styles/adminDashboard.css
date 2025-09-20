@@ -1,99 +1,320 @@
+body:has(.admin-dashboard) {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
 .admin-dashboard {
   min-height: 100vh;
-  padding: 24px;
+  background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+  padding: 40px 20px;
   color: var(--color-text, #1f2937);
 }
 
 .admin-dashboard__container {
-  max-width: 1080px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .admin-dashboard__header {
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 60px;
 }
 
 .admin-dashboard__title {
-  margin: 0 0 6px 0;
+  font-family: "MyFont", sans-serif;
   font-size: 48px;
-  font-weight: 700;
-  color: white;
+  font-weight: 800;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .admin-dashboard__subtitle {
-  margin: 0;
-  font-size: 24px;
-  color:white;
+  font-family: "MyFont", sans-serif;
+  font-size: 18px;
+  color: #ccc;
+  font-weight: 400;
+  letter-spacing: 1px;
 }
 
-/* Cards grid */
+/* ✅ GRID LAYOUT 2x2 */
 .admin-cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px; /* to hơn */
-}
-
-.admin-card {
-  background: var(--color-primary, #ff6a00); /* nền primary để chữ trắng nổi bật */
-  color: #fff; /* chữ trắng */
-  border: none;
-  border-radius: 16px;
-  padding: 28px 24px;         /* to hơn */
-  min-height: 160px;          /* card cao hơn */
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 500px;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, transform 0.08s ease, filter 0.15s ease;
-  outline: none;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
 }
 
-.admin-card:hover,
-.admin-card:focus-visible {
-  filter: brightness(0.95);
-  box-shadow: 0 14px 28px rgba(0,0,0,0.12);
-  transform: translateY(-2px);
+/* ✅ CARD STYLING - TO HƠN VÀ RÕ RÀNG HƠN */
+.admin-card {
+  position: relative;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  border: 2px solid #ff6b35;
+  border-radius: 12px;
+  padding: 40px 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+  text-align: left;
+  overflow: hidden;
+}
+
+.admin-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1) 0%, rgba(255, 145, 77, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.admin-card:hover::before {
+  opacity: 1;
+}
+
+.admin-card:hover {
+  transform: translateY(-8px);
+  border-color: #ff914d;
+  box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3);
+}
+
+.admin-card:active {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(255, 107, 53, 0.4);
 }
 
 .admin-card__body {
   flex: 1;
-  min-width: 0;
+  z-index: 2;
+  position: relative;
 }
 
 .admin-card__title {
-  margin: 0 0 8px 0;
-  font-size: 22px;            /* to hơn */
-  font-weight: 800;
-  color: #fff;                /* trắng */
+  font-family: "MyFont", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  line-height: 1.3;
 }
 
 .admin-card__desc {
-  margin: 0;
-  font-size: 16px;            /* to hơn */
-  color: rgba(255,255,255,0.9); /* trắng nhạt */
+  font-family: "MyFont", sans-serif;
+  font-size: 16px;
+  color: #ccc;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
 }
 
 .admin-card__arrow {
-  color: #fff;                /* trắng */
-  font-weight: 900;
-  font-size: 28px;            /* to hơn */
-  transition: transform 0.15s ease;
+  position: absolute;
+  bottom: 20px;
+  right: 25px;
+  font-size: 24px;
+  color: #ff6b35;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  z-index: 2;
 }
 
-.admin-card:hover .admin-card__arrow,
-.admin-card:focus-visible .admin-card__arrow {
-  transform: translateX(2px);
+.admin-card:hover .admin-card__arrow {
+  color: #ff914d;
+  transform: translateX(5px);
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .admin-cards { grid-template-columns: repeat(2, 1fr); }
+/* ✅ SPECIAL STYLING CHO CARD THỨ 3 (QUAY SỐ) */
+.admin-card:nth-child(3) {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #2a1a0d 0%, #3a2a1a 100%);
+  border-color: #ffb663;
+  min-height: 180px;
 }
-@media (max-width: 600px) {
-  .admin-cards { grid-template-columns: 1fr; }
-  .admin-card { min-height: 140px; padding: 24px 20px; }
-  .admin-card__title { font-size: 20px; }
-  .admin-card__desc { font-size: 15px; }
+
+.admin-card:nth-child(3):hover {
+  border-color: #ffc77a;
+  box-shadow: 0 20px 40px rgba(255, 182, 99, 0.3);
+}
+
+.admin-card:nth-child(3) .admin-card__title {
+  font-size: 28px;
+  color: #ffb663;
+  text-align: center;
+}
+
+.admin-card:nth-child(3) .admin-card__desc {
+  color: #e6d4b7;
+  text-align: center;
+  font-size: 18px;
+}
+
+.admin-card:nth-child(3) .admin-card__arrow {
+  color: #ffb663;
+  font-size: 28px;
+  bottom: 25px;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.admin-card:nth-child(3):hover .admin-card__arrow {
+  color: #ffc77a;
+  transform: translateX(50%) translateY(-3px);
+}
+
+/* ✅ RESPONSIVE */
+
+/* Mobile: ≤767px - Stack cards vertically */
+@media (max-width: 767px) {
+  .admin-dashboard {
+    padding: 20px 15px;
+  }
+
+  .admin-dashboard__header {
+    margin-bottom: 40px;
+  }
+
+  .admin-dashboard__title {
+    font-size: 32px;
+    letter-spacing: 1px;
+  }
+
+  .admin-dashboard__subtitle {
+    font-size: 16px;
+  }
+
+  .admin-cards {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 20px;
+    max-width: 100%;
+  }
+
+  .admin-card {
+    padding: 30px 25px;
+    min-height: 180px;
+  }
+
+  .admin-card__title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .admin-card__desc {
+    font-size: 14px;
+  }
+
+  .admin-card__arrow {
+    font-size: 20px;
+    bottom: 15px;
+    right: 20px;
+  }
+
+  /* Card thứ 3 trên mobile */
+  .admin-card:nth-child(3) {
+    grid-column: span 1;
+  }
+
+  .admin-card:nth-child(3) .admin-card__title {
+    font-size: 22px;
+    text-align: left;
+  }
+
+  .admin-card:nth-child(3) .admin-card__desc {
+    text-align: left;
+    font-size: 14px;
+  }
+
+  .admin-card:nth-child(3) .admin-card__arrow {
+    font-size: 20px;
+    bottom: 15px;
+    right: 20px;
+    transform: none;
+  }
+
+  .admin-card:nth-child(3):hover .admin-card__arrow {
+    transform: translateX(5px);
+  }
+}
+
+/* Tablet: 768px - 1023px */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .admin-dashboard {
+    padding: 30px 20px;
+  }
+
+  .admin-dashboard__title {
+    font-size: 40px;
+  }
+
+  .admin-cards {
+    gap: 25px;
+    max-width: 750px;
+  }
+
+  .admin-card {
+    min-height: 200px;
+    padding: 35px 25px;
+  }
+
+  .admin-card__title {
+    font-size: 22px;
+  }
+
+  .admin-card__desc {
+    font-size: 15px;
+  }
+}
+
+/* Large screens: ≥1024px */
+@media (min-width: 1024px) {
+  .admin-dashboard {
+    padding: 50px 30px;
+  }
+
+  .admin-dashboard__header {
+    margin-bottom: 80px;
+  }
+
+  .admin-cards {
+    gap: 40px;
+    max-width: 1000px;
+  }
+
+  .admin-card {
+    min-height: 240px;
+    padding: 45px 35px;
+  }
+
+  .admin-card__title {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
+
+  .admin-card__desc {
+    font-size: 17px;
+  }
+
+  .admin-card:nth-child(3) .admin-card__title {
+    font-size: 30px;
+  }
+
+  .admin-card:nth-child(3) .admin-card__desc {
+    font-size: 19px;
+  }
 }

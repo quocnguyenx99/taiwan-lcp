@@ -14,12 +14,12 @@ const AdminDashboard: React.FC = () => {
     {
       title: "Danh sách người trúng giải",
       desc: "Xem kết quả trúng thưởng mới nhất.",
-      to: "/admin/member-list",
+      to: "admin/reward-list",
     },
     {
       title: "Quay số may mắn",
       desc: "Bắt đầu phiên quay số và phát trực tiếp kết quả.",
-      to: "/admin/lottery-admin",
+      to: "/admin/rewards",
     },
   ];
 

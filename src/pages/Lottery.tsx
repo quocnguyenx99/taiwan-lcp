@@ -12,6 +12,7 @@ import groupPrize3 from "../assets/groupPrize3.png";
 import lookupImage from "../assets/lookupImage.png";
 import Header from "../components/Header";
 import Countdown from "../components/Countdown";
+import SEO from "../components/SEO";
 
 interface Winner {
   number_phone: string;
@@ -275,7 +276,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
             }
           }, 100);
         }
-        // ✅ GIẢI NHÌ (prizeId = 2) 
+        // ✅ GIẢI NHÌ (prizeId = 2)
         else if (result.data.prize_id === 2) {
           // Scroll xuống section giải nhì sau khi render
           setTimeout(() => {
@@ -309,7 +310,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               });
             }
           }, 100);
-        } 
+        }
         // GIẢI BA - BÌNH NƯỚC (prizeId = 4)
         else if (result.data.prize_id === 4) {
           setBottleList([winnerRecord]);
@@ -328,7 +329,7 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
               });
             }
           }, 100);
-        } 
+        }
         // GIẢI BA - TÚI XẾP (prizeId = 5)
         else if (result.data.prize_id === 5) {
           setBagList([winnerRecord]);
@@ -438,7 +439,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                     number_phone: winner.number_phone,
                     full_name: winner.full_name,
                   });
-                 
                 }
                 break;
 
@@ -460,7 +460,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
                   setSecondDigits(newSecondDigits);
                   setSecondWinners(newSecondWinners);
-                  
                 }
                 break;
 
@@ -475,7 +474,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   setBackpackList(backpackWinners);
                   setBackpackAnimatedRows(Math.min(backpackWinners.length, 10));
                   setIsAnimatingBackpack(false);
-                  
                 } else if (id === 4) {
                   // ✅ Bình nước (id = 4)
                   const bottleWinners = members.map((m) => ({
@@ -486,7 +484,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   setBottleList(bottleWinners);
                   setBottleAnimatedRows(Math.min(bottleWinners.length, 10));
                   setIsAnimatingBottle(false);
-                 
                 } else if (id === 5) {
                   // ✅ Túi xếp (id = 5)
                   const bagWinners = members.map((m) => ({
@@ -497,7 +494,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                   setBagList(bagWinners);
                   setBagAnimatedRows(Math.min(bagWinners.length, 10));
                   setIsAnimatingBag(false);
-                  
                 }
                 break;
 
@@ -547,8 +543,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
 
     // === HÀM QUAY GIẢI NHÌ THEO INDEX ===
     const startSecondSpin = (prizeIndex: number) => {
-     
-
       // Cập nhật trạng thái spinning cho giải cụ thể
       setSecondSpinningStates((prev) => {
         const newStates = [...prev];
@@ -788,7 +782,6 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
       setAnimatedRows(0);
       setIsAnimating(true);
 
-
       // Animate từng row
       for (let i = 0; i < maxRowsToShow; i++) {
         const timeout = setTimeout(() => {
@@ -874,6 +867,15 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
   if (isLoadingInitialData) {
     return (
       <div>
+        <SEO
+          title="Đang tải kết quả quay số LCP 2025..."
+          description="Đang tải kết quả quay số may mắn LCP 2025. Xem danh sách người trúng giải nhất, giải nhì và 300 giải ba."
+          keywords="LCP 2025, kết quả quay số, trúng giải, League of Legends, esports"
+          ogTitle="Đang tải kết quả quay số LCP 2025"
+          ogDescription="Đang tải kết quả quay số may mắn LCP 2025"
+          ogImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+          ogUrl="https://dudoanchungketlcp-tta.vn/rewards"
+        />
         <Header />
         <div
           style={{
@@ -896,173 +898,335 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
     );
   }
 
+  // ✅ Tính toán thông tin để tạo SEO động
+  const totalWinners = firstWinner
+    ? 1
+    : 0 +
+      secondWinners.filter((w) => w).length +
+      backpackList.length +
+      bottleList.length +
+      bagList.length;
+
+  const hasFirstPrize = !!firstWinner;
+  const hasSecondPrize = secondWinners.some((w) => w);
+  const hasThirdPrize =
+    backpackList.length > 0 || bottleList.length > 0 || bagList.length > 0;
+
+  // ✅ Dynamic SEO title based on results
+  const getPageTitle = () => {
+    if (hasFirstPrize && hasSecondPrize && hasThirdPrize) {
+      return "Kết Quả Quay Số LCP 2025 - Đã Có Người Trúng Tất Cả Giải";
+    } else if (hasFirstPrize) {
+      return "Kết Quả Quay Số LCP 2025 - Đã Có Giải Nhất";
+    } else if (hasSecondPrize) {
+      return "Kết Quả Quay Số LCP 2025 - Đã Có Giải Nhì";
+    } else if (hasThirdPrize) {
+      return "Kết Quả Quay Số LCP 2025 - Đã Có Giải Ba";
+    } else {
+      return "Kết Quả Quay Số LCP 2025 - Đang Chờ Quay Số May Mắn";
+    }
+  };
+
+  const getPageDescription = () => {
+    const prizeInfo = [];
+    if (hasFirstPrize) prizeInfo.push("1 giải nhất");
+    if (hasSecondPrize) prizeInfo.push("3 giải nhì");
+    if (hasThirdPrize) prizeInfo.push("300 giải ba");
+
+    if (prizeInfo.length > 0) {
+      return `Xem kết quả quay số may mắn LCP 2025 với ${prizeInfo.join(
+        ", "
+      )}. Tra cứu số điện thoại để kiểm tra trúng giải. Tổng ${totalWinners} người đã trúng thưởng.`;
+    } else {
+      return "Theo dõi kết quả quay số may mắn LCP 2025 trực tiếp. Giải nhất: chuyến đi Đài Loan 13 triệu, giải nhì: vé xem LCP 2026, 300 giải ba với quà tặng hấp dẫn.";
+    }
+  };
+
   return (
-    <div>
-      <Header />
+    <>
+      <SEO
+        title={getPageTitle()}
+        description={getPageDescription()}
+        keywords="LCP 2025, kết quả quay số, trúng giải, League of Legends, esports, chuyến đi Đài Loan, vé xem LCP 2026, balo du lịch, bình nước, túi xếp, tra cứu số điện thoại"
+        ogTitle={getPageTitle()}
+        ogDescription={getPageDescription()}
+        ogImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+        ogUrl="https://dudoanchungketlcp-tta.vn/rewards"
+        twitterTitle={getPageTitle()}
+        twitterDescription={getPageDescription()}
+        twitterImage="https://dudoanchungketlcp-tta.vn/og-image.jpg"
+      />
+      <div>
+        <Header />
 
-      {/* START BANNER */}
-      <section className="lottery-banner">
-        <div className="lottery-banner__container">
-          <h1 className="lottery-banner__title">
-            <span className="lottery-banner__title-line">KẾT QUẢ QUAY SỐ</span>
-            <span className="lottery-banner__title-line">MAY MẮN</span>
-          </h1>
-          <div className="lottery-banner__sub">
-            <div className="lottery-banner__subtitle">
-              <span className="lottery-banner__subtitle-line">
-                DỰ ĐOÁN ĐỘI CHIẾN THẮNG
+        {/* START BANNER */}
+        <section className="lottery-banner">
+          <div className="lottery-banner__container">
+            <h1 className="lottery-banner__title">
+              <span className="lottery-banner__title-line">
+                KẾT QUẢ QUAY SỐ
               </span>
-              <span className="lottery-banner__subtitle-line">CHUNG KẾT</span>
-            </div>
-            <img
-              className="lottery-banner__logo"
-              src={lcpIcon}
-              alt="League of Legends Championship Pacific"
-              width={499}
-              height={196}
-            />
-          </div>
-        </div>
-        <div className="lottery-banner__marquee">
-          <div className="lottery-banner__marquee-content">
-            LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯƠNG ĐẦU
-            &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生 &nbsp;
-            LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯƠNG ĐẦU
-            &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生 &nbsp;
-          </div>
-        </div>
-      </section>
-      {/* END BANNER */}
-
-      {/* COUNTDOWN - Chỉ hiển thị khi chưa hết thời gian */}
-      {showCountdown && <Countdown onExpired={handleCountdownExpired} />}
-
-      {/* START FIRST PRIZE SECTION */}
-      <section className="first-prize">
-        <div className="first-prize__container container">
-          <div className="first-prize__header-image">
-            <img src={groupPrize1} alt="1 Giải Nhất" />
-          </div>
-
-          <div className="first-prize__board">
-            <img
-              className="first-prize__board-image"
-              src={boardPrize2}
-              alt="Bảng kết quả"
-            />
-
-            <div className="first-prize__phone-overlay">
-              {firstDigits.map((d, i) => (
-                <span key={i} className="first-prize__digit">
-                  {d === "X" ? "X" : d}
+              <span className="lottery-banner__title-line">MAY MẮN</span>
+            </h1>
+            <div className="lottery-banner__sub">
+              <div className="lottery-banner__subtitle">
+                <span className="lottery-banner__subtitle-line">
+                  DỰ ĐOÁN ĐỘI CHIẾN THẮNG
                 </span>
+                <span className="lottery-banner__subtitle-line">CHUNG KẾT</span>
+              </div>
+              <img
+                className="lottery-banner__logo"
+                src={lcpIcon}
+                alt="League of Legends Championship Pacific"
+                width={499}
+                height={196}
+              />
+            </div>
+          </div>
+          <div className="lottery-banner__marquee">
+            <div className="lottery-banner__marquee-content">
+              LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG ĐƯƠNG ĐẦU
+              &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; 為此而生
+              &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp; SẴN SÀNG
+              ĐƯƠNG ĐẦU &nbsp; LEAGUE OF LEGENDS CHAMPIONSHIP PACIFIC &nbsp;
+              為此而生 &nbsp;
+            </div>
+          </div>
+        </section>
+        {/* END BANNER */}
+
+        {/* COUNTDOWN - Chỉ hiển thị khi chưa hết thời gian */}
+        {showCountdown && <Countdown onExpired={handleCountdownExpired} />}
+
+        {/* START FIRST PRIZE SECTION */}
+        <section className="first-prize">
+          <div className="first-prize__container container">
+            <div className="first-prize__header-image">
+              <img src={groupPrize1} alt="1 Giải Nhất" />
+            </div>
+
+            <div className="first-prize__board">
+              <img
+                className="first-prize__board-image"
+                src={boardPrize2}
+                alt="Bảng kết quả"
+              />
+
+              <div className="first-prize__phone-overlay">
+                {firstDigits.map((d, i) => (
+                  <span key={i} className="first-prize__digit">
+                    {d === "X" ? "X" : d}
+                  </span>
+                ))}
+              </div>
+
+              {firstWinner && (
+                <div
+                  className="first-prize__name-overlay"
+                  title={firstWinner.full_name}
+                >
+                  {firstWinner.full_name}
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+        {/* END FIRST PRIZE SECTION */}
+
+        {/* START SECOND PRIZE SECTION */}
+        <section className="second-prize">
+          <div className="second-prize__container container">
+            <div className="second-prize__header-image">
+              <img src={groupPrize2} alt="3 Giải Nhì" />
+            </div>
+            <div className="second-prize__boards">
+              {secondDigits.map((row, idx) => (
+                <div className="second-prize__board" key={idx}>
+                  <img
+                    className="second-prize__board-image"
+                    src={boardPrize2}
+                    alt="Bảng kết quả"
+                  />
+                  <div className="second-prize__phone-overlay">
+                    {row.map((d, i) => (
+                      <span key={i} className="second-prize__digit">
+                        {d === "X" ? "X" : d}
+                      </span>
+                    ))}
+                  </div>
+                  {secondWinners[idx] && (
+                    <div
+                      className="second-prize__name-overlay"
+                      title={secondWinners[idx].full_name}
+                    >
+                      {secondWinners[idx].full_name}
+                    </div>
+                  )}
+                </div>
               ))}
             </div>
+          </div>
+        </section>
+        {/* END SECOND PRIZE SECTION */}
 
-            {firstWinner && (
-              <div
-                className="first-prize__name-overlay"
-                title={firstWinner.full_name}
-              >
-                {firstWinner.full_name}
+        {/* START THIRD PRIZE SECTION */}
+        <section className="third-prize">
+          <div className="third-prize__container container">
+            <div className="third-prize__header-image">
+              <img src={groupPrize3} alt="300 Giải Ba" />
+            </div>
+
+            <div className="third-prize__lookup-row">
+              <div className="third-prize__lookup-search">
+                <img
+                  src={lookupImage}
+                  alt="search"
+                  className="third-prize__lookup-icon"
+                />
+                <div className="third-prize__lookup-content">
+                  <div className="third-prize__lookup-label">
+                    TRA CỨU SỐ ĐIỆN THOẠI:
+                  </div>
+                  <div className="third-prize__lookup-input-row">
+                    <input
+                      className="third-prize__lookup-input"
+                      placeholder="0123456789"
+                      maxLength={10}
+                      value={searchPhone}
+                      onChange={(e) => setSearchPhone(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          handleSearch();
+                        }
+                      }}
+                    />
+                    <button
+                      className="third-prize__lookup-btn"
+                      onClick={handleSearch}
+                      disabled={isSearching}
+                    >
+                      {isSearching ? "ĐANG TRA..." : "TRA CỨU"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="third-prize__lookup-result">
+                {searchResult
+                  ? searchResult.message
+                  : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
+              </div>
+            </div>
+
+            {/* ✅ SEARCH RESULT - GIẢI NHẤT (CHỈ HIỂN THỊ KHI SEARCH TRÚNG) */}
+            {searchResult?.found && searchResult.winner?.prize_id === 1 && (
+              <div className="backpack-prize search-first-prize">
+                <div className="backpack-prize__title">
+                  {searchResult.winner.prize || "GIẢI NHẤT"}
+                </div>
+                <div className="backpack-prize__table-wrap">
+                  <table className="backpack-prize__table">
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>SỐ ĐIỆN THOẠI</th>
+                        <th>HỌ VÀ TÊN</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="prize-table-row prize-table-row--visible">
+                        <td>1</td>
+                        <td>{searchResult.winner.number_phone}</td>
+                        <td>{searchResult.winner.full_name}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-      {/* END FIRST PRIZE SECTION */}
 
-      {/* START SECOND PRIZE SECTION */}
-      <section className="second-prize">
-        <div className="second-prize__container container">
-          <div className="second-prize__header-image">
-            <img src={groupPrize2} alt="3 Giải Nhì" />
-          </div>
-          <div className="second-prize__boards">
-            {secondDigits.map((row, idx) => (
-              <div className="second-prize__board" key={idx}>
-                <img
-                  className="second-prize__board-image"
-                  src={boardPrize2}
-                  alt="Bảng kết quả"
-                />
-                <div className="second-prize__phone-overlay">
-                  {row.map((d, i) => (
-                    <span key={i} className="second-prize__digit">
-                      {d === "X" ? "X" : d}
-                    </span>
-                  ))}
+            {/* ✅ SEARCH RESULT - GIẢI NHÌ (CHỈ HIỂN THỊ KHI SEARCH TRÚNG) */}
+            {searchResult?.found && searchResult.winner?.prize_id === 2 && (
+              <div className="backpack-prize search-second-prize">
+                <div className="backpack-prize__title">
+                  {searchResult.winner.prize || "GIẢI NHÌ"}
                 </div>
-                {secondWinners[idx] && (
-                  <div
-                    className="second-prize__name-overlay"
-                    title={secondWinners[idx].full_name}
-                  >
-                    {secondWinners[idx].full_name}
-                  </div>
-                )}
+                <div className="backpack-prize__table-wrap">
+                  <table className="backpack-prize__table">
+                    <thead>
+                      <tr>
+                        <th>STT</th>
+                        <th>SỐ ĐIỆN THOẠI</th>
+                        <th>HỌ VÀ TÊN</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="prize-table-row prize-table-row--visible">
+                        <td>1</td>
+                        <td>{searchResult.winner.number_phone}</td>
+                        <td>{searchResult.winner.full_name}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      {/* END SECOND PRIZE SECTION */}
+            )}
 
-      {/* START THIRD PRIZE SECTION */}
-      <section className="third-prize">
-        <div className="third-prize__container container">
-          <div className="third-prize__header-image">
-            <img src={groupPrize3} alt="300 Giải Ba" />
-          </div>
-
-          <div className="third-prize__lookup-row">
-            <div className="third-prize__lookup-search">
-              <img
-                src={lookupImage}
-                alt="search"
-                className="third-prize__lookup-icon"
-              />
-              <div className="third-prize__lookup-content">
-                <div className="third-prize__lookup-label">
-                  TRA CỨU SỐ ĐIỆN THOẠI:
-                </div>
-                <div className="third-prize__lookup-input-row">
-                  <input
-                    className="third-prize__lookup-input"
-                    placeholder="0123456789"
-                    maxLength={10}
-                    value={searchPhone}
-                    onChange={(e) => setSearchPhone(e.target.value)}
-                    onKeyPress={(e) => {
-                      if (e.key === "Enter") {
-                        handleSearch();
-                      }
-                    }}
-                  />
+            {/* BALO DU LỊCH (prizeId = 3) */}
+            <div className="backpack-prize">
+              <div className="backpack-prize__title">BALO DU LỊCH</div>
+              <div className="backpack-prize__table-wrap">
+                <table className="backpack-prize__table">
+                  <thead>
+                    <tr>
+                      <th>STT</th>
+                      <th>SỐ ĐIỆN THOẠI</th>
+                      <th>HỌ VÀ TÊN</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {backpackList.slice(0, backpackVisible).map((w, idx) => (
+                      <tr
+                        key={idx}
+                        className={`prize-table-row ${
+                          idx < backpackAnimatedRows
+                            ? "prize-table-row--visible"
+                            : "prize-table-row--hidden"
+                        }`}
+                      >
+                        <td>{idx + 1}</td>
+                        <td>{w.number_phone}</td>
+                        <td>{w.full_name}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              {backpackList.length > 10 && (
+                <div
+                  className="backpack-prize__more"
+                  style={{
+                    opacity: isAnimatingBackpack ? 0 : 1,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
                   <button
-                    className="third-prize__lookup-btn"
-                    onClick={handleSearch}
-                    disabled={isSearching}
+                    className="backpack-prize__more-btn"
+                    onClick={handleToggleBackpack}
+                    disabled={isAnimatingBackpack}
                   >
-                    {isSearching ? "ĐANG TRA..." : "TRA CỨU"}
+                    {isBackpackExpanded ? "THU GỌN" : "XEM THÊM"}
                   </button>
                 </div>
-              </div>
+              )}
             </div>
-            <div className="third-prize__lookup-result">
-              {searchResult
-                ? searchResult.message
-                : "NHẬP SỐ ĐIỆN THOẠI ĐỂ TRA CỨU."}
-            </div>
-          </div>
 
-          {/* ✅ SEARCH RESULT - GIẢI NHẤT (CHỈ HIỂN THỊ KHI SEARCH TRÚNG) */}
-          {searchResult?.found && searchResult.winner?.prize_id === 1 && (
-            <div className="backpack-prize search-first-prize">
+            {/* BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH (prizeId = 4) */}
+            <div className="backpack-prize bottle-prize">
               <div className="backpack-prize__title">
-                {searchResult.winner.prize || "GIẢI NHẤT"}
+                BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH
               </div>
-              <div className="backpack-prize__table-wrap">
+              <div className="bottle-prize__table-wrap">
                 <table className="backpack-prize__table">
                   <thead>
                     <tr>
@@ -1072,24 +1236,45 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="prize-table-row prize-table-row--visible">
-                      <td>1</td>
-                      <td>{searchResult.winner.number_phone}</td>
-                      <td>{searchResult.winner.full_name}</td>
-                    </tr>
+                    {bottleList.slice(0, bottleVisible).map((w, idx) => (
+                      <tr
+                        key={idx}
+                        className={`prize-table-row ${
+                          idx < bottleAnimatedRows
+                            ? "prize-table-row--visible"
+                            : "prize-table-row--hidden"
+                        }`}
+                      >
+                        <td>{idx + 1}</td>
+                        <td>{w.number_phone}</td>
+                        <td>{w.full_name}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
+              {bottleList.length > 10 && (
+                <div
+                  className="backpack-prize__more"
+                  style={{
+                    opacity: isAnimatingBottle ? 0 : 1,
+                    transition: "opacity 0.3s ease",
+                  }}
+                >
+                  <button
+                    className="backpack-prize__more-btn"
+                    onClick={handleToggleBottle}
+                  >
+                    {isBottleExpanded ? "THU GỌN" : "XEM THÊM"}
+                  </button>
+                </div>
+              )}
             </div>
-          )}
 
-          {/* ✅ SEARCH RESULT - GIẢI NHÌ (CHỈ HIỂN THỊ KHI SEARCH TRÚNG) */}
-          {searchResult?.found && searchResult.winner?.prize_id === 2 && (
-            <div className="backpack-prize search-second-prize">
-              <div className="backpack-prize__title">
-                {searchResult.winner.prize || "GIẢI NHÌ"}
-              </div>
-              <div className="backpack-prize__table-wrap">
+            {/* TÚI XẾP TIỆN LỢI (prizeId = 5) */}
+            <div className="backpack-prize bag-prize">
+              <div className="backpack-prize__title">TÚI XẾP TIỆN LỢI</div>
+              <div className="bag-prize__table-wrap">
                 <table className="backpack-prize__table">
                   <thead>
                     <tr>
@@ -1099,167 +1284,45 @@ const Lottery: React.FC<{ campaignId?: string }> = ({ campaignId }) => {
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="prize-table-row prize-table-row--visible">
-                      <td>1</td>
-                      <td>{searchResult.winner.number_phone}</td>
-                      <td>{searchResult.winner.full_name}</td>
-                    </tr>
+                    {bagList.slice(0, bagVisible).map((w, idx) => (
+                      <tr
+                        key={idx}
+                        className={`prize-table-row ${
+                          idx < bagAnimatedRows
+                            ? "prize-table-row--visible"
+                            : "prize-table-row--hidden"
+                        }`}
+                      >
+                        <td>{idx + 1}</td>
+                        <td>{w.number_phone}</td>
+                        <td>{w.full_name}</td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
-            </div>
-          )}
-
-          {/* BALO DU LỊCH (prizeId = 3) */}
-          <div className="backpack-prize">
-            <div className="backpack-prize__title">BALO DU LỊCH</div>
-            <div className="backpack-prize__table-wrap">
-              <table className="backpack-prize__table">
-                <thead>
-                  <tr>
-                    <th>STT</th>
-                    <th>SỐ ĐIỆN THOẠI</th>
-                    <th>HỌ VÀ TÊN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {backpackList.slice(0, backpackVisible).map((w, idx) => (
-                    <tr
-                      key={idx}
-                      className={`prize-table-row ${
-                        idx < backpackAnimatedRows
-                          ? "prize-table-row--visible"
-                          : "prize-table-row--hidden"
-                      }`}
-                    >
-                      <td>{idx + 1}</td>
-                      <td>{w.number_phone}</td>
-                      <td>{w.full_name}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {backpackList.length > 10 && (
-              <div
-                className="backpack-prize__more"
-                style={{
-                  opacity: isAnimatingBackpack ? 0 : 1,
-                  transition: "opacity 0.3s ease",
-                }}
-              >
-                <button
-                  className="backpack-prize__more-btn"
-                  onClick={handleToggleBackpack}
-                  disabled={isAnimatingBackpack}
+              {bagList.length > 10 && (
+                <div
+                  className="backpack-prize__more"
+                  style={{
+                    opacity: isAnimatingBag ? 0 : 1,
+                    transition: "opacity 0.3s ease",
+                  }}
                 >
-                  {isBackpackExpanded ? "THU GỌN" : "XEM THÊM"}
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH (prizeId = 4) */}
-          <div className="backpack-prize bottle-prize">
-            <div className="backpack-prize__title">
-              BÌNH NƯỚC GẤU OH-BEAR TINH NGHỊCH
+                  <button
+                    className="backpack-prize__more-btn"
+                    onClick={handleToggleBag}
+                  >
+                    {isBagExpanded ? "THU GỌN" : "XEM THÊM"}
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="bottle-prize__table-wrap">
-              <table className="backpack-prize__table">
-                <thead>
-                  <tr>
-                    <th>STT</th>
-                    <th>SỐ ĐIỆN THOẠI</th>
-                    <th>HỌ VÀ TÊN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bottleList.slice(0, bottleVisible).map((w, idx) => (
-                    <tr
-                      key={idx}
-                      className={`prize-table-row ${
-                        idx < bottleAnimatedRows
-                          ? "prize-table-row--visible"
-                          : "prize-table-row--hidden"
-                      }`}
-                    >
-                      <td>{idx + 1}</td>
-                      <td>{w.number_phone}</td>
-                      <td>{w.full_name}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {bottleList.length > 10 && (
-              <div
-                className="backpack-prize__more"
-                style={{
-                  opacity: isAnimatingBottle ? 0 : 1,
-                  transition: "opacity 0.3s ease",
-                }}
-              >
-                <button
-                  className="backpack-prize__more-btn"
-                  onClick={handleToggleBottle}
-                >
-                  {isBottleExpanded ? "THU GỌN" : "XEM THÊM"}
-                </button>
-              </div>
-            )}
           </div>
-
-          {/* TÚI XẾP TIỆN LỢI (prizeId = 5) */}
-          <div className="backpack-prize bag-prize">
-            <div className="backpack-prize__title">TÚI XẾP TIỆN LỢI</div>
-            <div className="bag-prize__table-wrap">
-              <table className="backpack-prize__table">
-                <thead>
-                  <tr>
-                    <th>STT</th>
-                    <th>SỐ ĐIỆN THOẠI</th>
-                    <th>HỌ VÀ TÊN</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bagList.slice(0, bagVisible).map((w, idx) => (
-                    <tr
-                      key={idx}
-                      className={`prize-table-row ${
-                        idx < bagAnimatedRows
-                          ? "prize-table-row--visible"
-                          : "prize-table-row--hidden"
-                      }`}
-                    >
-                      <td>{idx + 1}</td>
-                      <td>{w.number_phone}</td>
-                      <td>{w.full_name}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {bagList.length > 10 && (
-              <div
-                className="backpack-prize__more"
-                style={{
-                  opacity: isAnimatingBag ? 0 : 1,
-                  transition: "opacity 0.3s ease",
-                }}
-              >
-                <button
-                  className="backpack-prize__more-btn"
-                  onClick={handleToggleBag}
-                >
-                  {isBagExpanded ? "THU GỌN" : "XEM THÊM"}
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-      {/* END THIRD PRIZE SECTION */}
-    </div>
+        </section>
+        {/* END THIRD PRIZE SECTION */}
+      </div>
+    </>
   );
 };
 

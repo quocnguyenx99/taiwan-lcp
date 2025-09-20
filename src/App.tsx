@@ -7,6 +7,7 @@ import MemberList from "./pages/MemberList";
 import PrivateRoute from "./components/PrivateRoute";
 import LotteryAdmin from "./pages/LotteryAdmin";
 import AdminDashboard from "./pages/AdminDashboard";
+import RewardList from "./pages/RewardList";
 
 const Visa = lazy(() => import("./pages/Visa"));
 const Lottery = lazy(() => import("./pages/Lottery"));
@@ -19,7 +20,6 @@ export default function App() {
 
       <Route element={<Layout />}>
         <Route index element={<Landing />} />
-        {/* ✅ Wrap Lottery với Suspense */}
         <Route 
           path="rewards" 
           element={
@@ -53,6 +53,15 @@ export default function App() {
         element={
           <PrivateRoute>
             <MemberList />
+          </PrivateRoute>
+        }
+      />
+
+        <Route
+        path="/admin/reward-list" 
+        element={
+          <PrivateRoute>
+            <RewardList />
           </PrivateRoute>
         }
       />
